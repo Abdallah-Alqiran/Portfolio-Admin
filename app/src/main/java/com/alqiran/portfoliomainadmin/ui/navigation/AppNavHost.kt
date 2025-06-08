@@ -54,7 +54,7 @@ fun AppNavHost() {
                 navController.navigate(ProjectsScreenRoute(projects = action.projects))
             }
             is NavigationAction.ToTopTitleEdit -> {
-                navController.navigate(TopTitleAdminScreenRoute(userName = action.userName, userImage = action.userImage, jobTitle = action.jobTitle, accounts = action.accounts))
+                navController.navigate(TopTitleAdminScreenRoute(userName = action.userName, userImage = action.userImage, jobTitle = action.jobTitle, accounts = action.accounts, cvUrl = action.cvUrl))
             }
             NavigationAction.Nothing -> {}
         }
@@ -186,11 +186,13 @@ fun AppNavHost() {
             ) {
                 topBar.value = "TopTitleAdmin"
 
+                val arguments = it.toRoute<TopTitleAdminScreenRoute>()
                 TopTitleAdminScreen(
-                    userName = "",
-                    userImage = "",
-                    jobTitle = "",
-                    accounts = null
+                    userName = arguments.userName,
+                    userImage = arguments.userImage,
+                    jobTitle = arguments.jobTitle,
+                    accounts = arguments.accounts,
+                    cvUrl = arguments.cvUrl
                 )
             }
         }

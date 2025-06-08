@@ -98,6 +98,7 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 userData.userImage,
                 userData.jobTitle,
                 userData.contactAndAccounts,
+                userData.cvUrl,
                 context,
                 onNavigate
             )

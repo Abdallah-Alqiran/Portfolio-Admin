@@ -15,7 +15,7 @@ sealed class NavigationAction {
 
 
     // Edit Section
-    data class ToTopTitleEdit(val userName: String, val userImage: String?, val jobTitle: String, val accounts: List<ContactAndAccountsUiModel>?) : NavigationAction()
+    data class ToTopTitleEdit(val userName: String, val userImage: String?, val jobTitle: String, val accounts: List<ContactAndAccountsUiModel>?, val cvUrl: String?) : NavigationAction()
 
 
 }

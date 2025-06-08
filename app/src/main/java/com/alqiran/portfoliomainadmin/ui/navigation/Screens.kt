@@ -27,5 +27,5 @@ data object MessageScreenRoute
 // For Admin
 
 @Serializable
-data class TopTitleAdminScreenRoute(val userName: String, val userImage: String?, val jobTitle: String, val accounts: List<ContactAndAccountsUiModel>?)
+data class TopTitleAdminScreenRoute(val userName: String, val userImage: String?, val jobTitle: String, val accounts: List<ContactAndAccountsUiModel>?, val cvUrl: String?)
 
