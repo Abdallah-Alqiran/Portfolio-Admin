@@ -19,7 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alqiran.portfoliomainadmin.theme.PortfolioMainTheme
 import com.alqiran.portfoliomainadmin.ui.components.HeadlineTextWidget
-import com.alqiran.portfoliomainadmin.ui.components.ViewAllTextButton
+import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultTextButton
 import com.alqiran.portfoliomainadmin.ui.components.loading_and_failed.FailedLoadingScreen
 import com.alqiran.portfoliomainadmin.ui.components.loading_and_failed.LoadingProgressIndicator
 import com.alqiran.portfoliomainadmin.ui.helper.isValidUrl
@@ -27,7 +27,9 @@ import com.alqiran.portfoliomainadmin.ui.model.UserUiModel
 import com.alqiran.portfoliomainadmin.ui.navigation.NavigationAction
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.AboutSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.Courses
-import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.DefaultButton
+import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
+import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
+import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.EducationSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.ExperienceSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.ProjectsSection
@@ -41,7 +43,8 @@ import com.alqiran.portfoliomainadmin.ui.utils.ButtonType
 
 @Composable
 fun HomeScreen(
-    onNavigate: (NavigationAction) -> Unit
+    onNavigate: (NavigationAction) -> Unit,
+    onStart:(List<ProjectUiModel>?, List<CourseUiModel>?) -> Unit
 ) {
 
     val userViewModel: UserViewModel = hiltViewModel()
@@ -53,7 +56,9 @@ fun HomeScreen(
 
     when (userData) {
         is UserState.Success -> {
-            HomeContentScreen((userData as UserState.Success).userData, onNavigate)
+            val userData = (userData as UserState.Success).userData
+            onStart(userData.projects, userData.courses)
+            HomeContentScreen(userData, onNavigate)
         }
 
         is UserState.Error -> {
@@ -93,7 +98,8 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 userData.userImage,
                 userData.jobTitle,
                 userData.contactAndAccounts,
-                context
+                context,
+                onNavigate
             )
         }
 
@@ -138,7 +144,7 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
             if (userData.projects != null) {
                 HeadlineTextWidget(text = "Projects")
                 ProjectsSection(userData.projects, onNavigate)
-                ViewAllTextButton(
+                DefaultTextButton(
                     "Projects",
                     onNavigate = onNavigate,
                     navigateAction = NavigationAction.ToViewAllProjects(userData.projects)
@@ -150,7 +156,7 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
             if (userData.courses != null) {
                 HeadlineTextWidget(text = "Courses")
                 Courses(userData.courses)
-                ViewAllTextButton(
+                DefaultTextButton(
                     "Courses",
                     onNavigate = onNavigate,
                     navigateAction = NavigationAction.ToViewAllCourses(userData.courses)
@@ -173,6 +179,8 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
 private fun Prev() {
     PortfolioMainTheme {
         HomeScreen(
-            onNavigate = {})
+            onNavigate = {},
+            onStart = {_,_->}
+        )
     }
 }

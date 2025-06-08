@@ -15,8 +15,10 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.alqiran.portfoliomainadmin.ui.components.bars.BottomBar
 import com.alqiran.portfoliomainadmin.ui.components.bars.TopBar
+import com.alqiran.portfoliomainadmin.ui.model.ContactAndAccountsUiModel
 import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
+import com.alqiran.portfoliomainadmin.ui.screens.admin.TopTitleAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.courses_screen.CoursesScreen
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.HomeScreen
 import com.alqiran.portfoliomainadmin.ui.screens.message_screen.MessageScreen
@@ -33,8 +35,13 @@ fun AppNavHost() {
     val topBar = remember { mutableStateOf("") }
     var selectedIndex by remember { mutableIntStateOf(-1) }
 
+    var currentProjects: List<ProjectUiModel> = emptyList()
+    var currentCourses: List<CourseUiModel> = emptyList()
+
+
 
     val onNavigate: (NavigationAction) -> Unit = { action ->
+
         when (action) {
             is NavigationAction.ToProject -> {
                 navController.navigate(ProjectItemRoute(project = action.project))
@@ -45,6 +52,9 @@ fun AppNavHost() {
             }
             is NavigationAction.ToViewAllProjects -> {
                 navController.navigate(ProjectsScreenRoute(projects = action.projects))
+            }
+            is NavigationAction.ToTopTitleEdit -> {
+                navController.navigate(TopTitleAdminScreenRoute(userName = action.userName, userImage = action.userImage, jobTitle = action.jobTitle, accounts = action.accounts))
             }
             NavigationAction.Nothing -> {}
         }
@@ -59,6 +69,7 @@ fun AppNavHost() {
                 "Projects" -> { TopBar("Projects", onClick = { navController.popBackStack() }) }
                 "Courses" -> { TopBar("Courses", onClick = { navController.popBackStack() }) }
                 "Message" -> { TopBar("Contact Me", onClick = { navController.popBackStack() }) }
+                "TopTitleAdmin" -> { TopBar("Top Title Admin", onClick = { navController.popBackStack() }) }
             }
         },
         bottomBar = {
@@ -73,8 +84,10 @@ fun AppNavHost() {
                                     popUpTo(0) { inclusive = true }
                                 }
                             }
-                            1 -> navController.navigate(ProjectsScreenRoute)
-                            2 -> navController.navigate(CoursesScreenRoute)
+                            1 -> {
+                                navController.navigate(ProjectsScreenRoute(projects = currentProjects))
+                            }
+                            2 -> navController.navigate(CoursesScreenRoute(courses = currentCourses))
                             3 -> navController.navigate(MessageScreenRoute)
                         }
                     },
@@ -102,7 +115,11 @@ fun AppNavHost() {
                 selectedIndex = 0
                 topBar.value = "Home"
                 HomeScreen(
-                    onNavigate
+                    onNavigate,
+                    onStart = { projects, courses ->
+                        currentProjects = projects?: emptyList()
+                        currentCourses = courses?: emptyList()
+                    }
                 )
             }
 
@@ -155,6 +172,26 @@ fun AppNavHost() {
                 selectedIndex = 3
                 topBar.value = "Message"
                 MessageScreen()
+            }
+
+
+
+            /// For Admin
+
+            // topTitle
+            composable<TopTitleAdminScreenRoute>(
+                typeMap = mapOf(
+                    typeOf<List<ContactAndAccountsUiModel>?>() to CustomNavType.topTitleAdminType
+                )
+            ) {
+                topBar.value = "TopTitleAdmin"
+
+                TopTitleAdminScreen(
+                    userName = "",
+                    userImage = "",
+                    jobTitle = "",
+                    accounts = null
+                )
             }
         }
     }

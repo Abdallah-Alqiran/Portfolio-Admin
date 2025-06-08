@@ -24,7 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alqiran.portfoliomainadmin.theme.PortfolioMainTheme
 import com.alqiran.portfoliomainadmin.ui.model.ContactMessageUiModel
-import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.DefaultButton
+import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
 import com.alqiran.portfoliomainadmin.ui.screens.message_screen.components.CustomOutlinedTextFieldWidget
 import com.alqiran.portfoliomainadmin.ui.screens.message_screen.viewModel.MessageState
 import com.alqiran.portfoliomainadmin.ui.screens.message_screen.viewModel.MessageViewModel

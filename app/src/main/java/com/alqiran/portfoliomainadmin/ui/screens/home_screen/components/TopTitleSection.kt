@@ -29,8 +29,10 @@ import androidx.core.net.toUri
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.alqiran.portfoliomainadmin.R
+import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultTextButton
 import com.alqiran.portfoliomainadmin.ui.helper.isValidUrl
 import com.alqiran.portfoliomainadmin.ui.model.ContactAndAccountsUiModel
+import com.alqiran.portfoliomainadmin.ui.navigation.NavigationAction
 
 
 @Composable
@@ -39,7 +41,8 @@ fun TopTitleSection(
     userImage: String?,
     jobTitle: String,
     accounts: List<ContactAndAccountsUiModel>?,
-    context: Context
+    context: Context,
+    onNavigate: (NavigationAction) -> Unit
 ) {
 
     Column(
@@ -160,5 +163,11 @@ fun TopTitleSection(
                 }
             }
         }
+        DefaultTextButton(
+            text = "Edit",
+            onNavigate = onNavigate,
+            navigateAction = NavigationAction.ToTopTitleEdit(userName, userImage, jobTitle, accounts),
+            color = MaterialTheme.colorScheme.error
+        )
     }
 }

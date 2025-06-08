@@ -22,7 +22,7 @@ import coil.request.ImageRequest
 import com.alqiran.portfoliomainadmin.R
 import com.alqiran.portfoliomainadmin.ui.components.HeadlineTextWidget
 import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
-import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.DefaultButton
+import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
 import com.alqiran.portfoliomainadmin.ui.utils.ButtonType
 
 
