@@ -2,7 +2,7 @@ package com.alqiran.portfoliomainadmin.ui.screens.message_screen.viewModel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.alqiran.portfoliomainadmin.domain.repository.FirebaseRepository
+import com.alqiran.portfoliomainadmin.repository.FirebaseRepository
 import com.alqiran.portfoliomainadmin.ui.mapper.toContactMessage
 import com.alqiran.portfoliomainadmin.ui.model.ContactMessageUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel

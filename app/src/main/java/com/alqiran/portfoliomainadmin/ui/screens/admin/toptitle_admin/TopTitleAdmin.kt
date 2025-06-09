@@ -1,5 +1,6 @@
-package com.alqiran.portfoliomainadmin.ui.screens.admin
+package com.alqiran.portfoliomainadmin.ui.screens.admin.toptitle_admin
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,11 +20,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alqiran.portfoliomainadmin.ui.components.CustomOutlinedTextFieldWidget
 import com.alqiran.portfoliomainadmin.ui.components.HeadlineTextWidget
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
 import com.alqiran.portfoliomainadmin.ui.model.ContactAndAccountsUiModel
+import com.alqiran.portfoliomainadmin.ui.screens.admin.toptitle_admin.viewModel.TopTitleState
+import com.alqiran.portfoliomainadmin.ui.screens.admin.toptitle_admin.viewModel.TopTitleViewModel
+import com.alqiran.portfoliomainadmin.ui.utils.ButtonType
 
 @Composable
 fun TopTitleAdminScreen(
@@ -40,6 +47,25 @@ fun TopTitleAdminScreen(
 
     var accounts by remember { mutableStateOf(allAccounts) }
 
+
+    val topTitleAdminViewModel: TopTitleViewModel = hiltViewModel()
+    val topTitleState by topTitleAdminViewModel.topTitleState.collectAsStateWithLifecycle()
+
+    val context = LocalContext.current
+
+    when(topTitleState) {
+        is TopTitleState.Error -> {
+            Toast.makeText(context, (topTitleState as TopTitleState.Error).error, Toast.LENGTH_SHORT).show()
+            topTitleAdminViewModel.stateNone()
+        }
+        TopTitleState.Loading -> {
+        }
+        TopTitleState.Success -> {
+            Toast.makeText(context, "Data Saved Successful", Toast.LENGTH_SHORT).show()
+            topTitleAdminViewModel.stateNone()
+        }
+        TopTitleState.None -> Unit
+    }
 
     val listState = rememberLazyListState()
 
@@ -92,6 +118,15 @@ fun TopTitleAdminScreen(
         }
 
         item {
+            DefaultButton(
+                text = "Edit user Data",
+                buttonType = ButtonType.UploadOnClick {
+                    topTitleAdminViewModel.uploadUserData(userName, imageUrl, jobTitle, cvUrl)
+                }
+            )
+        }
+
+        item {
             HeadlineTextWidget("Accounts")
         }
 
@@ -107,7 +142,10 @@ fun TopTitleAdminScreen(
                         .weight(1f)
                         .padding(end = 8.dp)
                 ) {
-                    account.id = it.toInt()
+                    val newId = it.toIntOrNull() ?: account.id
+                    accounts = accounts?.map { a ->
+                        if (a == account) a.copy(id = newId) else a
+                    }
                 }
                 CustomOutlinedTextFieldWidget(
                     textValue = account.webName,
@@ -116,7 +154,9 @@ fun TopTitleAdminScreen(
                     modifier = Modifier
                         .weight(3f)
                 ) {
-                    account.webName = it
+                    accounts = accounts?.map { a ->
+                        if (a == account) a.copy(webName = it) else a
+                    }
                 }
             }
 
@@ -125,7 +165,9 @@ fun TopTitleAdminScreen(
                 textLabel = "account Link",
                 placeHolderLabel = "Enter your account link"
             ) {
-                account.url = it
+                accounts = accounts?.map { a ->
+                    if (a == account) a.copy(url = it) else a
+                }
             }
 
             Box(Modifier.padding(bottom = 16.dp))
@@ -154,7 +196,10 @@ fun TopTitleAdminScreen(
 
         item {
             DefaultButton(
-
+                text = "Edit Contact and Accounts",
+                buttonType = ButtonType.UploadOnClick {
+                    topTitleAdminViewModel.uploadContactAndAccounts(accounts)
+                }
             )
         }
     }

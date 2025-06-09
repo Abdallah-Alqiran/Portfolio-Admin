@@ -18,7 +18,7 @@ import com.alqiran.portfoliomainadmin.ui.components.bars.TopBar
 import com.alqiran.portfoliomainadmin.ui.model.ContactAndAccountsUiModel
 import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
-import com.alqiran.portfoliomainadmin.ui.screens.admin.TopTitleAdminScreen
+import com.alqiran.portfoliomainadmin.ui.screens.admin.toptitle_admin.TopTitleAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.courses_screen.CoursesScreen
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.HomeScreen
 import com.alqiran.portfoliomainadmin.ui.screens.message_screen.MessageScreen

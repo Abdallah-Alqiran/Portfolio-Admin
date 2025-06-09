@@ -2,7 +2,7 @@ package com.alqiran.portfoliomainadmin.ui.screens.home_screen.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alqiran.portfoliomainadmin.domain.repository.FirebaseRepository
+import com.alqiran.portfoliomainadmin.repository.FirebaseRepository
 import com.alqiran.portfoliomainadmin.ui.mapper.toUserDataUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

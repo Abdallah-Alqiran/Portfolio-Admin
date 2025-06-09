@@ -1,7 +1,7 @@
 package com.alqiran.portfoliomainadmin.di
 
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.repository.FirebaseRepositoryImpl
-import com.alqiran.portfoliomainadmin.domain.repository.FirebaseRepository
+import com.alqiran.portfoliomainadmin.repository.FirebaseRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
