@@ -82,8 +82,8 @@ fun DefaultButton(
                             buttonType.navigationAction
                         )
                     }
-                    is ButtonType.MessageOnClick -> {
-                        buttonType.onSendMessage()
+                    is ButtonType.UploadOnClick -> {
+                        buttonType.onUpload()
                     }
                 }
             },

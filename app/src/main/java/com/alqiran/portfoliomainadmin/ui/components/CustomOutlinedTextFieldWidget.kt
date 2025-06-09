@@ -1,4 +1,4 @@
-package com.alqiran.portfoliomainadmin.ui.screens.message_screen.components
+package com.alqiran.portfoliomainadmin.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
@@ -13,13 +13,14 @@ import androidx.compose.ui.text.input.KeyboardType
 
 @Composable
 fun CustomOutlinedTextFieldWidget(
+    modifier: Modifier = Modifier,
     textValue: String,
     textLabel: String,
     placeHolderLabel: String,
     isSingleLine: Boolean = true,
     keyboardType: KeyboardType = KeyboardType.Text,
     minLines: Int = 1,
-    onTextChange: (String) -> Unit
+    onTextChange: (String) -> Unit,
 ) {
     OutlinedTextField(
         value = textValue,
@@ -29,7 +30,7 @@ fun CustomOutlinedTextFieldWidget(
         label = { Text(textLabel) },
         placeholder = { Text(placeHolderLabel) },
         singleLine = isSingleLine,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType,
             imeAction = ImeAction.Next

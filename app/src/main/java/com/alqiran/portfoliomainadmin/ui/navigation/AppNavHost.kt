@@ -188,11 +188,11 @@ fun AppNavHost() {
 
                 val arguments = it.toRoute<TopTitleAdminScreenRoute>()
                 TopTitleAdminScreen(
-                    userName = arguments.userName,
-                    userImage = arguments.userImage,
-                    jobTitle = arguments.jobTitle,
-                    accounts = arguments.accounts,
-                    cvUrl = arguments.cvUrl
+                    user = arguments.userName,
+                    image = arguments.userImage,
+                    job = arguments.jobTitle,
+                    allAccounts = arguments.accounts,
+                    cv = arguments.cvUrl
                 )
             }
         }
