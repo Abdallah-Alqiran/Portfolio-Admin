@@ -183,10 +183,36 @@ class RemoteDataSource @Inject constructor(
     }
 
     fun uploadSkills(skills: List<Skill>) {
-        TODO("Not yet implemented")
-    }
+        firestore.runTransaction {  transaction ->
+            val exist = transaction.get(collectionAndDocument).get("skills") as? List<Map<String, Any>> ?: emptyList()
+
+            val current = exist.map {
+                Skill(
+                    id = (it["id"] as? Long)?.toInt() ?: 0,
+                    skillName = it["skillName"] as? String ?: "",
+                )
+            }.toMutableList()
+
+            skills.forEach { new ->
+                val existingIndex = current.indexOfFirst { it.id == new.id }
+                if (existingIndex != -1) {
+                    current[existingIndex] = new
+                } else {
+                    current.add(new)
+                }
+            }
+
+            current.sortBy { it.id }
+            transaction.update(collectionAndDocument, "skills", current)
+            null
+        }.addOnFailureListener { exception ->
+            throw Exception("Error updating Education: ${exception.message}")
+        }    }
     fun deleteSkill(skill: Skill) {
-        TODO("Not yet implemented")
+        collectionAndDocument.update("skills", FieldValue.arrayRemove(skill))
+            .addOnFailureListener { exception ->
+                throw Exception("Error Deleting Education: ${exception.message}")
+            }
     }
 
     fun uploadProjects(projects: List<Project>) {

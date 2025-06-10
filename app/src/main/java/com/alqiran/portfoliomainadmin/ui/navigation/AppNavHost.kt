@@ -25,6 +25,7 @@ import com.alqiran.portfoliomainadmin.ui.model.TechnologyTitleUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyUiModel
 import com.alqiran.portfoliomainadmin.ui.screens.admin.about_admin.AboutAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.education_admin.EducationAdminScreen
+import com.alqiran.portfoliomainadmin.ui.screens.admin.skills_admin.SkillsAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.toptitle_admin.TopTitleAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.courses_screen.CoursesScreen
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.HomeScreen
@@ -331,6 +332,8 @@ fun AppNavHost() {
             ) {
                 topBar.value = "EditSkills"
 
+                val arguments = it.toRoute<SkillsAdminScreenRoute>()
+                SkillsAdminScreen(arguments.skills)
             }
 
             composable<ProjectsAdminScreenRoute>(

@@ -33,7 +33,6 @@ import com.alqiran.portfoliomainadmin.ui.components.buttons.DeleteItemTextButton
 
 @Composable
 fun EducationAdminScreen(allEducations: List<EducationUiModel>?) {
-    val listState = rememberLazyListState()
 
     val educationAdminViewModel: EducationAdminViewModel = hiltViewModel()
     val educationState by educationAdminViewModel.state.collectAsStateWithLifecycle()
@@ -61,6 +60,8 @@ fun EducationAdminScreen(allEducations: List<EducationUiModel>?) {
     }
 
     var educations by remember { mutableStateOf(allEducations) }
+
+    val listState = rememberLazyListState()
     LazyColumn(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.background)
