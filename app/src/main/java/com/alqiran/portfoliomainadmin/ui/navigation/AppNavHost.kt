@@ -23,6 +23,7 @@ import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
 import com.alqiran.portfoliomainadmin.ui.model.SkillUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyTitleUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyUiModel
+import com.alqiran.portfoliomainadmin.ui.screens.admin.education_admin.EducationAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.toptitle_admin.TopTitleAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.courses_screen.CoursesScreen
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.HomeScreen
@@ -293,7 +294,7 @@ fun AppNavHost() {
 
             composable<CoursesAdminScreenRoute>(
                 typeMap = mapOf(
-                    typeOf<List<CourseUiModel>>() to CustomNavType.coursesAdminType
+                    typeOf<List<CourseUiModel>?>() to CustomNavType.coursesAdminType
                 )
             ) {
                 topBar.value = "EditCourses"
@@ -302,18 +303,19 @@ fun AppNavHost() {
 
             composable<EducationAdminScreenRoute>(
                 typeMap = mapOf(
-                    typeOf<List<EducationUiModel>>() to CustomNavType.educationAdminType
+                    typeOf<List<EducationUiModel>?>() to CustomNavType.educationAdminType
                 )
             ) {
                 topBar.value = "EditEducation"
 
-
+                val arguments = it.toRoute<EducationAdminScreenRoute>()
+                EducationAdminScreen(arguments.educations)
             }
 
             composable<TechnologiesAndToolsAdminScreenRoute>(
                 typeMap = mapOf(
-                    typeOf<List<TechnologyTitleUiModel>>() to CustomNavType.technologiesAndToolsAdminType,
-                    typeOf<List<TechnologyUiModel>>() to CustomNavType.technologyAdminType
+                    typeOf<List<TechnologyTitleUiModel>?>() to CustomNavType.technologiesAndToolsAdminType,
+                    typeOf<List<TechnologyUiModel>?>() to CustomNavType.technologyAdminType
                 )
             ) {
                 topBar.value = "EditTechnologies"
@@ -322,7 +324,7 @@ fun AppNavHost() {
 
             composable<SkillsAdminScreenRoute>(
                 typeMap = mapOf(
-                    typeOf<List<SkillUiModel>>() to CustomNavType.skillsAdminType
+                    typeOf<List<SkillUiModel>?>() to CustomNavType.skillsAdminType
                 )
             ) {
                 topBar.value = "EditSkills"
@@ -331,7 +333,7 @@ fun AppNavHost() {
 
             composable<ProjectsAdminScreenRoute>(
                 typeMap = mapOf(
-                    typeOf<List<ProjectUiModel>>() to CustomNavType.projectsAdminType
+                    typeOf<List<ProjectUiModel>?>() to CustomNavType.projectsAdminType
                 )
             ) {
                 topBar.value = "EditProjects"
@@ -340,7 +342,7 @@ fun AppNavHost() {
 
             composable<ExperienceAdminScreenRoute>(
                 typeMap = mapOf(
-                    typeOf<List<ExperienceUiModel>>() to CustomNavType.experienceAdminType
+                    typeOf<List<ExperienceUiModel>?>() to CustomNavType.experienceAdminType
                 )
             ) {
                 topBar.value = "EditExperience"

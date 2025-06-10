@@ -34,23 +34,23 @@ data object MessageScreenRoute
 data class TopTitleAdminScreenRoute(val userName: String, val userImage: String?, val jobTitle: String, val accounts: List<ContactAndAccountsUiModel>?, val cvUrl: String?)
 
 @Serializable
-data class AboutAdminScreenRoute(val about: String)
+data class AboutAdminScreenRoute(val about: String?)
 
 @Serializable
-data class EducationAdminScreenRoute(val educations: List<EducationUiModel>)
+data class EducationAdminScreenRoute(val educations: List<EducationUiModel>?)
 
 @Serializable
-data class TechnologiesAndToolsAdminScreenRoute(val technologiesAndTools: List<TechnologyTitleUiModel>)
+data class TechnologiesAndToolsAdminScreenRoute(val technologiesAndTools: List<TechnologyTitleUiModel>?)
 
 @Serializable
-data class SkillsAdminScreenRoute(val skills: List<SkillUiModel>)
+data class SkillsAdminScreenRoute(val skills: List<SkillUiModel>?)
 
 @Serializable
-data class ProjectsAdminScreenRoute(val projects: List<ProjectUiModel>)
+data class ProjectsAdminScreenRoute(val projects: List<ProjectUiModel>?)
 
 @Serializable
-data class CoursesAdminScreenRoute(val courses: List<CourseUiModel>)
+data class CoursesAdminScreenRoute(val courses: List<CourseUiModel>?)
 
 @Serializable
-data class ExperienceAdminScreenRoute(val experience: List<ExperienceUiModel>)
+data class ExperienceAdminScreenRoute(val experience: List<ExperienceUiModel>?)
 
