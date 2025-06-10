@@ -1,10 +1,7 @@
-package com.alqiran.portfoliomainadmin.ui.screens.admin.about.viewModel
+package com.alqiran.portfoliomainadmin.ui.screens.admin.about_admin.viewModel
 
 import androidx.lifecycle.ViewModel
-import com.alqiran.portfoliomainadmin.data.mapper.toEducation
-import com.alqiran.portfoliomainadmin.data.mapper.toEducations
 import com.alqiran.portfoliomainadmin.repository.FirebaseRepository
-import com.alqiran.portfoliomainadmin.ui.model.EducationUiModel
 import com.alqiran.portfoliomainadmin.ui.screens.admin.AdminState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

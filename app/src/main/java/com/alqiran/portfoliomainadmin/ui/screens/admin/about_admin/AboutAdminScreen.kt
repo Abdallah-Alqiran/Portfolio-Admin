@@ -1,4 +1,4 @@
-package com.alqiran.portfoliomainadmin.ui.screens.admin.about
+package com.alqiran.portfoliomainadmin.ui.screens.admin.about_admin
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -20,7 +20,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alqiran.portfoliomainadmin.ui.components.CustomOutlinedTextFieldWidget
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
 import com.alqiran.portfoliomainadmin.ui.screens.admin.AdminState
-import com.alqiran.portfoliomainadmin.ui.screens.admin.about.viewModel.AboutAdminViewModel
+import com.alqiran.portfoliomainadmin.ui.screens.admin.about_admin.viewModel.AboutAdminViewModel
 import com.alqiran.portfoliomainadmin.ui.utils.ButtonType
 
 @Composable

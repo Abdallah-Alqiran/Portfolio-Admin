@@ -23,7 +23,7 @@ import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
 import com.alqiran.portfoliomainadmin.ui.model.SkillUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyTitleUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyUiModel
-import com.alqiran.portfoliomainadmin.ui.screens.admin.about.AboutAdminScreen
+import com.alqiran.portfoliomainadmin.ui.screens.admin.about_admin.AboutAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.education_admin.EducationAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.toptitle_admin.TopTitleAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.courses_screen.CoursesScreen
