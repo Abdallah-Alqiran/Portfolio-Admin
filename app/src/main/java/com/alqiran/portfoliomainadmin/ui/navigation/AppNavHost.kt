@@ -25,6 +25,7 @@ import com.alqiran.portfoliomainadmin.ui.model.TechnologyTitleUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyUiModel
 import com.alqiran.portfoliomainadmin.ui.screens.admin.about_admin.AboutAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.education_admin.EducationAdminScreen
+import com.alqiran.portfoliomainadmin.ui.screens.admin.projects_admin.ProjectAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.skills_admin.SkillsAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.toptitle_admin.TopTitleAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.courses_screen.CoursesScreen
@@ -312,7 +313,7 @@ fun AppNavHost() {
                 topBar.value = "EditEducation"
 
                 val arguments = it.toRoute<EducationAdminScreenRoute>()
-                EducationAdminScreen(arguments.educations)
+                EducationAdminScreen(arguments.educations?: emptyList())
             }
 
             composable<TechnologiesAndToolsAdminScreenRoute>(
@@ -343,6 +344,8 @@ fun AppNavHost() {
             ) {
                 topBar.value = "EditProjects"
 
+                val arguments = it.toRoute<ProjectsAdminScreenRoute>()
+                ProjectAdminScreen(allProjects = arguments.projects?: emptyList())
             }
 
             composable<ExperienceAdminScreenRoute>(

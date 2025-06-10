@@ -25,7 +25,8 @@ class RemoteDataSource @Inject constructor(
     private val firestore: FirebaseFirestore
 ) {
 
-    val collectionAndDocument = firestore.collection(COLLECTION_NAME).document(DOCUMENT_USER_NAME)
+    private val collectionAndDocument =
+        firestore.collection(COLLECTION_NAME).document(DOCUMENT_USER_NAME)
 
     suspend fun getAllUserData(): User {
 
@@ -85,9 +86,9 @@ class RemoteDataSource @Inject constructor(
     fun uploadUserData(userName: String, imageUrl: String?, jobTitle: String, cvUrl: String?) {
         val data = mapOf(
             "userName" to userName,
-            "userImage" to (imageUrl?: ""),
+            "userImage" to (imageUrl ?: ""),
             "jobTitle" to jobTitle,
-            "cvUrl" to (cvUrl?: "")
+            "cvUrl" to (cvUrl ?: "")
         )
         try {
             collectionAndDocument
@@ -102,8 +103,9 @@ class RemoteDataSource @Inject constructor(
 
     fun uploadContactAndAccounts(accounts: List<ContactAndAccounts>) {
 
-        firestore.runTransaction {  transaction ->
-            val exist = transaction.get(collectionAndDocument).get("contactsAndAccounts") as? List<Map<String, Any>> ?: emptyList()
+        firestore.runTransaction { transaction ->
+            val exist = transaction.get(collectionAndDocument)
+                .get("contactsAndAccounts") as? List<Map<String, Any>> ?: emptyList()
 
             val current = exist.map {
                 ContactAndAccounts(
@@ -129,6 +131,7 @@ class RemoteDataSource @Inject constructor(
             throw Exception("Error updating contacts: ${exception.message}")
         }
     }
+
     fun deleteContactAndAccount(account: ContactAndAccounts) {
         collectionAndDocument.update("contactAndAccounts", FieldValue.arrayRemove(account))
             .addOnFailureListener { exception ->
@@ -137,10 +140,11 @@ class RemoteDataSource @Inject constructor(
     }
 
 
-
     fun uploadEducation(education: List<Education>) {
-        firestore.runTransaction {  transaction ->
-            val exist = transaction.get(collectionAndDocument).get("education") as? List<Map<String, Any>> ?: emptyList()
+        firestore.runTransaction { transaction ->
+            val exist =
+                transaction.get(collectionAndDocument).get("education") as? List<Map<String, Any>>
+                    ?: emptyList()
 
             val current = exist.map {
                 Education(
@@ -167,6 +171,7 @@ class RemoteDataSource @Inject constructor(
             throw Exception("Error updating Education: ${exception.message}")
         }
     }
+
     fun deleteEducation(education: Education) {
         collectionAndDocument.update("education", FieldValue.arrayRemove(education))
             .addOnFailureListener { exception ->
@@ -178,13 +183,16 @@ class RemoteDataSource @Inject constructor(
     fun uploadTechnologiesAndTools(technologiesAndTools: List<TechnologyTitle>) {
         TODO("Not yet implemented")
     }
+
     fun deleteTechnologyAndTool(technologyAndTool: TechnologyTitle) {
         TODO("Not yet implemented")
     }
 
     fun uploadSkills(skills: List<Skill>) {
-        firestore.runTransaction {  transaction ->
-            val exist = transaction.get(collectionAndDocument).get("skills") as? List<Map<String, Any>> ?: emptyList()
+        firestore.runTransaction { transaction ->
+            val exist =
+                transaction.get(collectionAndDocument).get("skills") as? List<Map<String, Any>>
+                    ?: emptyList()
 
             val current = exist.map {
                 Skill(
@@ -207,7 +215,8 @@ class RemoteDataSource @Inject constructor(
             null
         }.addOnFailureListener { exception ->
             throw Exception("Error updating Education: ${exception.message}")
-        }    }
+        }
+    }
     fun deleteSkill(skill: Skill) {
         collectionAndDocument.update("skills", FieldValue.arrayRemove(skill))
             .addOnFailureListener { exception ->
@@ -216,15 +225,48 @@ class RemoteDataSource @Inject constructor(
     }
 
     fun uploadProjects(projects: List<Project>) {
-        TODO("Not yet implemented")
-    }
+        firestore.runTransaction { transaction ->
+            val exist =
+                transaction.get(collectionAndDocument).get("projects") as? List<Map<String, Any>>
+                    ?: emptyList()
+
+            val current = exist.map {
+                Project(
+                    id = (it["id"] as? Long)?.toInt() ?: 0,
+                    image = (it["image"] as? String)?: "",
+                    projectName = (it["projectName"] as? String)?: "",
+                    description = (it["description"] as? String)?: "",
+                    url = (it["url"] as? String)?: ""
+                )
+            }.toMutableList()
+
+            projects.forEach { new ->
+                val existingIndex = current.indexOfFirst { it.id == new.id }
+                if (existingIndex != -1) {
+                    current[existingIndex] = new
+                } else {
+                    current.add(new)
+                }
+            }
+
+            current.sortBy { it.id }
+            transaction.update(collectionAndDocument, "projects", current)
+            null
+        }.addOnFailureListener { exception ->
+            throw Exception("Error updating Education: ${exception.message}")
+        }    }
+
     fun deleteProject(project: Project) {
-        TODO("Not yet implemented")
+        collectionAndDocument.update("projects", FieldValue.arrayRemove(project))
+            .addOnFailureListener { exception ->
+                throw Exception("Error Deleting Project: ${exception.message}")
+            }
     }
 
     fun uploadCourses(courses: List<Course>) {
         TODO("Not yet implemented")
     }
+
     fun deleteCourse(course: Course) {
         TODO("Not yet implemented")
     }
@@ -232,6 +274,7 @@ class RemoteDataSource @Inject constructor(
     fun uploadExperience(experience: List<Experience>) {
         TODO("Not yet implemented")
     }
+
     fun deleteExperience(experience: Experience) {
         TODO("Not yet implemented")
     }
