@@ -2,7 +2,11 @@ package com.alqiran.portfoliomainadmin.ui.navigation
 
 import com.alqiran.portfoliomainadmin.ui.model.ContactAndAccountsUiModel
 import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
+import com.alqiran.portfoliomainadmin.ui.model.EducationUiModel
+import com.alqiran.portfoliomainadmin.ui.model.ExperienceUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
+import com.alqiran.portfoliomainadmin.ui.model.SkillUiModel
+import com.alqiran.portfoliomainadmin.ui.model.TechnologyTitleUiModel
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -28,4 +32,25 @@ data object MessageScreenRoute
 
 @Serializable
 data class TopTitleAdminScreenRoute(val userName: String, val userImage: String?, val jobTitle: String, val accounts: List<ContactAndAccountsUiModel>?, val cvUrl: String?)
+
+@Serializable
+data class AboutAdminScreenRoute(val about: String)
+
+@Serializable
+data class EducationAdminScreenRoute(val educations: List<EducationUiModel>)
+
+@Serializable
+data class TechnologiesAndToolsAdminScreenRoute(val technologiesAndTools: List<TechnologyTitleUiModel>)
+
+@Serializable
+data class SkillsAdminScreenRoute(val skills: List<SkillUiModel>)
+
+@Serializable
+data class ProjectsAdminScreenRoute(val projects: List<ProjectUiModel>)
+
+@Serializable
+data class CoursesAdminScreenRoute(val courses: List<CourseUiModel>)
+
+@Serializable
+data class ExperienceAdminScreenRoute(val experience: List<ExperienceUiModel>)
 

@@ -56,9 +56,9 @@ fun HomeScreen(
 
     when (userData) {
         is UserState.Success -> {
-            val userData = (userData as UserState.Success).userData
-            onStart(userData.projects, userData.courses)
-            HomeContentScreen(userData, onNavigate)
+            val projectsAndCourses = (userData as UserState.Success).userData
+            onStart(projectsAndCourses.projects, projectsAndCourses.courses)
+            HomeContentScreen(projectsAndCourses, onNavigate)
         }
 
         is UserState.Error -> {
@@ -98,9 +98,7 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 userData.userImage,
                 userData.jobTitle,
                 userData.contactAndAccounts,
-                userData.cvUrl,
                 context,
-                onNavigate
             )
         }
 
@@ -114,10 +112,28 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
         }
 
         item {
+            DefaultTextButton(
+                text = "Top Title",
+                onNavigate = onNavigate,
+                navigateAction = NavigationAction.ToTopTitleEdit(userData.userName, userData.userImage, userData.jobTitle, userData.contactAndAccounts, userData.cvUrl),
+                color = MaterialTheme.colorScheme.error
+            )
+        }
+
+        item {
             if (userData.education != null) {
                 HeadlineTextWidget(text = "Education")
                 EducationSection(userData.education)
             }
+        }
+
+        item {
+            DefaultTextButton(
+                text = "Education",
+                onNavigate = onNavigate,
+                navigateAction = NavigationAction.ToEducationEdit(educations = userData.education?: emptyList()),
+                color = MaterialTheme.colorScheme.error
+            )
         }
 
         item {
@@ -128,6 +144,15 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
         }
 
         item {
+            DefaultTextButton(
+                text = "About",
+                onNavigate = onNavigate,
+                navigateAction = NavigationAction.ToAboutEdit(userData.about?: ""),
+                color = MaterialTheme.colorScheme.error
+            )
+        }
+
+        item {
             if (userData.technologiesAndTools != null) {
                 HeadlineTextWidget(text = "Technologies and Tools")
                 TechnologiesAndToolsSection(userData.technologiesAndTools)
@@ -135,10 +160,28 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
         }
 
         item {
+            DefaultTextButton(
+                text = "Technologies",
+                onNavigate = onNavigate,
+                navigateAction = NavigationAction.ToTechnologiesAndToolsEdit(userData.technologiesAndTools?: emptyList()),
+                color = MaterialTheme.colorScheme.error
+            )
+        }
+
+        item {
             if (userData.skills != null) {
                 HeadlineTextWidget(text = "Skills")
                 SkillsSection(userData.skills)
             }
+        }
+
+        item {
+            DefaultTextButton(
+                text = "Skills",
+                onNavigate = onNavigate,
+                navigateAction = NavigationAction.ToSkillsEdit(userData.skills?: emptyList()),
+                color = MaterialTheme.colorScheme.error
+            )
         }
 
         item {
@@ -154,6 +197,15 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
         }
 
         item {
+            DefaultTextButton(
+                text = "Projects",
+                onNavigate = onNavigate,
+                navigateAction = NavigationAction.ToProjectsEdit(userData.projects?: emptyList()),
+                color = MaterialTheme.colorScheme.error
+            )
+        }
+
+        item {
             if (userData.courses != null) {
                 HeadlineTextWidget(text = "Courses")
                 Courses(userData.courses)
@@ -166,11 +218,30 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
         }
 
         item {
+            DefaultTextButton(
+                text = "Courses",
+                onNavigate = onNavigate,
+                navigateAction = NavigationAction.ToCoursesEdit(userData.courses?: emptyList()),
+                color = MaterialTheme.colorScheme.error
+            )
+        }
+
+        item {
             if (userData.experiences != null) {
                 HeadlineTextWidget(text = "Experience")
                 ExperienceSection(userData.experiences)
             }
         }
+
+        item {
+            DefaultTextButton(
+                text = "Experience",
+                onNavigate = onNavigate,
+                navigateAction = NavigationAction.ToExperienceEdit(userData.experiences?: emptyList()),
+                color = MaterialTheme.colorScheme.error
+            )
+        }
+
     }
 }
 

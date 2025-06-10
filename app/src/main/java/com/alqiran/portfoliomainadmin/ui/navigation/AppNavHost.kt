@@ -17,7 +17,12 @@ import com.alqiran.portfoliomainadmin.ui.components.bars.BottomBar
 import com.alqiran.portfoliomainadmin.ui.components.bars.TopBar
 import com.alqiran.portfoliomainadmin.ui.model.ContactAndAccountsUiModel
 import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
+import com.alqiran.portfoliomainadmin.ui.model.EducationUiModel
+import com.alqiran.portfoliomainadmin.ui.model.ExperienceUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
+import com.alqiran.portfoliomainadmin.ui.model.SkillUiModel
+import com.alqiran.portfoliomainadmin.ui.model.TechnologyTitleUiModel
+import com.alqiran.portfoliomainadmin.ui.model.TechnologyUiModel
 import com.alqiran.portfoliomainadmin.ui.screens.admin.toptitle_admin.TopTitleAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.courses_screen.CoursesScreen
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.HomeScreen
@@ -39,7 +44,6 @@ fun AppNavHost() {
     var currentCourses: List<CourseUiModel> = emptyList()
 
 
-
     val onNavigate: (NavigationAction) -> Unit = { action ->
 
         when (action) {
@@ -50,12 +54,51 @@ fun AppNavHost() {
             is NavigationAction.ToViewAllCourses -> {
                 navController.navigate(CoursesScreenRoute(courses = action.courses))
             }
+
             is NavigationAction.ToViewAllProjects -> {
                 navController.navigate(ProjectsScreenRoute(projects = action.projects))
             }
+
             is NavigationAction.ToTopTitleEdit -> {
-                navController.navigate(TopTitleAdminScreenRoute(userName = action.userName, userImage = action.userImage, jobTitle = action.jobTitle, accounts = action.accounts, cvUrl = action.cvUrl))
+                navController.navigate(
+                    TopTitleAdminScreenRoute(
+                        userName = action.userName,
+                        userImage = action.userImage,
+                        jobTitle = action.jobTitle,
+                        accounts = action.accounts,
+                        cvUrl = action.cvUrl
+                    )
+                )
             }
+
+            is NavigationAction.ToAboutEdit -> {
+                navController.navigate(AboutAdminScreenRoute(action.about))
+            }
+
+            is NavigationAction.ToCoursesEdit -> {
+                navController.navigate(CoursesAdminScreenRoute(action.courses))
+            }
+
+            is NavigationAction.ToEducationEdit -> {
+                navController.navigate(EducationAdminScreenRoute(action.educations))
+            }
+
+            is NavigationAction.ToExperienceEdit -> {
+                navController.navigate(ExperienceAdminScreenRoute(action.experience))
+            }
+
+            is NavigationAction.ToProjectsEdit -> {
+                navController.navigate(ProjectsAdminScreenRoute(action.projects))
+            }
+
+            is NavigationAction.ToSkillsEdit -> {
+                navController.navigate(SkillsAdminScreenRoute(action.skills))
+            }
+
+            is NavigationAction.ToTechnologiesAndToolsEdit -> {
+                navController.navigate(TechnologiesAndToolsAdminScreenRoute(action.technologiesAndTools))
+            }
+
             NavigationAction.Nothing -> {}
         }
     }
@@ -63,13 +106,59 @@ fun AppNavHost() {
 
     Scaffold(
         topBar = {
-            when(topBar.value) {
-                "Home" -> { TopBar("Home", onClick = {}) }
-                "Project" -> { TopBar("Project", onClick = { navController.popBackStack() }) }
-                "Projects" -> { TopBar("Projects", onClick = { navController.popBackStack() }) }
-                "Courses" -> { TopBar("Courses", onClick = { navController.popBackStack() }) }
-                "Message" -> { TopBar("Contact Me", onClick = { navController.popBackStack() }) }
-                "TopTitleAdmin" -> { TopBar("Top Title Admin", onClick = { navController.popBackStack() }) }
+            when (topBar.value) {
+                "Home" -> {
+                    TopBar("Home", onClick = {})
+                }
+
+                "Project" -> {
+                    TopBar("Project", onClick = { navController.popBackStack() })
+                }
+
+                "Projects" -> {
+                    TopBar("Projects", onClick = { navController.popBackStack() })
+                }
+
+                "Courses" -> {
+                    TopBar("Courses", onClick = { navController.popBackStack() })
+                }
+
+                "Message" -> {
+                    TopBar("Contact Me", onClick = { navController.popBackStack() })
+                }
+
+                "EditTopTitle" -> {
+                    TopBar("Edit TopTitle", onClick = { navController.popBackStack() })
+                }
+
+                "EditAbout" -> {
+                    TopBar("Edit TopTitle", onClick = { navController.popBackStack() })
+                }
+
+                "EditCourses" -> {
+                    TopBar("Edit Courses", onClick = { navController.popBackStack() })
+                }
+
+                "EditEducation" -> {
+                    TopBar("Edit Education", onClick = { navController.popBackStack() })
+                }
+
+                "EditTechnologies" -> {
+                    TopBar("Edit Technology", onClick = { navController.popBackStack() })
+                }
+
+                "EditSkills" -> {
+                    TopBar("Edit Skills", onClick = { navController.popBackStack() })
+                }
+
+                "EditProjects" -> {
+                    TopBar("Edit Projects", onClick = { navController.popBackStack() })
+                }
+
+                "EditExperience" -> {
+                    TopBar("Edit Experience", onClick = { navController.popBackStack() })
+                }
+
             }
         },
         bottomBar = {
@@ -84,9 +173,11 @@ fun AppNavHost() {
                                     popUpTo(0) { inclusive = true }
                                 }
                             }
+
                             1 -> {
                                 navController.navigate(ProjectsScreenRoute(projects = currentProjects))
                             }
+
                             2 -> navController.navigate(CoursesScreenRoute(courses = currentCourses))
                             3 -> navController.navigate(MessageScreenRoute)
                         }
@@ -117,8 +208,8 @@ fun AppNavHost() {
                 HomeScreen(
                     onNavigate,
                     onStart = { projects, courses ->
-                        currentProjects = projects?: emptyList()
-                        currentCourses = courses?: emptyList()
+                        currentProjects = projects ?: emptyList()
+                        currentCourses = courses ?: emptyList()
                     }
                 )
             }
@@ -133,7 +224,7 @@ fun AppNavHost() {
                 topBar.value = "Project"
 
                 val arguments = navBackStackEntry.toRoute<ProjectItemRoute>()
-                ProjectItemScreen (
+                ProjectItemScreen(
                     arguments.project
                 )
             }
@@ -175,16 +266,14 @@ fun AppNavHost() {
             }
 
 
-
             /// For Admin
 
-            // topTitle
             composable<TopTitleAdminScreenRoute>(
                 typeMap = mapOf(
                     typeOf<List<ContactAndAccountsUiModel>?>() to CustomNavType.topTitleAdminType
                 )
             ) {
-                topBar.value = "TopTitleAdmin"
+                topBar.value = "EditTopTitle"
 
                 val arguments = it.toRoute<TopTitleAdminScreenRoute>()
                 TopTitleAdminScreen(
@@ -195,6 +284,70 @@ fun AppNavHost() {
                     cv = arguments.cvUrl
                 )
             }
+
+
+            composable<AboutAdminScreenRoute> {
+                topBar.value = "EditAbout"
+
+            }
+
+            composable<CoursesAdminScreenRoute>(
+                typeMap = mapOf(
+                    typeOf<List<CourseUiModel>>() to CustomNavType.coursesAdminType
+                )
+            ) {
+                topBar.value = "EditCourses"
+
+            }
+
+            composable<EducationAdminScreenRoute>(
+                typeMap = mapOf(
+                    typeOf<List<EducationUiModel>>() to CustomNavType.educationAdminType
+                )
+            ) {
+                topBar.value = "EditEducation"
+
+
+            }
+
+            composable<TechnologiesAndToolsAdminScreenRoute>(
+                typeMap = mapOf(
+                    typeOf<List<TechnologyTitleUiModel>>() to CustomNavType.technologiesAndToolsAdminType,
+                    typeOf<List<TechnologyUiModel>>() to CustomNavType.technologyAdminType
+                )
+            ) {
+                topBar.value = "EditTechnologies"
+
+            }
+
+            composable<SkillsAdminScreenRoute>(
+                typeMap = mapOf(
+                    typeOf<List<SkillUiModel>>() to CustomNavType.skillsAdminType
+                )
+            ) {
+                topBar.value = "EditSkills"
+
+            }
+
+            composable<ProjectsAdminScreenRoute>(
+                typeMap = mapOf(
+                    typeOf<List<ProjectUiModel>>() to CustomNavType.projectsAdminType
+                )
+            ) {
+                topBar.value = "EditProjects"
+
+            }
+
+            composable<ExperienceAdminScreenRoute>(
+                typeMap = mapOf(
+                    typeOf<List<ExperienceUiModel>>() to CustomNavType.experienceAdminType
+                )
+            ) {
+                topBar.value = "EditExperience"
+
+            }
+
+
         }
     }
 }

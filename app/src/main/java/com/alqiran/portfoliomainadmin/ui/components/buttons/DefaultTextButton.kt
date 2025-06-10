@@ -28,7 +28,7 @@ fun DefaultTextButton(
             },
         ) {
             Text(
-                "View All $text",
+                "View All $text to Edit",
                 style = MaterialTheme.typography.labelSmall,
                 color = color,
             )

@@ -41,9 +41,7 @@ fun TopTitleSection(
     userImage: String?,
     jobTitle: String,
     accounts: List<ContactAndAccountsUiModel>?,
-    cvUrl: String?,
     context: Context,
-    onNavigate: (NavigationAction) -> Unit
 ) {
 
     Column(
@@ -164,11 +162,5 @@ fun TopTitleSection(
                 }
             }
         }
-        DefaultTextButton(
-            text = "Edit",
-            onNavigate = onNavigate,
-            navigateAction = NavigationAction.ToTopTitleEdit(userName, userImage, jobTitle, accounts, cvUrl),
-            color = MaterialTheme.colorScheme.error
-        )
     }
 }
