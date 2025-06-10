@@ -1,4 +1,4 @@
-package com.alqiran.portfoliomainadmin.ui.screens.admin.education_admin.viewModel
+package com.alqiran.portfoliomainadmin.ui.screens.admin.about.viewModel
 
 import androidx.lifecycle.ViewModel
 import com.alqiran.portfoliomainadmin.data.mapper.toEducation
@@ -12,32 +12,21 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class EducationAdminViewModel @Inject constructor(
+class AboutAdminViewModel @Inject constructor(
     private val uploadRepo: FirebaseRepository
 ) : ViewModel() {
     private val _state = MutableStateFlow<AdminState>(AdminState.None)
     val state = _state.asStateFlow()
 
-    fun uploadEducationData(allEducation: List<EducationUiModel>) {
+    fun editAbout(about: String) {
         _state.value = AdminState.Loading
         try {
-            uploadRepo.uploadEducation(allEducation.toEducations())
+            uploadRepo.editAbout(about)
             _state.value = AdminState.Success
         } catch (e: Exception) {
             _state.value = AdminState.Error(e.message.toString())
         }
     }
-
-    fun deleteEducation(education: EducationUiModel) {
-        _state.value = AdminState.Loading
-        try {
-            uploadRepo.deleteEducation(education.toEducation())
-            _state.value = AdminState.Success
-        } catch (e: Exception) {
-            _state.value = AdminState.Error(e.message.toString())
-        }
-    }
-
 
     fun stateNone() {
         _state.value = AdminState.None

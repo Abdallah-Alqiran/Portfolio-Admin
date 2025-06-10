@@ -210,5 +210,11 @@ class RemoteDataSource @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    fun editAbout(about: String) {
+        collectionAndDocument.update("about", about)
+            .addOnFailureListener { exception ->
+                throw Exception("Error Editing About: ${exception.message}")
+            }
+    }
 
 }

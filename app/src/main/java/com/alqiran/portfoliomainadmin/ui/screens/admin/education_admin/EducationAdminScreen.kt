@@ -2,7 +2,6 @@ package com.alqiran.portfoliomainadmin.ui.screens.admin.education_admin
 
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,8 +11,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,7 +36,7 @@ fun EducationAdminScreen(allEducations: List<EducationUiModel>?) {
     val listState = rememberLazyListState()
 
     val educationAdminViewModel: EducationAdminViewModel = hiltViewModel()
-    val educationState by educationAdminViewModel.educationAdminState.collectAsStateWithLifecycle()
+    val educationState by educationAdminViewModel.state.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
 

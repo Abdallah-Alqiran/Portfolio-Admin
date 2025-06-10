@@ -83,4 +83,7 @@ class FirebaseRepositoryImpl @Inject constructor(
         return remoteDataSource.deleteExperience(experience)
     }
 
+    override fun editAbout(about: String) {
+        return remoteDataSource.editAbout(about)
+    }
 }

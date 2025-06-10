@@ -48,7 +48,7 @@ fun TopTitleAdminScreen(
 
 
     val topTitleAdminViewModel: TopTitleAdminViewModel = hiltViewModel()
-    val topTitleState by topTitleAdminViewModel.topTitleAdminState.collectAsStateWithLifecycle()
+    val topTitleState by topTitleAdminViewModel.state.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
 

@@ -39,4 +39,6 @@ interface FirebaseRepository {
     fun uploadExperience(experience: List<Experience>)
     fun deleteExperience(experience: Experience)
 
+    fun editAbout(about: String)
+
 }
