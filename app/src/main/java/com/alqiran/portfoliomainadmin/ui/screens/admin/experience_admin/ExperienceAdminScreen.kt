@@ -25,7 +25,6 @@ import com.alqiran.portfoliomainadmin.ui.components.CustomOutlinedTextFieldWidge
 import com.alqiran.portfoliomainadmin.ui.components.buttons.AddItemTextButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DeleteItemTextButton
-import com.alqiran.portfoliomainadmin.ui.model.EducationUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ExperienceUiModel
 import com.alqiran.portfoliomainadmin.ui.screens.admin.AdminState
 import com.alqiran.portfoliomainadmin.ui.screens.admin.experience_admin.viewModel.ExperienceAdminViewModel
