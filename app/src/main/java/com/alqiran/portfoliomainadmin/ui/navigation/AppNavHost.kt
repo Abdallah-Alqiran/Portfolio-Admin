@@ -24,9 +24,12 @@ import com.alqiran.portfoliomainadmin.ui.model.SkillUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyTitleUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyUiModel
 import com.alqiran.portfoliomainadmin.ui.screens.admin.about_admin.AboutAdminScreen
+import com.alqiran.portfoliomainadmin.ui.screens.admin.courses_admin.CoursesAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.education_admin.EducationAdminScreen
+import com.alqiran.portfoliomainadmin.ui.screens.admin.experience_admin.ExperienceAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.projects_admin.ProjectAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.skills_admin.SkillsAdminScreen
+import com.alqiran.portfoliomainadmin.ui.screens.admin.technologies_admin.TechnologiesAndToolsAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.toptitle_admin.TopTitleAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.courses_screen.CoursesScreen
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.HomeScreen
@@ -271,7 +274,6 @@ fun AppNavHost() {
 
 
             /// For Admin
-
             composable<TopTitleAdminScreenRoute>(
                 typeMap = mapOf(
                     typeOf<List<ContactAndAccountsUiModel>?>() to CustomNavType.topTitleAdminType
@@ -303,6 +305,8 @@ fun AppNavHost() {
             ) {
                 topBar.value = "EditCourses"
 
+                val arguments = it.toRoute<CoursesAdminScreenRoute>()
+                CoursesAdminScreen(arguments.courses?: emptyList())
             }
 
             composable<EducationAdminScreenRoute>(
@@ -323,6 +327,9 @@ fun AppNavHost() {
                 )
             ) {
                 topBar.value = "EditTechnologies"
+
+                val arguments = it.toRoute<TechnologiesAndToolsAdminScreenRoute>()
+                TechnologiesAndToolsAdminScreen(arguments.technologiesAndTools)
 
             }
 
@@ -355,6 +362,8 @@ fun AppNavHost() {
             ) {
                 topBar.value = "EditExperience"
 
+                val arguments = it.toRoute<ExperienceAdminScreenRoute>()
+                ExperienceAdminScreen(allExperience = arguments.experience?: emptyList())
             }
 
 

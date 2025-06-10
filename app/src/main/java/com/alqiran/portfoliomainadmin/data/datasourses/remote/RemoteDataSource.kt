@@ -28,6 +28,14 @@ class RemoteDataSource @Inject constructor(
     private val collectionAndDocument =
         firestore.collection(COLLECTION_NAME).document(DOCUMENT_USER_NAME)
 
+
+    private fun deleteElement(fieldName: String, type: Any) {
+        collectionAndDocument.update(fieldName, FieldValue.arrayRemove(type))
+            .addOnFailureListener { exception ->
+                throw Exception("Error Delete: ${exception.message}")
+            }
+    }
+
     suspend fun getAllUserData(): User {
 
         if (!isOnline()) {
@@ -133,10 +141,7 @@ class RemoteDataSource @Inject constructor(
     }
 
     fun deleteContactAndAccount(account: ContactAndAccounts) {
-        collectionAndDocument.update("contactAndAccounts", FieldValue.arrayRemove(account))
-            .addOnFailureListener { exception ->
-                throw Exception("Error Deleting Account: ${exception.message}")
-            }
+        deleteElement("contactAndAccounts", account)
     }
 
 
@@ -173,10 +178,7 @@ class RemoteDataSource @Inject constructor(
     }
 
     fun deleteEducation(education: Education) {
-        collectionAndDocument.update("education", FieldValue.arrayRemove(education))
-            .addOnFailureListener { exception ->
-                throw Exception("Error Deleting Education: ${exception.message}")
-            }
+        deleteElement("education", education)
     }
 
 
@@ -214,14 +216,12 @@ class RemoteDataSource @Inject constructor(
             transaction.update(collectionAndDocument, "skills", current)
             null
         }.addOnFailureListener { exception ->
-            throw Exception("Error updating Education: ${exception.message}")
+            throw Exception("Error updating Skills: ${exception.message}")
         }
     }
+
     fun deleteSkill(skill: Skill) {
-        collectionAndDocument.update("skills", FieldValue.arrayRemove(skill))
-            .addOnFailureListener { exception ->
-                throw Exception("Error Deleting Education: ${exception.message}")
-            }
+        deleteElement("skills", skill)
     }
 
     fun uploadProjects(projects: List<Project>) {
@@ -233,10 +233,10 @@ class RemoteDataSource @Inject constructor(
             val current = exist.map {
                 Project(
                     id = (it["id"] as? Long)?.toInt() ?: 0,
-                    image = (it["image"] as? String)?: "",
-                    projectName = (it["projectName"] as? String)?: "",
-                    description = (it["description"] as? String)?: "",
-                    url = (it["url"] as? String)?: ""
+                    image = (it["image"] as? String) ?: "",
+                    projectName = (it["projectName"] as? String) ?: "",
+                    description = (it["description"] as? String) ?: "",
+                    url = (it["url"] as? String) ?: ""
                 )
             }.toMutableList()
 
@@ -253,30 +253,83 @@ class RemoteDataSource @Inject constructor(
             transaction.update(collectionAndDocument, "projects", current)
             null
         }.addOnFailureListener { exception ->
-            throw Exception("Error updating Education: ${exception.message}")
-        }    }
+            throw Exception("Error updating Projects: ${exception.message}")
+        }
+    }
 
     fun deleteProject(project: Project) {
-        collectionAndDocument.update("projects", FieldValue.arrayRemove(project))
-            .addOnFailureListener { exception ->
-                throw Exception("Error Deleting Project: ${exception.message}")
-            }
+        deleteElement("projects", project)
     }
 
     fun uploadCourses(courses: List<Course>) {
-        TODO("Not yet implemented")
+        firestore.runTransaction { transaction ->
+            val exist =
+                transaction.get(collectionAndDocument).get("courses") as? List<Map<String, Any>>
+                    ?: emptyList()
+
+            val current = exist.map {
+                Course(
+                    id = (it["id"] as? Long)?.toInt() ?: 0,
+                    courseName = (it["courseName"] as? String) ?: "",
+                    courseDescription = (it["courseDescription"] as? String) ?: ""
+                )
+            }.toMutableList()
+
+            courses.forEach { new ->
+                val existingIndex = current.indexOfFirst { it.id == new.id }
+                if (existingIndex != -1) {
+                    current[existingIndex] = new
+                } else {
+                    current.add(new)
+                }
+            }
+
+            current.sortBy { it.id }
+            transaction.update(collectionAndDocument, "courses", current)
+            null
+        }.addOnFailureListener { exception ->
+            throw Exception("Error updating Courses: ${exception.message}")
+        }
     }
 
     fun deleteCourse(course: Course) {
-        TODO("Not yet implemented")
+        deleteElement("courses", course)
     }
 
     fun uploadExperience(experience: List<Experience>) {
-        TODO("Not yet implemented")
+        firestore.runTransaction { transaction ->
+            val exist =
+                transaction.get(collectionAndDocument).get("experience") as? List<Map<String, Any>>
+                    ?: emptyList()
+
+            val current = exist.map {
+                Experience(
+                    id = (it["id"] as? Long)?.toInt() ?: 0,
+                    experienceTitle = (it["experienceTitle"] as? String) ?: "",
+                    company = (it["company"] as? String) ?: "",
+                    date = (it["date"] as? String) ?: "",
+                    description = (it["description"] as? String) ?: "",
+                )
+            }.toMutableList()
+            experience.forEach { new ->
+                val existingIndex = current.indexOfFirst { it.id == new.id }
+                if (existingIndex != -1) {
+                    current[existingIndex] = new
+                } else {
+                    current.add(new)
+                }
+            }
+
+            current.sortBy { it.id }
+            transaction.update(collectionAndDocument, "experience", current)
+            null
+        }.addOnFailureListener { exception ->
+            throw Exception("Error updating Experience: ${exception.message}")
+        }
     }
 
     fun deleteExperience(experience: Experience) {
-        TODO("Not yet implemented")
+        deleteElement("experience", experience)
     }
 
     fun editAbout(about: String) {
