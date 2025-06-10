@@ -123,7 +123,7 @@ fun CoursesAdminScreen(allCourses: List<CourseUiModel>?) {
 
         item {
             DefaultButton(
-                text = "Edit Education",
+                text = "Edit Courses",
                 buttonType = ButtonType.UploadOnClick {
                     coursesAdminViewModel.uploadEducationData(courses?: emptyList())
                 }
