@@ -9,6 +9,7 @@ import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Project
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Skill
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.TechnologyTitle
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.User
+import kotlinx.coroutines.flow.Flow
 
 interface FirebaseRepository {
 
@@ -41,4 +42,7 @@ interface FirebaseRepository {
 
     fun editAbout(about: String)
 
+
+    suspend fun getAllMessages(): Flow<List<ContactMessage>>
+    fun deleteMessage(message: ContactMessage)
 }

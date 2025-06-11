@@ -17,6 +17,9 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.Source
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -337,6 +340,33 @@ class RemoteDataSource @Inject constructor(
             .addOnFailureListener { exception ->
                 throw Exception("Error Editing About: ${exception.message}")
             }
+    }
+
+
+    fun getAllMessages(): Flow<List<ContactMessage>> = callbackFlow {
+        val listenerRegistration = collectionAndDocument.addSnapshotListener { snapshot, error ->
+            if (error != null) {
+                close(error)
+                return@addSnapshotListener
+            }
+
+            val messageDocument =
+                snapshot?.data?.get("contactMessage") as? List<Map<String, Any>> ?: emptyList()
+            val currentMessages = messageDocument.map {
+                ContactMessage(
+                    date = (it["date"] as? String)?.replace('T', ' ') ?: "",
+                    email = (it["email"] as? String) ?: "",
+                    message = (it["message"] as? String) ?: ""
+                )
+            }.reversed()
+
+            trySend(currentMessages)
+        }
+        awaitClose { listenerRegistration.remove() }
+    }
+
+    fun deleteMessage(message: ContactMessage) {
+        deleteElement("contactMessage", message)
     }
 
 }

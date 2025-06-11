@@ -11,6 +11,7 @@ import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Skill
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.TechnologyTitle
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.User
 import com.alqiran.portfoliomainadmin.repository.FirebaseRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class FirebaseRepositoryImpl @Inject constructor(
@@ -85,5 +86,12 @@ class FirebaseRepositoryImpl @Inject constructor(
 
     override fun editAbout(about: String) {
         return remoteDataSource.editAbout(about)
+    }
+
+    override suspend fun getAllMessages(): Flow<List<ContactMessage>> {
+        return remoteDataSource.getAllMessages()
+    }
+    override fun deleteMessage(message: ContactMessage) {
+        return remoteDataSource.deleteMessage(message)
     }
 }
