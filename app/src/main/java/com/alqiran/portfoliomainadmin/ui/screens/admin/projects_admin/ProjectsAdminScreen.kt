@@ -120,8 +120,8 @@ fun ProjectAdminScreen(allProjects: List<ProjectUiModel>?) {
 
             CustomOutlinedTextFieldWidget(
                 textValue = project.description,
-                textLabel = "Project Link",
-                placeHolderLabel = "Enter your Project URL",
+                textLabel = "Project Description",
+                placeHolderLabel = "Enter your Project Description",
                 isSingleLine = false,
                 minLines = 4
             ) {
