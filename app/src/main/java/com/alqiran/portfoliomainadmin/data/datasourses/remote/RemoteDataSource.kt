@@ -411,7 +411,7 @@ class RemoteDataSource @Inject constructor(
                 snapshot?.data?.get("contactMessage") as? List<Map<String, Any>> ?: emptyList()
             val currentMessages = messageDocument.map {
                 ContactMessage(
-                    date = (it["date"] as? String)?.replace('T', ' ') ?: "",
+                    date = (it["date"] as? String) ?: "",
                     email = (it["email"] as? String) ?: "",
                     message = (it["message"] as? String) ?: ""
                 )

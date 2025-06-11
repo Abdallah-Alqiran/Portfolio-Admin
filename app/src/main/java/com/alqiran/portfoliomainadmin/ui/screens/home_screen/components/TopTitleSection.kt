@@ -141,6 +141,7 @@ fun TopTitleSection(
                     "codeforces" -> R.drawable.codeforces
                     "leetcode" -> R.drawable.leetcode
                     "stackoverflow" -> R.drawable.ic_stackoverflow
+                    "notion" -> R.drawable.ic_notion
                     else -> {
                         null
                     }
