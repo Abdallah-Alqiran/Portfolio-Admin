@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun DeleteItemTextButton(onClick:() -> Unit) {
+fun DeleteItemTextButton(text: String = "delete", onClick:() -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -23,7 +23,7 @@ fun DeleteItemTextButton(onClick:() -> Unit) {
             onClick()
         }) {
             Text(
-                "delete",
+                text,
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.error
             )

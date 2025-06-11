@@ -8,6 +8,7 @@ import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Education
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Experience
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Project
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Skill
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Technology
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.TechnologyTitle
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.User
 import com.alqiran.portfoliomainadmin.utils.Constants.Companion.COLLECTION_NAME
@@ -186,11 +187,65 @@ class RemoteDataSource @Inject constructor(
 
 
     fun uploadTechnologiesAndTools(technologiesAndTools: List<TechnologyTitle>) {
-        TODO("Not yet implemented")
+        firestore.runTransaction { transaction ->
+            val exist =
+                transaction.get(collectionAndDocument).get("technologiesAndTools") as? List<Map<String, Any>>
+                    ?: emptyList()
+
+            val current = exist.map {
+                TechnologyTitle(
+                    id = (it["id"] as? Long)?.toInt() ?: 0,
+                    technologyTitle = it["technologyTitle"] as? String ?: "",
+                    technologies = (it["technologies"] as? List<Map<String, Any>>)?.map { tech ->
+                        Technology(
+                            id = (tech["id"] as? Long)?.toInt()?: 0,
+                            technologyName = tech["technologyName"] as? String ?: ""
+                        )
+                    }?: emptyList()
+                )
+            }.toMutableList()
+
+            technologiesAndTools.forEach { new ->
+                val existingIndex = current.indexOfFirst { it.id == new.id }
+                if (existingIndex != -1) {
+                    current[existingIndex] = new
+                } else {
+                    current.add(new)
+                }
+            }
+
+            current.sortBy { it.id }
+            transaction.update(collectionAndDocument, "technologiesAndTools", current)
+            null
+        }.addOnFailureListener { exception ->
+            throw Exception("Error updating Technologies: ${exception.message}")
+        }
     }
 
     fun deleteTechnologyAndTool(technologyAndTool: TechnologyTitle) {
-        TODO("Not yet implemented")
+        deleteElement("technologiesAndTools", technologyAndTool)
+    }
+    fun deleteTechnology(technology: Technology) {
+
+        firestore.runTransaction { transaction ->
+            val doc = transaction.get(collectionAndDocument)
+            val data = doc.data?.toMutableMap() ?: mutableMapOf()
+            val technologiesAndTools = data["technologiesAndTools"] as? MutableList<MutableMap<String, Any>> ?: mutableListOf()
+
+            technologiesAndTools.forEach { group ->
+                val technologies = group["technologies"] as? MutableList<MutableMap<String, Any>> ?: mutableListOf()
+                technologies.removeIf { tech ->
+                    (tech["id"] as? Long)?.toInt() == technology.id &&
+                            tech["technologyName"] as? String == technology.technologyName
+                }
+            }
+
+            transaction.update(collectionAndDocument, data)
+            null
+        }.addOnFailureListener { exception ->
+            throw Exception("Error Deleting Technologies: ${exception.message}")
+        }
+
     }
 
     fun uploadSkills(skills: List<Skill>) {

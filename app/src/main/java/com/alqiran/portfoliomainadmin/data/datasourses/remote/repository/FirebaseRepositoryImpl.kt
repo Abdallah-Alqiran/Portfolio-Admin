@@ -8,6 +8,7 @@ import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Education
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Experience
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Project
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Skill
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Technology
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.TechnologyTitle
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.User
 import com.alqiran.portfoliomainadmin.repository.FirebaseRepository
@@ -54,6 +55,9 @@ class FirebaseRepositoryImpl @Inject constructor(
     }
     override fun deleteTechnologyAndTool(technologyAndTool: TechnologyTitle) {
         return remoteDataSource.deleteTechnologyAndTool(technologyAndTool)
+    }
+    override fun deleteTechnology(technology: Technology) {
+        return remoteDataSource.deleteTechnology(technology)
     }
 
     override fun uploadSkills(skills: List<Skill>) {

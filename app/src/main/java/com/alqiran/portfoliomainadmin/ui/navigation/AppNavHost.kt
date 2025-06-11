@@ -330,7 +330,6 @@ fun AppNavHost() {
 
                 val arguments = it.toRoute<TechnologiesAndToolsAdminScreenRoute>()
                 TechnologiesAndToolsAdminScreen(arguments.technologiesAndTools)
-
             }
 
             composable<SkillsAdminScreenRoute>(
@@ -365,7 +364,6 @@ fun AppNavHost() {
                 val arguments = it.toRoute<ExperienceAdminScreenRoute>()
                 ExperienceAdminScreen(allExperience = arguments.experience?: emptyList())
             }
-
 
         }
     }

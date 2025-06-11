@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun AddItemTextButton(onClick: () -> Unit) {
+fun AddItemTextButton(text: String = "Add Item", onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -23,7 +23,7 @@ fun AddItemTextButton(onClick: () -> Unit) {
             onClick()
         }) {
             Text(
-                "Add Item",
+                text,
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.secondary
             )

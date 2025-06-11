@@ -7,6 +7,7 @@ import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Education
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Experience
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Project
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Skill
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Technology
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.TechnologyTitle
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.User
 import kotlinx.coroutines.flow.Flow
@@ -27,6 +28,7 @@ interface FirebaseRepository {
 
     fun uploadTechnologiesAndTools(technologiesAndTools: List<TechnologyTitle>)
     fun deleteTechnologyAndTool(technologyAndTool: TechnologyTitle)
+    fun deleteTechnology(technology: Technology)
 
     fun uploadSkills(skills: List<Skill>)
     fun deleteSkill(skill: Skill)
