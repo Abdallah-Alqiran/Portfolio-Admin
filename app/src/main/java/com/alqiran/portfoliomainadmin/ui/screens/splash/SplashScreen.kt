@@ -44,7 +44,7 @@ fun SplashScreen(onNavigate: () -> Unit) {
             )
             Spacer(modifier = Modifier.size(10.dp))
             Text(
-                text = "Welcome to Abdallah Alqiran Portfolio",
+                text = "Control, edit, and sync your portfolio seamlessly.",
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onBackground
             )
