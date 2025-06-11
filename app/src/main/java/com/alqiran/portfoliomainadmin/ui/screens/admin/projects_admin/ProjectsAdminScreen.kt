@@ -146,7 +146,7 @@ fun ProjectAdminScreen(allProjects: List<ProjectUiModel>?) {
 
         item {
             DefaultButton(
-                text = "Edit Education",
+                text = "Edit Projects",
                 buttonType = ButtonType.UploadOnClick {
                     projectsAdminViewModel.uploadProjects(projects?: emptyList())
                 }

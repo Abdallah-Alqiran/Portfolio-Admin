@@ -102,7 +102,8 @@ fun CoursesAdminScreen(allCourses: List<CourseUiModel>?) {
             CustomOutlinedTextFieldWidget(
                 textValue = course.courseDescription,
                 textLabel = "Course Description",
-                placeHolderLabel = "Enter Course Description"
+                placeHolderLabel = "Enter Course Description",
+                isSingleLine = false
             ) {
                 courses = courses?.map { a ->
                     if (a == course) a.copy(courseDescription = it) else a
