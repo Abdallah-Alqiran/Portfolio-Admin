@@ -74,7 +74,9 @@ class RemoteDataSource @Inject constructor(
                     throw IllegalStateException("Server user data is corrupted or null")
                 }
             } else {
-                throw NoSuchElementException("No user data exists on the server")
+                val newUser = User()
+                collectionAndDocument.set(newUser).await()
+                return newUser
             }
         } catch (serverException: Exception) {
             Log.d("Al-qiran", "Server Exception ${serverException.message.toString()}")
@@ -357,7 +359,7 @@ class RemoteDataSource @Inject constructor(
     fun uploadExperience(experience: List<Experience>) {
         firestore.runTransaction { transaction ->
             val exist =
-                transaction.get(collectionAndDocument).get("experience") as? List<Map<String, Any>>
+                transaction.get(collectionAndDocument).get("experiences") as? List<Map<String, Any>>
                     ?: emptyList()
 
             val current = exist.map {
@@ -379,7 +381,7 @@ class RemoteDataSource @Inject constructor(
             }
 
             current.sortBy { it.id }
-            transaction.update(collectionAndDocument, "experience", current)
+            transaction.update(collectionAndDocument, "experiences", current)
             null
         }.addOnFailureListener { exception ->
             throw Exception("Error updating Experience: ${exception.message}")
@@ -387,7 +389,7 @@ class RemoteDataSource @Inject constructor(
     }
 
     fun deleteExperience(experience: Experience) {
-        deleteElement("experience", experience)
+        deleteElement("experiences", experience)
     }
 
     fun editAbout(about: String) {

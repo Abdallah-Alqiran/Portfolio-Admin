@@ -95,7 +95,7 @@ fun TopTitleSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            accounts!!.forEach { item ->
+            accounts?.forEach { item ->
                 val imageRes: Int? = when (item.webName) {
                     "facebook" -> R.drawable.ic_facebook
                     "linkedin" -> R.drawable.ic_linkedin
@@ -135,7 +135,7 @@ fun TopTitleSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            accounts!!.forEach { item ->
+            accounts?.forEach { item ->
                 val imageRes: Int? = when (item.webName) {
                     "github" -> R.drawable.ic_github
                     "codeforces" -> R.drawable.codeforces
