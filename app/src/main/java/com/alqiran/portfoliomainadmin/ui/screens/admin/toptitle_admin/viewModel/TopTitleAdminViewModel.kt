@@ -43,6 +43,7 @@ class TopTitleAdminViewModel @Inject constructor(
         } else {
             try {
                 uploadRepo.uploadContactAndAccounts(accounts.toContactAndAccounts())
+                _state.value = AdminState.Success
             } catch (e: Exception) {
                 _state.value = AdminState.Error(e.message.toString())
             }

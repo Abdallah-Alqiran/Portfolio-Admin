@@ -29,10 +29,8 @@ import androidx.core.net.toUri
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.alqiran.portfoliomainadmin.R
-import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultTextButton
 import com.alqiran.portfoliomainadmin.ui.helper.isValidUrl
 import com.alqiran.portfoliomainadmin.ui.model.ContactAndAccountsUiModel
-import com.alqiran.portfoliomainadmin.ui.navigation.NavigationAction
 
 
 @Composable
@@ -102,6 +100,8 @@ fun TopTitleSection(
                     "facebook" -> R.drawable.ic_facebook
                     "linkedin" -> R.drawable.ic_linkedin
                     "whatsapp" -> R.drawable.ic_whatsapp
+                    "instagram" -> R.drawable.ic_instagram
+                    "x" -> R.drawable.ic_x
                     else -> {
                         null
                     }
@@ -137,8 +137,10 @@ fun TopTitleSection(
 
             accounts!!.forEach { item ->
                 val imageRes: Int? = when (item.webName) {
+                    "github" -> R.drawable.ic_github
                     "codeforces" -> R.drawable.codeforces
                     "leetcode" -> R.drawable.leetcode
+                    "stackoverflow" -> R.drawable.ic_stackoverflow
                     else -> {
                         null
                     }
@@ -149,7 +151,7 @@ fun TopTitleSection(
                         contentDescription = "icon image",
                         modifier = Modifier
                             .padding(horizontal = 4.dp)
-                            .height(36.dp)
+                            .size(32.dp)
                             .clip(CircleShape)
                             .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.1f))
                             .clickable {
