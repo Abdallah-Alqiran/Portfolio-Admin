@@ -17,4 +17,11 @@ This is the internal (admin/developer) version of my personal portfolio app. It 
 
 The portfolio is fully editable to allow for future updates as I continue to grow and gain experience in the field. It serves as a structured and interactive way to showcase my profile, technical journey, and achievements in mobile development.
 
+## 🌐 View Web Version
+[Click here]()
+
+Created by [Omniya Abdelnasser](https://github.com/Omnia-Abdelnasser)
+
+## 📱 View Mobile Version Code
+[Click here](https://github.com/Abdallah-Alqiran/Portfolio)
 
