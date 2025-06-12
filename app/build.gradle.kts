@@ -76,6 +76,10 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    // for Testing
+    testImplementation(libs.truth)
+    androidTestImplementation(libs.truth)
+
     //coil
     implementation(libs.coil)
     implementation(libs.coil.compose)

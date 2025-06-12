@@ -107,7 +107,6 @@ fun MessageContentScreen(
                             )
                         }
                         IconButton(onClick = {
-//                            messages -= message
                             messageViewModel.deleteMessage(message)
                         }) {
                             Icon(
