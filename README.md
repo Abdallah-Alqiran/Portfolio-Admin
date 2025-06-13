@@ -21,9 +21,10 @@ The portfolio is fully editable to allow for future updates as I continue to gro
 
 ---
 
-## 🌐 [View Web Version]()
+## 🌐 [View WebSite]()
 
 Created by [Omniya Abdelnasser](https://github.com/Omnia-Abdelnasser)
+
 check the code [from here](https://github.com/Omnia-Abdelnasser/web-portfolio)
 
 ## 📱 [View Mobile Version Code](https://github.com/Abdallah-Alqiran/Portfolio)
