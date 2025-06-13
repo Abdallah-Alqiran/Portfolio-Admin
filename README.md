@@ -4,8 +4,9 @@ This is the internal (admin/developer) version of my personal portfolio app. It 
 
 ## 🔧 Features
 
+- The Web version of the portfolio was created by [Omniya Abdelnasser](https://github.com/Omnia-Abdelnasser), while the Mobile versions (Admin and User) were developed in parallel to manage and display the same data through Firebase.
 - Developed using Jetpack Compose and Kotlin
-- Uses **Firebase** (Firestore, Realtime DB, Analytics).
+- Uses **Firebase**.
 - Based on **Clean Architecture** and **MVVM**.
 - Uses **Hilt** for dependency injection.
 - Handles async tasks with **Coroutines**.
@@ -20,6 +21,7 @@ The portfolio is fully editable to allow for future updates as I continue to gro
 ## 🌐 [View Web Version]()
 
 Created by [Omniya Abdelnasser](https://github.com/Omnia-Abdelnasser)
+check the code [from here](https://github.com/Omnia-Abdelnasser/web-portfolio)
 
 ## 📱 [View Mobile Version Code](https://github.com/Abdallah-Alqiran/Portfolio)
 
