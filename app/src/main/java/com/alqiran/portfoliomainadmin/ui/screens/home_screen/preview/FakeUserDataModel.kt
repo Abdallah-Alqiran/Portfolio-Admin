@@ -11,6 +11,29 @@ import com.alqiran.portfoliomainadmin.ui.model.TechnologyUiModel
 import com.alqiran.portfoliomainadmin.ui.model.UserUiModel
 
 
+val courses: List<CourseUiModel> = listOf(
+    CourseUiModel(
+        id = 0,
+        courseName = "DEPI (Digital Egypt Pioneers Initiative)",
+        courseDescription = "Mobile app development, Technical and non-technical sessions"
+    ),
+    CourseUiModel(
+        id = 1,
+        courseName = "Database",
+        courseDescription = "Offline course at Creativa Qena"
+    ),
+    CourseUiModel(
+        id = 2,
+        courseName = "Job Readiness",
+        courseDescription = "At Dandara Al Ebdaa, Focused on developing skills for the professional workplace"
+    ),
+    CourseUiModel(
+        id = 3,
+        courseName = "Innovation Bootcamp",
+        courseDescription = "Developed product-thinking mindset and improved problem-solving skills through hands-on, team-based challenges."
+    ),
+)
+
 val project = ProjectUiModel(
     id = 0,
     projectName = "TurboFit",
@@ -154,29 +177,6 @@ val technologyTitle: List<TechnologyTitleUiModel> = listOf(
                 technologyName = "Git and Github"
             ),
         )
-    ),
-)
-
-val courses: List<CourseUiModel> = listOf(
-    CourseUiModel(
-        id = 0,
-        courseName = "DEPI (Digital Egypt Pioneers Initiative)",
-        courseDescription = "Mobile app development, Technical and non-technical sessions"
-    ),
-    CourseUiModel(
-        id = 1,
-        courseName = "Database",
-        courseDescription = "Offline course at Creativa Qena"
-    ),
-    CourseUiModel(
-        id = 2,
-        courseName = "Job Readiness",
-        courseDescription = "At Dandara Al Ebdaa, Focused on developing skills for the professional workplace"
-    ),
-    CourseUiModel(
-        id = 3,
-        courseName = "Innovation Bootcamp",
-        courseDescription = "Developed product-thinking mindset and improved problem-solving skills through hands-on, team-based challenges."
     ),
 )
 

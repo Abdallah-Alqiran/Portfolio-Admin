@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject constructor(
     private val userRepository: FirebaseRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val _userState = MutableStateFlow<UserState>(UserState.None)
     val userState = _userState.asStateFlow()

@@ -1,6 +1,8 @@
 package com.alqiran.portfoliomainadmin.ui.components.buttons
 
 import android.content.Intent
+import android.util.Patterns
+import android.widget.Toast
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -70,12 +72,17 @@ fun DefaultButton(
             onClick = {
                 when (buttonType) {
                     is ButtonType.IntentNavigation -> {
-                        context.startActivity(
-                            Intent(
-                                Intent.ACTION_VIEW,
-                                (buttonType.url).toUri()
+                        val url = buttonType.url
+                        if (Patterns.WEB_URL.matcher(url).matches()) {
+                            context.startActivity(
+                                Intent(
+                                    Intent.ACTION_VIEW,
+                                    url.toUri()
+                                )
                             )
-                        )
+                        } else {
+                            Toast.makeText(context, "Invalid URL", Toast.LENGTH_SHORT).show()
+                        }
                     }
                     is ButtonType.ScreenNavigation -> {
                         buttonType.onNavigate(

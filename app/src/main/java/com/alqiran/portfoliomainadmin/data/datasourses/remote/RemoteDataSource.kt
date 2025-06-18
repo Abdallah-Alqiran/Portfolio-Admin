@@ -389,7 +389,7 @@ class RemoteDataSource @Inject constructor(
     }
 
     fun deleteExperience(experience: Experience) {
-        deleteElement("experiences", experience)
+        deleteElement("experience", experience)
     }
 
     fun editAbout(about: String) {

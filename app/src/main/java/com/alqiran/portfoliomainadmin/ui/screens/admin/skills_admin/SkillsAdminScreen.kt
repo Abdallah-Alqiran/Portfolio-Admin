@@ -115,7 +115,7 @@ fun SkillsAdminScreen(allSkills: List<SkillUiModel>?) {
 
         item {
             DefaultButton(
-                text = "Edit Education",
+                text = "Edit Skills",
                 buttonType = ButtonType.UploadOnClick {
                     skillsAdminViewModel.uploadSkills(skills?: emptyList())
                 }
