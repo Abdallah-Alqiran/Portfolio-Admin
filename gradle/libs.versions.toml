@@ -1,43 +1,55 @@
 [versions]
-agp = "8.5.2"
-kotlin = "1.9.0"
-coreKtx = "1.15.0"
+agp = "8.11.0"
+core = "1.6.1"
+coreTesting = "2.2.0"
+junitJupiterApi = "5.13.3"
+junitJupiterEngine = "5.13.3"
+kotlin = "2.2.0"
+coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.8.7"
-activityCompose = "1.9.3"
-composeBom = "2024.04.01"
+kotlinxCoroutinesTest = "1.10.2"
+lifecycleRuntimeKtx = "2.9.1"
+activityCompose = "1.10.1"
+composeBom = "2025.06.01"
 
-coil = "2.5.0"
-coilCompose = "2.5.0"
+coil = "2.7.0"
+coilCompose = "2.7.0"
 
-lottie = "6.6.2"
-lottieCompose = "6.6.2"
+lottie = "6.6.7"
+lottieCompose = "6.6.7"
 
-kotlinxCoroutinesAndroid = "1.9.0"
+kotlinxCoroutinesAndroid = "1.10.2"
 
-datastorePreferences = "1.1.6"
+datastorePreferences = "1.1.7"
 
-hiltAndroid = "2.51.1"
-hiltNavigationCompose = "1.1.0"
+hiltAndroid = "2.56.2"
+hiltNavigationCompose = "1.2.0"
 
-firebaseBom = "32.0.0"
+firebaseBom = "33.16.0"
 
 material = "1.7.8"
 
-kotlinxSerializationJson = "1.6.0"
+kotlinxSerializationJson = "1.9.0"
+mockitoCore = "5.18.0"
+runner = "1.6.2"
+serialization = "2.2.0"
 
-foundation = "1.5.0"
+foundation = "1.8.3"
 
 truth = "1.4.4"
-ui = "1.5.0"
+ui = "1.8.3"
 
-navigationCompose = "2.8.0-beta06"
+navigationCompose = "2.9.1"
 
 
 [libraries]
+androidx-core = { module = "androidx.test:core", version.ref = "core" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-rules = { module = "androidx.test:rules", version.ref = "core" }
+androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
+androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -55,6 +67,9 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junitJupiterApi" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junitJupiterEngine" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 
@@ -81,6 +96,7 @@ androidx-material-icons-extended = { module = "androidx.compose.material:materia
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 
 androidx-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "foundation" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 ui = { module = "androidx.compose.ui:ui", version.ref = "ui" }
 
@@ -90,5 +106,7 @@ androidx-compose-navigation = { group = "androidx.navigation", name = "navigatio
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version = "1.9.10" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serialization" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
 
