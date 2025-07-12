@@ -61,6 +61,7 @@ fun User.toUserDataUi(): UserUiModel {
         },
         experiences = this.experiences?.map { exp ->
             ExperienceUiModel(
+                id = exp.id,
                 experienceTitle = exp.experienceTitle,
                 company = exp.company,
                 date = exp.date,

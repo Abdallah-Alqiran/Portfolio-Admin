@@ -67,7 +67,7 @@ class RemoteDataSource @Inject constructor(
             if (serverSnapshot.exists()) {
                 val serverUser = serverSnapshot.toObject(User::class.java)
                 if (serverUser != null) {
-                    Log.d("Al-qiran", "From server Data")
+                    Log.d("Al-qiran", "From server Data ${serverUser.experiences}")
 
                     return serverUser
                 } else {

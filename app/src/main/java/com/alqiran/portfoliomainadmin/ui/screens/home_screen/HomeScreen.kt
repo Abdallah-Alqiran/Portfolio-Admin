@@ -234,6 +234,8 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
         }
 
         item {
+            Log.d("Al-qiran Ex", "From Home Screen: ${userData.experiences}")
+
             DefaultTextButton(
                 text = "Experience",
                 onNavigate = onNavigate,

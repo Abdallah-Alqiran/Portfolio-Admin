@@ -1,5 +1,6 @@
 package com.alqiran.portfoliomainadmin.ui.screens.admin.experience_admin
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -59,6 +60,8 @@ fun ExperienceAdminScreen(allExperience: List<ExperienceUiModel>?) {
     }
 
     var experiences by remember { mutableStateOf(allExperience) }
+
+    Log.d("Al-qiran Ex", "ExperienceAdminScreen: $experiences")
 
     val listState = rememberLazyListState()
     LazyColumn(
