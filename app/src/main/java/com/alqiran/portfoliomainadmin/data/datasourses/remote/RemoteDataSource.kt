@@ -187,7 +187,6 @@ class RemoteDataSource @Inject constructor(
         deleteElement("education", education)
     }
 
-
     fun uploadTechnologiesAndTools(technologiesAndTools: List<TechnologyTitle>) {
         firestore.runTransaction { transaction ->
             val exist =
@@ -208,11 +207,15 @@ class RemoteDataSource @Inject constructor(
             }.toMutableList()
 
             technologiesAndTools.forEach { new ->
-                val existingIndex = current.indexOfFirst { it.id == new.id }
+                val sortedNew = new.copy(
+                    technologies = new.technologies.sortedBy { it.id }
+                )
+
+                val existingIndex = current.indexOfFirst { it.id == sortedNew.id }
                 if (existingIndex != -1) {
-                    current[existingIndex] = new
+                    current[existingIndex] = sortedNew
                 } else {
-                    current.add(new)
+                    current.add(sortedNew)
                 }
             }
 
