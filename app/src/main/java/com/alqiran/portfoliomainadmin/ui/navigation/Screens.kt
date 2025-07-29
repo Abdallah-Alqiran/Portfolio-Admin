@@ -1,12 +1,15 @@
 package com.alqiran.portfoliomainadmin.ui.navigation
 
+import com.alqiran.portfoliomainadmin.ui.model.CertificateUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ContactAndAccountsUiModel
+import com.alqiran.portfoliomainadmin.ui.model.ContentTitleUiModel
 import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
 import com.alqiran.portfoliomainadmin.ui.model.EducationUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ExperienceUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
 import com.alqiran.portfoliomainadmin.ui.model.SkillUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyTitleUiModel
+import com.alqiran.portfoliomainadmin.ui.model.VideoPresentationUiModel
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -54,3 +57,11 @@ data class CoursesAdminScreenRoute(val courses: List<CourseUiModel>?)
 @Serializable
 data class ExperienceAdminScreenRoute(val experience: List<ExperienceUiModel>?)
 
+@Serializable
+data class ContentAdminScreenRoute(val contentsTitle: List<ContentTitleUiModel>)
+
+@Serializable
+data class CertificateAdminScreenRoute(val certificates: List<CertificateUiModel>)
+
+@Serializable
+data class VideoAdminScreenRoute(val videos: List<VideoPresentationUiModel>)

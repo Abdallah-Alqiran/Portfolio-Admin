@@ -30,6 +30,7 @@ import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.Courses
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
 import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
+import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.ContentSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.EducationSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.ExperienceSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.ProjectsSection
@@ -234,12 +235,26 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
         }
 
         item {
-            Log.d("Al-qiran Ex", "From Home Screen: ${userData.experiences}")
-
             DefaultTextButton(
                 text = "Experience",
                 onNavigate = onNavigate,
                 navigateAction = NavigationAction.ToExperienceEdit(userData.experiences?: emptyList()),
+                color = MaterialTheme.colorScheme.error
+            )
+        }
+
+        item {
+            if (userData.contentsTitle != null) {
+                HeadlineTextWidget(text = "Experience")
+                ContentSection(userData.contentsTitle)
+            }
+        }
+
+        item {
+            DefaultTextButton(
+                text = "Contents",
+                onNavigate = onNavigate,
+                navigateAction = NavigationAction.ToContentEdit(userData.contentsTitle?: emptyList()),
                 color = MaterialTheme.colorScheme.error
             )
         }

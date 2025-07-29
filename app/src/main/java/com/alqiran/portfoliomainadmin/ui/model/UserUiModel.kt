@@ -12,5 +12,8 @@ data class UserUiModel(
     val technologiesAndTools: List<TechnologyTitleUiModel>? = null,
     val courses: List<CourseUiModel>? = null,
     val experiences: List<ExperienceUiModel>? = null,
-    val education: List<EducationUiModel>? = null
+    val education: List<EducationUiModel>? = null,
+    val contentsTitle: List<ContentTitleUiModel>? = null,
+    val certificates: List<CertificateUiModel>? = null,
+    val videos: List<VideoPresentationUiModel>? = null
 )

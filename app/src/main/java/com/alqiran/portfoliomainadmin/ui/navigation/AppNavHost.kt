@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.alqiran.portfoliomainadmin.ui.components.bars.BottomBar
 import com.alqiran.portfoliomainadmin.ui.components.bars.TopBar
+import com.alqiran.portfoliomainadmin.ui.model.CertificateUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ContactAndAccountsUiModel
 import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
 import com.alqiran.portfoliomainadmin.ui.model.EducationUiModel
@@ -23,7 +24,10 @@ import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
 import com.alqiran.portfoliomainadmin.ui.model.SkillUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyTitleUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyUiModel
+import com.alqiran.portfoliomainadmin.ui.model.VideoPresentationUiModel
 import com.alqiran.portfoliomainadmin.ui.screens.admin.about_admin.AboutAdminScreen
+import com.alqiran.portfoliomainadmin.ui.screens.admin.certificate_admin.CertificatesAdminScreen
+import com.alqiran.portfoliomainadmin.ui.screens.admin.content_admin.ContentsAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.courses_admin.CoursesAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.education_admin.EducationAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.experience_admin.ExperienceAdminScreen
@@ -31,6 +35,7 @@ import com.alqiran.portfoliomainadmin.ui.screens.admin.projects_admin.ProjectAdm
 import com.alqiran.portfoliomainadmin.ui.screens.admin.skills_admin.SkillsAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.technologies_admin.TechnologiesAndToolsAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.toptitle_admin.TopTitleAdminScreen
+import com.alqiran.portfoliomainadmin.ui.screens.admin.video_admin.VideoPresentationsAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.courses_screen.CoursesScreen
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.HomeScreen
 import com.alqiran.portfoliomainadmin.ui.screens.message_screen.MessageScreen
@@ -106,6 +111,18 @@ fun AppNavHost() {
                 navController.navigate(TechnologiesAndToolsAdminScreenRoute(action.technologiesAndTools))
             }
 
+            is NavigationAction.ToContentEdit -> {
+                navController.navigate(ContentAdminScreenRoute(action.contentsTitle))
+            }
+
+            is NavigationAction.ToCertificateEdit -> {
+                navController.navigate(CertificateAdminScreenRoute(action.certificates))
+            }
+
+            is NavigationAction.ToVideosEdit -> {
+                navController.navigate(VideoAdminScreenRoute(action.videos))
+            }
+
             NavigationAction.Nothing -> {}
         }
     }
@@ -166,6 +183,17 @@ fun AppNavHost() {
                     TopBar("Edit Experience", onClick = { navController.popBackStack() })
                 }
 
+                "EditContents" -> {
+                    TopBar("Edit Contents", onClick = { navController.popBackStack() })
+                }
+
+                "EditCertificates" -> {
+                    TopBar("Edit Certificates", onClick = { navController.popBackStack() })
+                }
+
+                "EditVideos" -> {
+                    TopBar("Edit Video Presentation", onClick = { navController.popBackStack() })
+                }
             }
         },
         bottomBar = {
@@ -295,7 +323,7 @@ fun AppNavHost() {
             composable<AboutAdminScreenRoute> {
                 topBar.value = "EditAbout"
                 val arguments = it.toRoute<AboutAdminScreenRoute>()
-                AboutAdminScreen(arguments.about?: "")
+                AboutAdminScreen(arguments.about ?: "")
             }
 
             composable<CoursesAdminScreenRoute>(
@@ -306,7 +334,7 @@ fun AppNavHost() {
                 topBar.value = "EditCourses"
 
                 val arguments = it.toRoute<CoursesAdminScreenRoute>()
-                CoursesAdminScreen(arguments.courses?: emptyList())
+                CoursesAdminScreen(arguments.courses ?: emptyList())
             }
 
             composable<EducationAdminScreenRoute>(
@@ -317,7 +345,7 @@ fun AppNavHost() {
                 topBar.value = "EditEducation"
 
                 val arguments = it.toRoute<EducationAdminScreenRoute>()
-                EducationAdminScreen(arguments.educations?: emptyList())
+                EducationAdminScreen(arguments.educations ?: emptyList())
             }
 
             composable<TechnologiesAndToolsAdminScreenRoute>(
@@ -351,7 +379,7 @@ fun AppNavHost() {
                 topBar.value = "EditProjects"
 
                 val arguments = it.toRoute<ProjectsAdminScreenRoute>()
-                ProjectAdminScreen(allProjects = arguments.projects?: emptyList())
+                ProjectAdminScreen(allProjects = arguments.projects ?: emptyList())
             }
 
             composable<ExperienceAdminScreenRoute>(
@@ -362,8 +390,46 @@ fun AppNavHost() {
                 topBar.value = "EditExperience"
 
                 val arguments = it.toRoute<ExperienceAdminScreenRoute>()
-                ExperienceAdminScreen(allExperience = arguments.experience?: emptyList())
+                ExperienceAdminScreen(allExperience = arguments.experience ?: emptyList())
             }
+
+
+            // Content Admin Screen
+            composable<ContentAdminScreenRoute>(
+                typeMap = mapOf(
+                    typeOf<List<ContactAndAccountsUiModel>?>() to CustomNavType.contentAdminType
+                )
+            ) {
+                topBar.value = "EditContents"
+
+                val arguments = it.toRoute<ContentAdminScreenRoute>()
+                ContentsAdminScreen(allContentsTitle = arguments.contentsTitle)
+            }
+
+            // Certificate Admin Screen
+            composable<CertificateAdminScreenRoute>(
+                typeMap = mapOf(
+                    typeOf<List<CertificateUiModel>?>() to CustomNavType.certificateAdminType
+                )
+            ) {
+                topBar.value = "EditContents"
+
+                val arguments = it.toRoute<CertificateAdminScreenRoute>()
+                CertificatesAdminScreen(allCertificates = arguments.certificates)
+            }
+
+            // Content Admin Screen
+            composable<VideoAdminScreenRoute>(
+                typeMap = mapOf(
+                    typeOf<List<VideoPresentationUiModel>?>() to CustomNavType.videoAdminType
+                )
+            ) {
+                topBar.value = "EditContents"
+
+                val arguments = it.toRoute<VideoAdminScreenRoute>()
+                VideoPresentationsAdminScreen(allVideos = arguments.videos)
+            }
+
 
         }
     }
