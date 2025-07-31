@@ -4,6 +4,7 @@ import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Certificate
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.ContactAndAccounts
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.ContactMessage
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Content
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.ContentTitle
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Course
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Education
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Experience
@@ -48,7 +49,8 @@ interface FirebaseRepository {
     fun uploadCertificates(certificates: List<Certificate>)
     fun deleteCertificate(certificate: Certificate)
 
-    fun uploadContents(contents: List<Content>)
+    fun uploadContentsAndTitle(contentsAndTitle: List<ContentTitle>)
+    fun deleteContentAndTitle(contentTitle: ContentTitle)
     fun deleteContent(content: Content)
 
     fun uploadVideosPresentation(videos: List<VideoPresentation>)

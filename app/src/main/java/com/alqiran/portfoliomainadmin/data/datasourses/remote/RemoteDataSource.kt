@@ -1,8 +1,11 @@
 package com.alqiran.portfoliomainadmin.data.datasourses.remote
 
 import android.util.Log
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Certificate
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.ContactAndAccounts
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.ContactMessage
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Content
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.ContentTitle
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Course
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Education
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Experience
@@ -11,6 +14,7 @@ import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Skill
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Technology
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.TechnologyTitle
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.User
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.VideoPresentation
 import com.alqiran.portfoliomainadmin.utils.Constants.Companion.COLLECTION_NAME
 import com.alqiran.portfoliomainadmin.utils.Constants.Companion.DOCUMENT_USER_NAME
 import com.alqiran.portfoliomainadmin.utils.isOnline
@@ -190,7 +194,8 @@ class RemoteDataSource @Inject constructor(
     fun uploadTechnologiesAndTools(technologiesAndTools: List<TechnologyTitle>) {
         firestore.runTransaction { transaction ->
             val exist =
-                transaction.get(collectionAndDocument).get("technologiesAndTools") as? List<Map<String, Any>>
+                transaction.get(collectionAndDocument)
+                    .get("technologiesAndTools") as? List<Map<String, Any>>
                     ?: emptyList()
 
             val current = exist.map {
@@ -199,10 +204,10 @@ class RemoteDataSource @Inject constructor(
                     technologyTitle = it["technologyTitle"] as? String ?: "",
                     technologies = (it["technologies"] as? List<Map<String, Any>>)?.map { tech ->
                         Technology(
-                            id = (tech["id"] as? Long)?.toInt()?: 0,
+                            id = (tech["id"] as? Long)?.toInt() ?: 0,
                             technologyName = tech["technologyName"] as? String ?: ""
                         )
-                    }?: emptyList()
+                    } ?: emptyList()
                 )
             }.toMutableList()
 
@@ -230,15 +235,19 @@ class RemoteDataSource @Inject constructor(
     fun deleteTechnologyAndTool(technologyAndTool: TechnologyTitle) {
         deleteElement("technologiesAndTools", technologyAndTool)
     }
+
     fun deleteTechnology(technology: Technology) {
 
         firestore.runTransaction { transaction ->
             val doc = transaction.get(collectionAndDocument)
             val data = doc.data?.toMutableMap() ?: mutableMapOf()
-            val technologiesAndTools = data["technologiesAndTools"] as? MutableList<MutableMap<String, Any>> ?: mutableListOf()
+            val technologiesAndTools =
+                data["technologiesAndTools"] as? MutableList<MutableMap<String, Any>>
+                    ?: mutableListOf()
 
             technologiesAndTools.forEach { group ->
-                val technologies = group["technologies"] as? MutableList<MutableMap<String, Any>> ?: mutableListOf()
+                val technologies = group["technologies"] as? MutableList<MutableMap<String, Any>>
+                    ?: mutableListOf()
                 technologies.removeIf { tech ->
                     (tech["id"] as? Long)?.toInt() == technology.id &&
                             tech["technologyName"] as? String == technology.technologyName
@@ -428,5 +437,152 @@ class RemoteDataSource @Inject constructor(
     fun deleteMessage(message: ContactMessage) {
         deleteElement("contactMessage", message)
     }
+
+    fun uploadCertificates(certificates: List<Certificate>) {
+        firestore.runTransaction { transaction ->
+            val exist =
+                transaction.get(collectionAndDocument)
+                    .get("certificates") as? List<Map<String, Any>>
+                    ?: emptyList()
+
+            val current = exist.map {
+                Certificate(
+                    id = (it["id"] as? Long)?.toInt() ?: 0,
+                    certificateName = (it["certificateName"] as? String) ?: "",
+                    description = (it["description"] as? String) ?: "",
+                    imageUrl = (it["imageUrl"] as? String) ?: ""
+                )
+            }.toMutableList()
+
+            certificates.forEach { new ->
+                val existingIndex = current.indexOfFirst { it.id == new.id }
+                if (existingIndex != -1) {
+                    current[existingIndex] = new
+                } else {
+                    current.add(new)
+                }
+            }
+
+            current.sortBy { it.id }
+            transaction.update(collectionAndDocument, "certificates", current)
+            null
+        }.addOnFailureListener { exception ->
+            throw Exception("Error updating Certificates: ${exception.message}")
+        }
+    }
+
+    fun deleteCertificate(certificate: Certificate) {
+        deleteElement("certificates", certificate)
+    }
+
+    fun uploadContentsAndTitle(contentsAndTitle: List<ContentTitle>) {
+
+        firestore.runTransaction { transaction ->
+            val exist =
+                transaction.get(collectionAndDocument)
+                    .get("contentsAndTitle") as? List<Map<String, Any>>
+                    ?: emptyList()
+
+            val current = exist.map {
+                ContentTitle(
+                    id = (it["id"] as? Long)?.toInt() ?: 0,
+                    contentTitle = it["contentTitle"] as? String ?: "",
+                    contents = (it["contents"] as? List<Map<String, Any>>)?.map { cont ->
+                        Content(
+                            id = (cont["id"] as? Long)?.toInt() ?: 0,
+                            contentDescription = cont["contentDescription"] as? String ?: "",
+                            contentUrl = cont["contentUrl"] as? String ?: ""
+                        )
+                    } ?: emptyList()
+                )
+            }.toMutableList()
+
+            contentsAndTitle.forEach { new ->
+                val sortedNew = new.copy(
+                    contents = new.contents.sortedBy { it.id }
+                )
+
+                val existingIndex = current.indexOfFirst { it.id == sortedNew.id }
+                if (existingIndex != -1) {
+                    current[existingIndex] = sortedNew
+                } else {
+                    current.add(sortedNew)
+                }
+            }
+
+            current.sortBy { it.id }
+            transaction.update(collectionAndDocument, "contentsAndTitle", current)
+            null
+        }.addOnFailureListener { exception ->
+            throw Exception("Error updating Technologies: ${exception.message}")
+        }
+
+    }
+
+    fun deleteContentAndTitle(contentTitle: ContentTitle) {
+        deleteElement("contentsAndTitle", contentTitle)
+    }
+
+    fun deleteContent(content: Content) {
+        firestore.runTransaction { transaction ->
+            val doc = transaction.get(collectionAndDocument)
+            val data = doc.data?.toMutableMap() ?: mutableMapOf()
+            val contentsAndTitle =
+                data["contentsAndTitle"] as? MutableList<MutableMap<String, Any>>
+                    ?: mutableListOf()
+
+            contentsAndTitle.forEach { group ->
+                val contents = group["contents"] as? MutableList<MutableMap<String, Any>>
+                    ?: mutableListOf()
+                contents.removeIf { cont ->
+                    (cont["id"] as? Long)?.toInt() == content.id &&
+                            cont["contentDescription"] as? String == content.contentDescription &&
+                            cont["contentUrl"] as? String == content.contentUrl
+                }
+            }
+
+            transaction.update(collectionAndDocument, data)
+            null
+        }.addOnFailureListener { exception ->
+            throw Exception("Error Deleting Technologies: ${exception.message}")
+        }
+    }
+
+    fun uploadVideosPresentation(videos: List<VideoPresentation>) {
+        firestore.runTransaction { transaction ->
+            val exist =
+                transaction.get(collectionAndDocument)
+                    .get("videosPresentation") as? List<Map<String, Any>>
+                    ?: emptyList()
+
+            val current = exist.map {
+                VideoPresentation(
+                    id = (it["id"] as? Long)?.toInt() ?: 0,
+                    videoTitle = (it["videoTitle"] as? String) ?: "",
+                    videoUrl = (it["videoUrl"] as? String) ?: "",
+                )
+            }.toMutableList()
+
+            videos.forEach { new ->
+                val existingIndex = current.indexOfFirst { it.id == new.id }
+                if (existingIndex != -1) {
+                    current[existingIndex] = new
+                } else {
+                    current.add(new)
+                }
+            }
+
+            current.sortBy { it.id }
+            transaction.update(collectionAndDocument, "videosPresentation", current)
+            null
+        }.addOnFailureListener { exception ->
+            throw Exception("Error updating Certificates: ${exception.message}")
+        }
+    }
+
+    fun deleteVideoPresentation(video: VideoPresentation) {
+        deleteElement("videosPresentation", video)
+    }
+
 
 }

@@ -6,6 +6,7 @@ import androidx.navigation.NavType
 import com.alqiran.portfoliomainadmin.ui.model.CertificateUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ContactAndAccountsUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ContentTitleUiModel
+import com.alqiran.portfoliomainadmin.ui.model.ContentUiModel
 import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
 import com.alqiran.portfoliomainadmin.ui.model.EducationUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ExperienceUiModel
@@ -318,7 +319,7 @@ object CustomNavType {
     }
 
 
-    val contentAdminType = object: NavType<List<ContentTitleUiModel>?>(
+    val contentTitleAdminType = object: NavType<List<ContentTitleUiModel>?>(
         isNullableAllowed = true
     ) {
         override fun get(
@@ -340,6 +341,33 @@ object CustomNavType {
             bundle: Bundle,
             key: String,
             value: List<ContentTitleUiModel>?
+        ) {
+            bundle.putString(key, Json.encodeToString(value))
+        }
+    }
+
+    val contentAdminType = object: NavType<List<ContentUiModel>?>(
+        isNullableAllowed = true
+    ) {
+        override fun get(
+            bundle: Bundle,
+            key: String
+        ): List<ContentUiModel>? {
+            return Json.decodeFromString(bundle.getString(key)?: return null)
+        }
+
+        override fun parseValue(value: String): List<ContentUiModel>? {
+            return Json.decodeFromString(Uri.decode(value))
+        }
+
+        override fun serializeAsValue(value: List<ContentUiModel>?): String {
+            return Uri.encode(Json.encodeToString(value))
+        }
+
+        override fun put(
+            bundle: Bundle,
+            key: String,
+            value: List<ContentUiModel>?
         ) {
             bundle.putString(key, Json.encodeToString(value))
         }

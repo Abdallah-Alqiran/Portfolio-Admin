@@ -1,6 +1,9 @@
 package com.alqiran.portfoliomainadmin.data.mapper
 
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Certificate
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.ContactAndAccounts
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Content
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.ContentTitle
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Course
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Education
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Experience
@@ -9,6 +12,7 @@ import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Skill
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Technology
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.TechnologyTitle
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.User
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.VideoPresentation
 import com.alqiran.portfoliomainadmin.ui.model.UserUiModel
 
 fun UserUiModel.toUserDataModel(): User {
@@ -73,6 +77,34 @@ fun UserUiModel.toUserDataModel(): User {
                 university = edu.university,
                 date = edu.date,
                 major = edu.major
+            )
+        },
+        contentsTitle = this.contentsTitle?.map { contentTitle ->
+            ContentTitle(
+                id = contentTitle.id,
+                contentTitle = contentTitle.contentTitle,
+                contents = contentTitle.contents.map { content ->
+                    Content(
+                        id = content.id,
+                        contentDescription = content.contentDescription,
+                        contentUrl = content.contentUrl,
+                    )
+                }
+            )
+        },
+        certificates = this.certificates?.map { certificate ->
+            Certificate(
+                id = certificate.id,
+                imageUrl = certificate.imageUrl,
+                certificateName = certificate.certificateName,
+                description = certificate.description,
+            )
+        },
+        videos = this.videos?.map { video ->
+            VideoPresentation(
+                id = video.id,
+                videoUrl = video.videoUrl,
+                videoTitle = video.videoTitle
             )
         }
     )

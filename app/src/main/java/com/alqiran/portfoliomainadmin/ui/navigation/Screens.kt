@@ -58,10 +58,10 @@ data class CoursesAdminScreenRoute(val courses: List<CourseUiModel>?)
 data class ExperienceAdminScreenRoute(val experience: List<ExperienceUiModel>?)
 
 @Serializable
-data class ContentAdminScreenRoute(val contentsTitle: List<ContentTitleUiModel>)
+data class ContentAdminScreenRoute(val contentsTitle: List<ContentTitleUiModel>?)
 
 @Serializable
-data class CertificateAdminScreenRoute(val certificates: List<CertificateUiModel>)
+data class CertificateAdminScreenRoute(val certificates: List<CertificateUiModel>?)
 
 @Serializable
-data class VideoAdminScreenRoute(val videos: List<VideoPresentationUiModel>)
+data class VideoAdminScreenRoute(val videos: List<VideoPresentationUiModel>?)

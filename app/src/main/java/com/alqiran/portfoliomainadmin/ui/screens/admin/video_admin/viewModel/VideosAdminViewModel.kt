@@ -1,10 +1,10 @@
 package com.alqiran.portfoliomainadmin.ui.screens.admin.video_admin.viewModel
 
 import androidx.lifecycle.ViewModel
-import com.alqiran.portfoliomainadmin.data.mapper.toProject
-import com.alqiran.portfoliomainadmin.data.mapper.toProjects
+import com.alqiran.portfoliomainadmin.data.mapper.toVideoPresentation
+import com.alqiran.portfoliomainadmin.data.mapper.toVideosPresentation
 import com.alqiran.portfoliomainadmin.repository.FirebaseRepository
-import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
+import com.alqiran.portfoliomainadmin.ui.model.VideoPresentationUiModel
 import com.alqiran.portfoliomainadmin.ui.screens.admin.AdminState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,26 +12,26 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class ProjectsAdminViewModel @Inject constructor(
+class VideosAdminViewModel @Inject constructor(
     private val uploadRepo: FirebaseRepository
 ) : ViewModel() {
     private val _state = MutableStateFlow<AdminState>(AdminState.None)
     val state = _state.asStateFlow()
 
-    fun uploadProjects(allProjects: List<ProjectUiModel>) {
+    fun uploadVideos(allVideos: List<VideoPresentationUiModel>) {
         _state.value = AdminState.Loading
         try {
-            uploadRepo.uploadProjects(allProjects.toProjects())
+            uploadRepo.uploadVideosPresentation(allVideos.toVideosPresentation())
             _state.value = AdminState.Success
         } catch (e: Exception) {
             _state.value = AdminState.Error(e.message.toString())
         }
     }
 
-    fun deleteEducation(project: ProjectUiModel) {
+    fun deleteVideo(video: VideoPresentationUiModel) {
         _state.value = AdminState.Loading
         try {
-            uploadRepo.deleteProject(project.toProject())
+            uploadRepo.deleteVideoPresentation(video.toVideoPresentation())
             _state.value = AdminState.Success
         } catch (e: Exception) {
             _state.value = AdminState.Error(e.message.toString())

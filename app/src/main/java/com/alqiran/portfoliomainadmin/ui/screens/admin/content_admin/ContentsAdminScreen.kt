@@ -27,8 +27,7 @@ import com.alqiran.portfoliomainadmin.ui.components.buttons.AddItemTextButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DeleteItemTextButton
 import com.alqiran.portfoliomainadmin.ui.model.ContentTitleUiModel
-import com.alqiran.portfoliomainadmin.ui.model.TechnologyTitleUiModel
-import com.alqiran.portfoliomainadmin.ui.model.TechnologyUiModel
+import com.alqiran.portfoliomainadmin.ui.model.ContentUiModel
 import com.alqiran.portfoliomainadmin.ui.screens.admin.AdminState
 import com.alqiran.portfoliomainadmin.ui.screens.admin.content_admin.viewModel.ContentsAdminViewModel
 import com.alqiran.portfoliomainadmin.ui.utils.ButtonType
@@ -61,7 +60,7 @@ fun ContentsAdminScreen(allContentsTitle: List<ContentTitleUiModel>?) {
         AdminState.None -> Unit
     }
 
-    var technologyAndTools by remember { mutableStateOf(allContentsTitle) }
+    var contentsTitle by remember { mutableStateOf(allContentsTitle) }
 
     val listState = rememberLazyListState()
     LazyColumn(
@@ -71,50 +70,50 @@ fun ContentsAdminScreen(allContentsTitle: List<ContentTitleUiModel>?) {
             .padding(horizontal = 8.dp),
         state = listState
     ) {
-        items(technologyAndTools ?: emptyList()) { technology ->
+        items(contentsTitle ?: emptyList()) { contentTitle ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 CustomOutlinedTextFieldWidget(
-                    textValue = technology.id.toString(),
+                    textValue = contentTitle.id.toString(),
                     textLabel = "ID",
-                    placeHolderLabel = "Enter technology id",
+                    placeHolderLabel = "Enter content id",
                     modifier = Modifier
                         .weight(1f)
                         .padding(end = 8.dp)
                 ) {
-                    val newId = it.toIntOrNull() ?: technology.id
-                    technologyAndTools = technologyAndTools?.map { a ->
-                        if (a == technology) a.copy(id = newId) else a
+                    val newId = it.toIntOrNull() ?: contentTitle.id
+                    contentsTitle = contentsTitle?.map { a ->
+                        if (a == contentTitle) a.copy(id = newId) else a
                     }
                 }
                 CustomOutlinedTextFieldWidget(
-                    textValue = technology.technologyTitle,
-                    textLabel = "Technology Title",
-                    placeHolderLabel = "Enter Technology",
+                    textValue = contentTitle.contentTitle,
+                    textLabel = "Content Title",
+                    placeHolderLabel = "Enter Content",
                     modifier = Modifier
                         .weight(3f)
                 ) {
-                    technologyAndTools = technologyAndTools?.map { a ->
-                        if (a == technology) a.copy(technologyTitle = it) else a
+                    contentsTitle = contentsTitle?.map { a ->
+                        if (a == contentTitle) a.copy(contentTitle = it) else a
                     }
                 }
             }
 
-            HeadlineTextWidget("Technologies")
+            HeadlineTextWidget("Contents")
 
             AddItemTextButton {
-                technologyAndTools = technologyAndTools?.map { title ->
-                    if (title == technology) {
-                        title.copy(
-                            technologies = title.technologies + TechnologyUiModel(id = title.technologies.size)
+                contentsTitle = contentsTitle?.map { content ->
+                    if (content == contentTitle) {
+                        content.copy(
+                            contents = content.contents + ContentUiModel(id = content.contents.size)
                         )
-                    } else title
+                    } else content
                 }
             }
 
 
-            (technology.technologies).forEach { tech ->
+            (contentTitle.contents).forEach { tech ->
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
@@ -125,75 +124,94 @@ fun ContentsAdminScreen(allContentsTitle: List<ContentTitleUiModel>?) {
                         placeHolderLabel = "id",
                         modifier = Modifier.weight(1f)
                     ) {
-                        technologyAndTools = technologyAndTools?.map { title ->
-                            if (title == technology) {
-                                title.copy(
-                                    technologies = title.technologies.map { t ->
+                        contentsTitle = contentsTitle?.map { content ->
+                            if (content == contentTitle) {
+                                content.copy(
+                                    contents = content.contents.map { t ->
                                         if (t == tech)
-                                            t.copy(id = it.toIntOrNull() ?: technology.id)
+                                            t.copy(id = it.toIntOrNull() ?: contentTitle.id)
                                         else
                                             t
                                     }
                                 )
-                            } else title
+                            } else content
                         }
                     }
                     CustomOutlinedTextFieldWidget(
-                        textValue = tech.technologyName,
-                        textLabel = "Technology Name",
-                        placeHolderLabel = "Enter your Technology Name",
+                        textValue = tech.contentDescription,
+                        textLabel = "Content Description",
+                        placeHolderLabel = "Enter your Content Description",
                         modifier = Modifier.weight(3f)
                     ) {
-                        technologyAndTools = technologyAndTools?.map { title ->
-                            if (title == technology) {
-                                title.copy(
-                                    technologies = title.technologies.map { t ->
+                        contentsTitle = contentsTitle?.map { content ->
+                            if (content == contentTitle) {
+                                content.copy(
+                                    contents = content.contents.map { t ->
                                         if (t == tech)
-                                            t.copy(technologyName = it)
+                                            t.copy(contentDescription = it)
                                         else
                                             t
                                     }
                                 )
-                            } else title
+                            } else content
+                        }
+                    }
+                    CustomOutlinedTextFieldWidget(
+                        textValue = tech.contentUrl,
+                        textLabel = "Content Url",
+                        placeHolderLabel = "Enter your Content Url",
+                        modifier = Modifier.weight(3f)
+                    ) {
+                        contentsTitle = contentsTitle?.map { content ->
+                            if (content == contentTitle) {
+                                content.copy(
+                                    contents = content.contents.map { t ->
+                                        if (t == tech)
+                                            t.copy(contentUrl = it)
+                                        else
+                                            t
+                                    }
+                                )
+                            } else content
                         }
                     }
 
                 }
                 DeleteItemTextButton {
-                    contentsViewModel.deleteTechnology(tech)
-                    technologyAndTools = technologyAndTools?.map { title ->
-                        if (title == technology) {
-                            title.copy(technologies = title.technologies - tech)
-                        } else title
+                    contentsViewModel.deleteContent(tech)
+                    contentsTitle = contentsTitle?.map { content ->
+                        if (content == contentTitle) {
+                            content.copy(contents = content.contents - tech)
+                        } else content
                     }
                 }
 
             }
 
             DeleteItemTextButton(
-                text = "Delete Full Technology"
+                text = "Delete Full Content"
             ) {
-                contentsViewModel.deleteTechnologiesAndTools(technology)
-                technologyAndTools = technologyAndTools!! - technology
+                contentsViewModel.deleteContentAndTitle(contentTitle)
+                contentsTitle = contentsTitle!! - contentTitle
             }
             Box(Modifier.padding(bottom = 16.dp))
         }
 
         item {
-            AddItemTextButton (
-                text = "Add technology with Title"
-            ){
-                technologyAndTools = (technologyAndTools
-                    ?: emptyList()) + TechnologyTitleUiModel(id = (technologyAndTools?.size ?: 0))
+            AddItemTextButton(
+                text = "Add content with Title"
+            ) {
+                contentsTitle = (contentsTitle
+                    ?: emptyList()) + ContentTitleUiModel(id = (contentsTitle?.size ?: 0))
             }
         }
 
         item {
             DefaultButton(
-                text = "Edit Technologies",
+                text = "Edit Contents",
                 buttonType = ButtonType.UploadOnClick {
-                    contentsViewModel.uploadTechnologiesAndTools(
-                        technologyAndTools ?: emptyList()
+                    contentsViewModel.uploadContentsAndTitles(
+                        contentsTitle ?: emptyList()
                     )
                 }
             )

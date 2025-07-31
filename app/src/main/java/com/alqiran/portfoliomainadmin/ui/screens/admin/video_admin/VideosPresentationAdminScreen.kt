@@ -25,16 +25,15 @@ import com.alqiran.portfoliomainadmin.ui.components.CustomOutlinedTextFieldWidge
 import com.alqiran.portfoliomainadmin.ui.components.buttons.AddItemTextButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DeleteItemTextButton
-import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
 import com.alqiran.portfoliomainadmin.ui.model.VideoPresentationUiModel
 import com.alqiran.portfoliomainadmin.ui.screens.admin.AdminState
-import com.alqiran.portfoliomainadmin.ui.screens.admin.projects_admin.viewModel.ProjectsAdminViewModel
+import com.alqiran.portfoliomainadmin.ui.screens.admin.video_admin.viewModel.VideosAdminViewModel
 import com.alqiran.portfoliomainadmin.ui.utils.ButtonType
 
 @Composable
 fun VideoPresentationsAdminScreen(allVideos: List<VideoPresentationUiModel>?) {
 
-    val videosAdminViewModel: ProjectsAdminViewModel = hiltViewModel()
+    val videosAdminViewModel: VideosAdminViewModel = hiltViewModel()
     val videosState by videosAdminViewModel.state.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
@@ -59,7 +58,7 @@ fun VideoPresentationsAdminScreen(allVideos: List<VideoPresentationUiModel>?) {
         AdminState.None -> Unit
     }
 
-    var projects by remember { mutableStateOf(allVideos) }
+    var videos by remember { mutableStateOf(allVideos) }
 
     val listState = rememberLazyListState()
     LazyColumn(
@@ -69,87 +68,65 @@ fun VideoPresentationsAdminScreen(allVideos: List<VideoPresentationUiModel>?) {
             .padding(horizontal = 8.dp),
         state = listState
     ) {
-        items(projects?: emptyList()) { project ->
+        items(videos?: emptyList()) { video ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 CustomOutlinedTextFieldWidget(
-                    textValue = project.id.toString(),
+                    textValue = video.id.toString(),
                     textLabel = "ID",
-                    placeHolderLabel = "Enter project id",
+                    placeHolderLabel = "Enter video id",
                     modifier = Modifier
                         .weight(1f)
                         .padding(end = 8.dp)
                 ) {
-                    val newId = it.toIntOrNull() ?: project.id
-                    projects = projects?.map { a ->
-                        if (a == project) a.copy(id = newId) else a
+                    val newId = it.toIntOrNull() ?: video.id
+                    videos = videos?.map { a ->
+                        if (a == video) a.copy(id = newId) else a
                     }
                 }
                 CustomOutlinedTextFieldWidget(
-                    textValue = project.projectName,
-                    textLabel = "Project Name",
-                    placeHolderLabel = "Enter Project Name",
+                    textValue = video.videoTitle,
+                    textLabel = "video Name",
+                    placeHolderLabel = "Enter video Name",
                     modifier = Modifier
                         .weight(3f)
                 ) {
-                    projects = projects?.map { a ->
-                        if (a == project) a.copy(projectName = it) else a
+                    videos = videos?.map { a ->
+                        if (a == video) a.copy(videoTitle = it) else a
                     }
                 }
             }
 
             CustomOutlinedTextFieldWidget(
-                textValue = project.image,
-                textLabel = "Project Image",
+                textValue = video.videoUrl,
+                textLabel = "video Image",
                 placeHolderLabel = "Enter your Image URL"
             ) {
-                projects = projects?.map { a ->
-                    if (a == project) a.copy(image = it) else a
-                }
-            }
-
-            CustomOutlinedTextFieldWidget(
-                textValue = project.url,
-                textLabel = "Project Link",
-                placeHolderLabel = "Enter your Project URL"
-            ) {
-                projects = projects?.map { a ->
-                    if (a == project) a.copy(url = it) else a
-                }
-            }
-
-            CustomOutlinedTextFieldWidget(
-                textValue = project.description,
-                textLabel = "Project Description",
-                placeHolderLabel = "Enter your Project Description",
-                isSingleLine = false,
-                minLines = 4
-            ) {
-                projects = projects?.map { a ->
-                    if (a == project) a.copy(description = it) else a
+                videos = videos?.map { a ->
+                    if (a == video) a.copy(videoUrl = it) else a
                 }
             }
 
 
             DeleteItemTextButton {
-                videosAdminViewModel.deleteEducation(project)
-                projects = projects !!- project
+                videosAdminViewModel.deleteVideo(video)
+                videos = videos !!- video
             }
             Box(Modifier.padding(bottom = 16.dp))
         }
 
         item {
             AddItemTextButton {
-                projects = (projects?: emptyList()) + ProjectUiModel(id = (projects?.size?: 0))
+                videos = (videos?: emptyList()) + VideoPresentationUiModel(id = (videos?.size?: 0))
             }
         }
 
         item {
             DefaultButton(
-                text = "Edit Projects",
+                text = "Edit videos",
                 buttonType = ButtonType.UploadOnClick {
-                    videosAdminViewModel.uploadProjects(projects?: emptyList())
+                    videosAdminViewModel.uploadVideos(videos?: emptyList())
                 }
             )
         }

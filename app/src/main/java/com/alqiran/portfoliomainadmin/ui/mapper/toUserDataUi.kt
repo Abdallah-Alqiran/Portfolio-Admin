@@ -1,7 +1,10 @@
 package com.alqiran.portfoliomainadmin.ui.mapper
 
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.User
+import com.alqiran.portfoliomainadmin.ui.model.CertificateUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ContactAndAccountsUiModel
+import com.alqiran.portfoliomainadmin.ui.model.ContentTitleUiModel
+import com.alqiran.portfoliomainadmin.ui.model.ContentUiModel
 import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
 import com.alqiran.portfoliomainadmin.ui.model.EducationUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ExperienceUiModel
@@ -10,6 +13,7 @@ import com.alqiran.portfoliomainadmin.ui.model.SkillUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyTitleUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyUiModel
 import com.alqiran.portfoliomainadmin.ui.model.UserUiModel
+import com.alqiran.portfoliomainadmin.ui.model.VideoPresentationUiModel
 
 fun User.toUserDataUi(): UserUiModel {
     return UserUiModel(
@@ -74,6 +78,34 @@ fun User.toUserDataUi(): UserUiModel {
                 university = edu.university,
                 date = edu.date,
                 major = edu.major
+            )
+        },
+        contentsTitle = this.contentsTitle?.map { contentTitle ->
+            ContentTitleUiModel(
+                id = contentTitle.id,
+                contentTitle = contentTitle.contentTitle,
+                contents = contentTitle.contents.map { content ->
+                    ContentUiModel(
+                        id = content.id,
+                        contentDescription = content.contentDescription,
+                        contentUrl = content.contentUrl,
+                    )
+                }
+            )
+        },
+        certificates = this.certificates?.map { certificate ->
+            CertificateUiModel(
+                id = certificate.id,
+                imageUrl = certificate.imageUrl,
+                certificateName = certificate.certificateName,
+                description = certificate.description,
+            )
+        },
+        videos = this.videos?.map { video ->
+            VideoPresentationUiModel(
+                id = video.id,
+                videoUrl = video.videoUrl,
+                videoTitle = video.videoTitle
             )
         }
     )

@@ -17,6 +17,8 @@ import com.alqiran.portfoliomainadmin.ui.components.bars.BottomBar
 import com.alqiran.portfoliomainadmin.ui.components.bars.TopBar
 import com.alqiran.portfoliomainadmin.ui.model.CertificateUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ContactAndAccountsUiModel
+import com.alqiran.portfoliomainadmin.ui.model.ContentTitleUiModel
+import com.alqiran.portfoliomainadmin.ui.model.ContentUiModel
 import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
 import com.alqiran.portfoliomainadmin.ui.model.EducationUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ExperienceUiModel
@@ -397,7 +399,8 @@ fun AppNavHost() {
             // Content Admin Screen
             composable<ContentAdminScreenRoute>(
                 typeMap = mapOf(
-                    typeOf<List<ContactAndAccountsUiModel>?>() to CustomNavType.contentAdminType
+                    typeOf<List<ContentTitleUiModel>?>() to CustomNavType.contentTitleAdminType,
+                    typeOf<List<ContentUiModel>?>() to CustomNavType.contentAdminType,
                 )
             ) {
                 topBar.value = "EditContents"
