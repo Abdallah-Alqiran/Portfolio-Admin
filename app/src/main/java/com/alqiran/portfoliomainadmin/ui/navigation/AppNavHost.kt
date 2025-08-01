@@ -38,6 +38,7 @@ import com.alqiran.portfoliomainadmin.ui.screens.admin.skills_admin.SkillsAdminS
 import com.alqiran.portfoliomainadmin.ui.screens.admin.technologies_admin.TechnologiesAndToolsAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.toptitle_admin.TopTitleAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.video_admin.VideoPresentationsAdminScreen
+import com.alqiran.portfoliomainadmin.ui.screens.certificate_item_screen.CertificateItemScreen
 import com.alqiran.portfoliomainadmin.ui.screens.courses_screen.CoursesScreen
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.HomeScreen
 import com.alqiran.portfoliomainadmin.ui.screens.message_screen.MessageScreen
@@ -64,7 +65,9 @@ fun AppNavHost() {
             is NavigationAction.ToProject -> {
                 navController.navigate(ProjectItemRoute(project = action.project))
             }
-
+            is NavigationAction.ToCertificate -> {
+                navController.navigate(CertificateItemRoute(certificate = action.certificate))
+            }
             is NavigationAction.ToViewAllCourses -> {
                 navController.navigate(CoursesScreenRoute(courses = action.courses))
             }
@@ -196,6 +199,10 @@ fun AppNavHost() {
                 "EditVideos" -> {
                     TopBar("Edit Video Presentation", onClick = { navController.popBackStack() })
                 }
+
+                "certificate" -> {
+                    TopBar("Certificate", onClick = { navController.popBackStack() })
+                }
             }
         },
         bottomBar = {
@@ -293,6 +300,20 @@ fun AppNavHost() {
 
                 val arguments = it.toRoute<CoursesScreenRoute>()
                 CoursesScreen(arguments.courses)
+            }
+
+            // Certificate Item
+            composable<CertificateItemRoute>(
+                typeMap = mapOf(
+                    typeOf<CertificateUiModel>() to CustomNavType.certificateItemType
+                )
+            ) { navBackStackEntry ->
+                topBar.value = "certificate"
+
+                val arguments = navBackStackEntry.toRoute<CertificateItemRoute>()
+                CertificateItemScreen(
+                    arguments.certificate
+                )
             }
 
             // Message Screen

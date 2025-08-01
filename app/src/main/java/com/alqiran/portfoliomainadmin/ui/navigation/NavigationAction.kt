@@ -16,6 +16,7 @@ sealed class NavigationAction {
     object Nothing : NavigationAction()
 
     data class ToProject(val project: ProjectUiModel) : NavigationAction()
+    data class ToCertificate(val certificate: CertificateUiModel) : NavigationAction()
 
     data class ToViewAllProjects(val projects: List<ProjectUiModel>) : NavigationAction()
     data class ToViewAllCourses(val courses: List<CourseUiModel>) : NavigationAction()

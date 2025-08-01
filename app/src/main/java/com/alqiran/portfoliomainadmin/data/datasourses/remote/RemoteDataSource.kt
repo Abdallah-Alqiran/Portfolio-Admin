@@ -480,7 +480,7 @@ class RemoteDataSource @Inject constructor(
         firestore.runTransaction { transaction ->
             val exist =
                 transaction.get(collectionAndDocument)
-                    .get("contentsAndTitle") as? List<Map<String, Any>>
+                    .get("contentsTitle") as? List<Map<String, Any>>
                     ?: emptyList()
 
             val current = exist.map {
@@ -511,7 +511,7 @@ class RemoteDataSource @Inject constructor(
             }
 
             current.sortBy { it.id }
-            transaction.update(collectionAndDocument, "contentsAndTitle", current)
+            transaction.update(collectionAndDocument, "contentsTitle", current)
             null
         }.addOnFailureListener { exception ->
             throw Exception("Error updating Technologies: ${exception.message}")
@@ -520,7 +520,7 @@ class RemoteDataSource @Inject constructor(
     }
 
     fun deleteContentAndTitle(contentTitle: ContentTitle) {
-        deleteElement("contentsAndTitle", contentTitle)
+        deleteElement("contentsTitle", contentTitle)
     }
 
     fun deleteContent(content: Content) {
@@ -528,7 +528,7 @@ class RemoteDataSource @Inject constructor(
             val doc = transaction.get(collectionAndDocument)
             val data = doc.data?.toMutableMap() ?: mutableMapOf()
             val contentsAndTitle =
-                data["contentsAndTitle"] as? MutableList<MutableMap<String, Any>>
+                data["contentsTitle"] as? MutableList<MutableMap<String, Any>>
                     ?: mutableListOf()
 
             contentsAndTitle.forEach { group ->
@@ -552,7 +552,7 @@ class RemoteDataSource @Inject constructor(
         firestore.runTransaction { transaction ->
             val exist =
                 transaction.get(collectionAndDocument)
-                    .get("videosPresentation") as? List<Map<String, Any>>
+                    .get("videos    ") as? List<Map<String, Any>>
                     ?: emptyList()
 
             val current = exist.map {
@@ -573,7 +573,7 @@ class RemoteDataSource @Inject constructor(
             }
 
             current.sortBy { it.id }
-            transaction.update(collectionAndDocument, "videosPresentation", current)
+            transaction.update(collectionAndDocument, "videos", current)
             null
         }.addOnFailureListener { exception ->
             throw Exception("Error updating Certificates: ${exception.message}")
@@ -581,7 +581,7 @@ class RemoteDataSource @Inject constructor(
     }
 
     fun deleteVideoPresentation(video: VideoPresentation) {
-        deleteElement("videosPresentation", video)
+        deleteElement("videos", video)
     }
 
 

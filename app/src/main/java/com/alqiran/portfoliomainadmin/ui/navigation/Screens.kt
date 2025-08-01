@@ -1,5 +1,6 @@
 package com.alqiran.portfoliomainadmin.ui.navigation
 
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Certificate
 import com.alqiran.portfoliomainadmin.ui.model.CertificateUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ContactAndAccountsUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ContentTitleUiModel
@@ -20,6 +21,9 @@ data object HomeScreenRoute
 
 @Serializable
 data class ProjectItemRoute(val project: ProjectUiModel)
+
+@Serializable
+data class CertificateItemRoute(val certificate: CertificateUiModel)
 
 @Serializable
 data class ProjectsScreenRoute(val projects: List<ProjectUiModel>)

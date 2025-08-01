@@ -30,9 +30,9 @@ import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.Courses
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
 import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
-import com.alqiran.portfoliomainadmin.ui.screens.admin.certificate_admin.CertificatesAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.video_admin.VideoPresentationsAdminScreen
-import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.ContentSection
+import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.CertificatesSection
+import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.ContentsSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.EducationSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.ExperienceSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.ProjectsSection
@@ -248,7 +248,7 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
         item {
             if (userData.contentsTitle != null) {
                 HeadlineTextWidget(text = "Free Contents")
-                ContentSection(userData.contentsTitle)
+                ContentsSection(userData.contentsTitle)
             }
         }
 
@@ -264,7 +264,7 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
         item {
             if (userData.certificates != null) {
                 HeadlineTextWidget(text = "certificates")
-                CertificatesAdminScreen(userData.certificates)
+                CertificatesSection(userData.certificates, onNavigate)
             }
         }
 
