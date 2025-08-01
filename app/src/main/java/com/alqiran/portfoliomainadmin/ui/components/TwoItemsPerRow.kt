@@ -1,5 +1,8 @@
 package com.alqiran.portfoliomainadmin.ui.components
 
+import android.content.Intent
+import android.util.Patterns
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -9,10 +12,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 
 @Composable
-fun TwoItemsPerRow(items: List<String>) {
+fun TwoItemsPerRow(items: List<String>, url: List<String>? = null) {
+    val context = LocalContext.current
     for (item in items.indices step 2) {
         Row(
             modifier = Modifier
@@ -24,7 +30,17 @@ fun TwoItemsPerRow(items: List<String>) {
                 Text(
                     text = items[item],
                     style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.clickable {
+                        if (url != null && Patterns.WEB_URL.matcher(url[item]).matches()) {
+                            context.startActivity(
+                                Intent(
+                                    Intent.ACTION_VIEW,
+                                    url[item].toUri()
+                                )
+                            )
+                        }
+                    }
                 )
             }
 
@@ -32,7 +48,17 @@ fun TwoItemsPerRow(items: List<String>) {
                 Text(
                     text = items[item+1],
                     style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.clickable {
+                        if (url != null && Patterns.WEB_URL.matcher(url[item+1]).matches()) {
+                            context.startActivity(
+                                Intent(
+                                    Intent.ACTION_VIEW,
+                                    url[item+1].toUri()
+                                )
+                            )
+                        }
+                    }
                 )
             }
         }

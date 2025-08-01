@@ -39,6 +39,7 @@ import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.Projects
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.SkillsSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.TechnologiesAndToolsSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.TopTitleSection
+import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.VideoPresentationsSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.viewModel.UserState
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.viewModel.UserViewModel
 import com.alqiran.portfoliomainadmin.ui.utils.ButtonType
@@ -281,7 +282,7 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
         item {
             if (userData.videos != null) {
                 HeadlineTextWidget(text = "videos")
-                VideoPresentationsAdminScreen(userData.videos)
+                VideoPresentationsSection(userData.videos)
             }
         }
 

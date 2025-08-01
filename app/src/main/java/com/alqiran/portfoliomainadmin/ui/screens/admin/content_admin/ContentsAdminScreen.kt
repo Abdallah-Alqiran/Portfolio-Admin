@@ -156,27 +156,27 @@ fun ContentsAdminScreen(allContentsTitle: List<ContentTitleUiModel>?) {
                             } else content
                         }
                     }
-                    CustomOutlinedTextFieldWidget(
-                        textValue = tech.contentUrl,
-                        textLabel = "Content Url",
-                        placeHolderLabel = "Enter your Content Url",
-                        modifier = Modifier.weight(3f)
-                    ) {
-                        contentsTitle = contentsTitle?.map { content ->
-                            if (content == contentTitle) {
-                                content.copy(
-                                    contents = content.contents.map { t ->
-                                        if (t == tech)
-                                            t.copy(contentUrl = it)
-                                        else
-                                            t
-                                    }
-                                )
-                            } else content
-                        }
-                    }
-
                 }
+                CustomOutlinedTextFieldWidget(
+                    textValue = tech.contentUrl,
+                    textLabel = "Content Url",
+                    placeHolderLabel = "Enter your Content Url",
+                ) {
+                    contentsTitle = contentsTitle?.map { content ->
+                        if (content == contentTitle) {
+                            content.copy(
+                                contents = content.contents.map { t ->
+                                    if (t == tech)
+                                        t.copy(contentUrl = it)
+                                    else
+                                        t
+                                }
+                            )
+                        } else content
+                    }
+                }
+
+
                 DeleteItemTextButton {
                     contentsViewModel.deleteContent(tech)
                     contentsTitle = contentsTitle?.map { content ->

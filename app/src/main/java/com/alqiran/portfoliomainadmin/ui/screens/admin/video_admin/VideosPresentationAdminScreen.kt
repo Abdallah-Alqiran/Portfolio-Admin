@@ -100,8 +100,8 @@ fun VideoPresentationsAdminScreen(allVideos: List<VideoPresentationUiModel>?) {
 
             CustomOutlinedTextFieldWidget(
                 textValue = video.videoUrl,
-                textLabel = "video Image",
-                placeHolderLabel = "Enter your Image URL"
+                textLabel = "video url",
+                placeHolderLabel = "Enter your video URL"
             ) {
                 videos = videos?.map { a ->
                     if (a == video) a.copy(videoUrl = it) else a

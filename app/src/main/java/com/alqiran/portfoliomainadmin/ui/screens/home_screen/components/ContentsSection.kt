@@ -22,7 +22,9 @@ fun ContentsSection(
                 color = MaterialTheme.colorScheme.tertiary,
                 style = MaterialTheme.typography.headlineSmall
             )
-            TwoItemsPerRow(items = contentTitle.contents.map { it.contentDescription })
+            TwoItemsPerRow(
+                items = contentTitle.contents.map { it.contentDescription },
+                url = contentTitle.contents.map { it.contentUrl })
         }
     }
 }

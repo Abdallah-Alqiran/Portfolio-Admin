@@ -436,7 +436,7 @@ fun AppNavHost() {
                     typeOf<List<CertificateUiModel>?>() to CustomNavType.certificateAdminType
                 )
             ) {
-                topBar.value = "EditContents"
+                topBar.value = "EditCertificates"
 
                 val arguments = it.toRoute<CertificateAdminScreenRoute>()
                 CertificatesAdminScreen(allCertificates = arguments.certificates)
@@ -448,7 +448,7 @@ fun AppNavHost() {
                     typeOf<List<VideoPresentationUiModel>?>() to CustomNavType.videoAdminType
                 )
             ) {
-                topBar.value = "EditContents"
+                topBar.value = "EditVideos"
 
                 val arguments = it.toRoute<VideoAdminScreenRoute>()
                 VideoPresentationsAdminScreen(allVideos = arguments.videos)
