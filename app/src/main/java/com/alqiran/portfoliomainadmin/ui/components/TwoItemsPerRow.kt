@@ -18,7 +18,6 @@ import androidx.core.net.toUri
 
 @Composable
 fun TwoItemsPerRow(items: List<String>, url: List<String>? = null) {
-    val context = LocalContext.current
     for (item in items.indices step 2) {
         Row(
             modifier = Modifier
@@ -31,16 +30,6 @@ fun TwoItemsPerRow(items: List<String>, url: List<String>? = null) {
                     text = items[item],
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.clickable {
-                        if (url != null && Patterns.WEB_URL.matcher(url[item]).matches()) {
-                            context.startActivity(
-                                Intent(
-                                    Intent.ACTION_VIEW,
-                                    url[item].toUri()
-                                )
-                            )
-                        }
-                    }
                 )
             }
 
@@ -49,16 +38,6 @@ fun TwoItemsPerRow(items: List<String>, url: List<String>? = null) {
                     text = items[item+1],
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.clickable {
-                        if (url != null && Patterns.WEB_URL.matcher(url[item+1]).matches()) {
-                            context.startActivity(
-                                Intent(
-                                    Intent.ACTION_VIEW,
-                                    url[item+1].toUri()
-                                )
-                            )
-                        }
-                    }
                 )
             }
         }

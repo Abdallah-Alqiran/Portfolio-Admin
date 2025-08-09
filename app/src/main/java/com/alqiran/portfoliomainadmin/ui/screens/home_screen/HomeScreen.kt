@@ -30,7 +30,6 @@ import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.Courses
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
 import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
-import com.alqiran.portfoliomainadmin.ui.screens.admin.video_admin.VideoPresentationsAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.CertificatesSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.ContentsSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.EducationSection
@@ -120,7 +119,6 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 text = "Top Title",
                 onNavigate = onNavigate,
                 navigateAction = NavigationAction.ToTopTitleEdit(userData.userName, userData.userImage, userData.jobTitle, userData.contactAndAccounts, userData.cvUrl),
-                color = MaterialTheme.colorScheme.error
             )
         }
 
@@ -136,7 +134,6 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 text = "Education",
                 onNavigate = onNavigate,
                 navigateAction = NavigationAction.ToEducationEdit(educations = userData.education?: emptyList()),
-                color = MaterialTheme.colorScheme.error
             )
         }
 
@@ -152,7 +149,6 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 text = "About",
                 onNavigate = onNavigate,
                 navigateAction = NavigationAction.ToAboutEdit(userData.about?: ""),
-                color = MaterialTheme.colorScheme.error
             )
         }
 
@@ -168,7 +164,6 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 text = "Technologies",
                 onNavigate = onNavigate,
                 navigateAction = NavigationAction.ToTechnologiesAndToolsEdit(userData.technologiesAndTools?: emptyList()),
-                color = MaterialTheme.colorScheme.error
             )
         }
 
@@ -184,7 +179,6 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 text = "Skills",
                 onNavigate = onNavigate,
                 navigateAction = NavigationAction.ToSkillsEdit(userData.skills?: emptyList()),
-                color = MaterialTheme.colorScheme.error
             )
         }
 
@@ -195,7 +189,8 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 DefaultTextButton(
                     "Projects",
                     onNavigate = onNavigate,
-                    navigateAction = NavigationAction.ToViewAllProjects(userData.projects)
+                    navigateAction = NavigationAction.ToViewAllProjects(userData.projects),
+                    isToEdit = false
                 )
             }
         }
@@ -205,7 +200,6 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 text = "Projects",
                 onNavigate = onNavigate,
                 navigateAction = NavigationAction.ToProjectsEdit(userData.projects?: emptyList()),
-                color = MaterialTheme.colorScheme.error
             )
         }
 
@@ -216,7 +210,8 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 DefaultTextButton(
                     "Courses",
                     onNavigate = onNavigate,
-                    navigateAction = NavigationAction.ToViewAllCourses(userData.courses)
+                    navigateAction = NavigationAction.ToViewAllCourses(userData.courses),
+                    isToEdit = false
                 )
             }
         }
@@ -226,7 +221,6 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 text = "Courses",
                 onNavigate = onNavigate,
                 navigateAction = NavigationAction.ToCoursesEdit(userData.courses?: emptyList()),
-                color = MaterialTheme.colorScheme.error
             )
         }
 
@@ -242,7 +236,6 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 text = "Experience",
                 onNavigate = onNavigate,
                 navigateAction = NavigationAction.ToExperienceEdit(userData.experiences?: emptyList()),
-                color = MaterialTheme.colorScheme.error
             )
         }
 
@@ -258,7 +251,6 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 text = "Contents",
                 onNavigate = onNavigate,
                 navigateAction = NavigationAction.ToContentEdit(userData.contentsTitle?: emptyList()),
-                color = MaterialTheme.colorScheme.error
             )
         }
 
@@ -275,7 +267,6 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 text = "certificates",
                 onNavigate = onNavigate,
                 navigateAction = NavigationAction.ToCertificateEdit(userData.certificates?: emptyList()),
-                color = MaterialTheme.colorScheme.error
             )
         }
 
@@ -291,7 +282,6 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 text = "videos",
                 onNavigate = onNavigate,
                 navigateAction = NavigationAction.ToVideosEdit(userData.videos?: emptyList()),
-                color = MaterialTheme.colorScheme.error
             )
         }
 
