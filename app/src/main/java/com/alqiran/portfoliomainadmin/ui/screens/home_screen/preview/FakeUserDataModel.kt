@@ -44,7 +44,9 @@ val project = ProjectUiModel(
             "TurpoFit encourages physical activity by offering a selection of guided workouts suitable for various fitness levels. In addition to exercise, it promotes healthy eating habits by allowing users to explore nutritional information, track calorie intake, and even scan meals for automatic calorie estimates. Users can also create and follow healthy recipes, making meal preparation part of their wellness journey.\n" +
             "\n" +
             "To support hydration and overall well-being, TurpoFit includes daily water intake tracking and progress monitoring tools. Whether a user’s goal is weight loss, muscle gain, or general fitness, the app is designed to keep them engaged, informed, and on track—all within a simple and user-friendly interface.",
-    url = "https://github.com/Abdallah-Alqiran/Fitness-App",
+    githubUrl = "https://github.com/Abdallah-Alqiran/Fitness-App",
+    googlePlayUrl = "https://github.com/Abdallah-Alqiran/Fitness-App",
+    appleStoreUrl = "https://github.com/Abdallah-Alqiran/Fitness-App",
     image = "https://drive.google.com/uc?export=view&id=1LHqildeJORutspcTLq0RH39-s5mWJBns"
 )
 
@@ -52,7 +54,9 @@ val project2 = ProjectUiModel(
     id = 1,
     projectName = "Github Trend Explorer",
     description = "This Android application was developed as part of the DEPI initiative. The project successfully created a platform to display popular GitHub repositories, showcasing essential details such as stars, forks, and topics. Throughout development, best practices for API integration and dynamic content rendering were implemented to ensure an optimized user experience.",
-    url = "https://github.com/Abdallah-Alqiran/GitHub-Trend-Explorer-Project",
+    githubUrl = "https://github.com/Abdallah-Alqiran/GitHub-Trend-Explorer-Project",
+    googlePlayUrl = "",
+    appleStoreUrl = "",
     image = "https://drive.google.com/uc?export=view&id=17dPzh3Sak8C5ASYYWWBIFLR9oM_MlC7q"
 )
 
@@ -60,7 +64,9 @@ val project3 = ProjectUiModel(
     id = 2,
     projectName = "Meals App",
     description = "This Android application was developed as part of the DEPI initiative. The project successfully created a platform to display popular GitHub repositories, showcasing essential details such as stars, forks, and topics. Throughout development, best practices for API integration and dynamic content rendering were implemented to ensure an optimized user experience.",
-    url = "https://github.com/Abdallah-Alqiran/Meals-App",
+    githubUrl = "https://github.com/Abdallah-Alqiran/Meals-App",
+    googlePlayUrl = "",
+    appleStoreUrl = "",
     image = "https://drive.google.com/uc?export=view&id=1oUhqh9sChodainL8o05Q59mZ2PgjdbJ8"
 )
 

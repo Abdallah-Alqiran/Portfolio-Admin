@@ -28,7 +28,9 @@ fun User.toUserDataUi(): UserUiModel {
                 image = project.image,
                 projectName = project.projectName,
                 description = project.description,
-                url = project.url
+                githubUrl = project.githubUrl,
+                googlePlayUrl = project.googlePlayUrl,
+                appleStoreUrl = project.appleStoreUrl,
             )
         },
         contactAndAccounts = this.contactAndAccounts?.map { contact ->

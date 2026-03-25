@@ -74,11 +74,31 @@ fun ProjectItemScreen(project: ProjectUiModel) {
 
         Box(Modifier.padding(8.dp))
 
-        DefaultButton(
-            text = "View on GitHub",
-            buttonType = ButtonType.IntentNavigation(url = project.url, context = context)
-        )
+        if (project.githubUrl != "") {
+            DefaultButton(
+                text = "View on GitHub",
+                buttonType = ButtonType.IntentNavigation(url = project.githubUrl, context = context)
+            )
+        }
+        if (project.googlePlayUrl != "") {
+            DefaultButton(
+                text = "View on google Play",
+                buttonType = ButtonType.IntentNavigation(
+                    url = project.googlePlayUrl,
+                    context = context
+                )
+            )
+        }
 
+        if (project.appleStoreUrl != "") {
+            DefaultButton(
+                text = "View on Apple Store",
+                buttonType = ButtonType.IntentNavigation(
+                    url = project.appleStoreUrl,
+                    context = context
+                )
+            )
+        }
         Box(Modifier.padding(8.dp))
 
     }

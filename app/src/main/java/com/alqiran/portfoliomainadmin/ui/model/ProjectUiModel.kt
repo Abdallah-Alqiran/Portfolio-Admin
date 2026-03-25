@@ -8,5 +8,7 @@ data class ProjectUiModel(
     val image: String = "",
     val projectName: String = "",
     val description: String = "",
-    val url: String = ""
+    val githubUrl: String = "",
+    val googlePlayUrl: String = "",
+    val appleStoreUrl: String = "",
 )

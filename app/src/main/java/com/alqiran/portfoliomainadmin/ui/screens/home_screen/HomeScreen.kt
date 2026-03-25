@@ -284,11 +284,6 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 navigateAction = NavigationAction.ToVideosEdit(userData.videos?: emptyList()),
             )
         }
-
-
-
-
-
     }
 }
 

@@ -308,7 +308,9 @@ class RemoteDataSource @Inject constructor(
                     image = (it["image"] as? String) ?: "",
                     projectName = (it["projectName"] as? String) ?: "",
                     description = (it["description"] as? String) ?: "",
-                    url = (it["url"] as? String) ?: ""
+                    githubUrl = (it["githubUrl"] as? String) ?: "",
+                    googlePlayUrl = (it["googlePlayUrl"] as? String) ?: "",
+                    appleStoreUrl = (it["appleStoreUrl"] as? String) ?: ""
                 )
             }.toMutableList()
 

@@ -109,12 +109,31 @@ fun ProjectAdminScreen(allProjects: List<ProjectUiModel>?) {
             }
 
             CustomOutlinedTextFieldWidget(
-                textValue = project.url,
-                textLabel = "Project Link",
+                textValue = project.githubUrl,
+                textLabel = "Github Project URL",
                 placeHolderLabel = "Enter your Project URL"
             ) {
                 projects = projects?.map { a ->
-                    if (a == project) a.copy(url = it) else a
+                    if (a == project) a.copy(githubUrl = it) else a
+                }
+            }
+            CustomOutlinedTextFieldWidget(
+                textValue = project.googlePlayUrl,
+                textLabel = "Google Play app Link",
+                placeHolderLabel = "Enter app google play url"
+            ) {
+                projects = projects?.map { a ->
+                    if (a == project) a.copy(googlePlayUrl = it) else a
+                }
+            }
+
+            CustomOutlinedTextFieldWidget(
+                textValue = project.appleStoreUrl,
+                textLabel = "Apple Store app Link",
+                placeHolderLabel = "Enter app apple store url"
+            ) {
+                projects = projects?.map { a ->
+                    if (a == project) a.copy(appleStoreUrl = it) else a
                 }
             }
 
