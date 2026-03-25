@@ -13,5 +13,8 @@ data class User(
     val technologiesAndTools: List<TechnologyTitle>? = null,
     val courses: List<Course>? = null,
     val experiences: List<Experience>? = null,
-    val education: List<Education>? = null
+    val education: List<Education>? = null,
+    val contentsTitle: List<ContentTitle>? = null,
+    val certificates: List<Certificate>? = null,
+    val videos: List<VideoPresentation>? = null
 )

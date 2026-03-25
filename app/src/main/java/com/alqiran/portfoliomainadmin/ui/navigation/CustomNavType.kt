@@ -3,8 +3,10 @@ package com.alqiran.portfoliomainadmin.ui.navigation
 import android.net.Uri
 import android.os.Bundle
 import androidx.navigation.NavType
+import com.alqiran.portfoliomainadmin.ui.model.CertificateUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ContactAndAccountsUiModel
-import com.alqiran.portfoliomainadmin.ui.model.ContactMessageUiModel
+import com.alqiran.portfoliomainadmin.ui.model.ContentTitleUiModel
+import com.alqiran.portfoliomainadmin.ui.model.ContentUiModel
 import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
 import com.alqiran.portfoliomainadmin.ui.model.EducationUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ExperienceUiModel
@@ -12,7 +14,7 @@ import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
 import com.alqiran.portfoliomainadmin.ui.model.SkillUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyTitleUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyUiModel
-import kotlinx.serialization.encodeToString
+import com.alqiran.portfoliomainadmin.ui.model.VideoPresentationUiModel
 import kotlinx.serialization.json.Json
 
 object CustomNavType {
@@ -38,6 +40,32 @@ object CustomNavType {
             bundle: Bundle,
             key: String,
             value: ProjectUiModel
+        ) {
+            bundle.putString(key, Json.encodeToString(value))
+        }
+    }
+    val certificateItemType = object : NavType<CertificateUiModel>(
+        isNullableAllowed = false
+    ) {
+        override fun get(
+            bundle: Bundle,
+            key: String
+        ): CertificateUiModel? {
+            return Json.decodeFromString(bundle.getString(key) ?: return null)
+        }
+
+        override fun parseValue(value: String): CertificateUiModel {
+            return Json.decodeFromString(Uri.decode(value))
+        }
+
+        override fun serializeAsValue(value: CertificateUiModel): String {
+            return Uri.encode(Json.encodeToString(value))
+        }
+
+        override fun put(
+            bundle: Bundle,
+            key: String,
+            value: CertificateUiModel
         ) {
             bundle.putString(key, Json.encodeToString(value))
         }
@@ -97,14 +125,14 @@ object CustomNavType {
         }
     }
 
-    val topTitleAdminType = object: NavType<List<ContactAndAccountsUiModel>?>(
+    val topTitleAdminType = object : NavType<List<ContactAndAccountsUiModel>?>(
         isNullableAllowed = true
     ) {
         override fun get(
             bundle: Bundle,
             key: String
         ): List<ContactAndAccountsUiModel>? {
-            return Json.decodeFromString(bundle.getString(key)?: return null)
+            return Json.decodeFromString(bundle.getString(key) ?: return null)
         }
 
         override fun parseValue(value: String): List<ContactAndAccountsUiModel>? {
@@ -124,14 +152,14 @@ object CustomNavType {
         }
     }
 
-    val educationAdminType = object: NavType<List<EducationUiModel>?>(
+    val educationAdminType = object : NavType<List<EducationUiModel>?>(
         isNullableAllowed = true
     ) {
         override fun get(
             bundle: Bundle,
             key: String
         ): List<EducationUiModel>? {
-            return Json.decodeFromString(bundle.getString(key)?: return null)
+            return Json.decodeFromString(bundle.getString(key) ?: return null)
         }
 
         override fun parseValue(value: String): List<EducationUiModel>? {
@@ -151,14 +179,14 @@ object CustomNavType {
         }
     }
 
-    val technologiesAndToolsAdminType = object: NavType<List<TechnologyTitleUiModel>?>(
+    val technologiesAndToolsAdminType = object : NavType<List<TechnologyTitleUiModel>?>(
         isNullableAllowed = true
     ) {
         override fun get(
             bundle: Bundle,
             key: String
         ): List<TechnologyTitleUiModel>? {
-            return Json.decodeFromString(bundle.getString(key)?: return null)
+            return Json.decodeFromString(bundle.getString(key) ?: return null)
         }
 
         override fun parseValue(value: String): List<TechnologyTitleUiModel>? {
@@ -178,14 +206,14 @@ object CustomNavType {
         }
     }
 
-    val technologyAdminType = object: NavType<List<TechnologyUiModel>?>(
+    val technologyAdminType = object : NavType<List<TechnologyUiModel>?>(
         isNullableAllowed = true
     ) {
         override fun get(
             bundle: Bundle,
             key: String
         ): List<TechnologyUiModel>? {
-            return Json.decodeFromString(bundle.getString(key)?: return null)
+            return Json.decodeFromString(bundle.getString(key) ?: return null)
         }
 
         override fun parseValue(value: String): List<TechnologyUiModel>? {
@@ -206,14 +234,14 @@ object CustomNavType {
     }
 
 
-    val skillsAdminType = object: NavType<List<SkillUiModel>?>(
+    val skillsAdminType = object : NavType<List<SkillUiModel>?>(
         isNullableAllowed = true
     ) {
         override fun get(
             bundle: Bundle,
             key: String
         ): List<SkillUiModel>? {
-            return Json.decodeFromString(bundle.getString(key)?: return null)
+            return Json.decodeFromString(bundle.getString(key) ?: return null)
         }
 
         override fun parseValue(value: String): List<SkillUiModel>? {
@@ -233,14 +261,14 @@ object CustomNavType {
         }
     }
 
-    val projectsAdminType = object: NavType<List<ProjectUiModel>?>(
+    val projectsAdminType = object : NavType<List<ProjectUiModel>?>(
         isNullableAllowed = true
     ) {
         override fun get(
             bundle: Bundle,
             key: String
         ): List<ProjectUiModel>? {
-            return Json.decodeFromString(bundle.getString(key)?: return null)
+            return Json.decodeFromString(bundle.getString(key) ?: return null)
         }
 
         override fun parseValue(value: String): List<ProjectUiModel>? {
@@ -261,14 +289,14 @@ object CustomNavType {
     }
 
 
-    val coursesAdminType = object: NavType<List<CourseUiModel>?>(
+    val coursesAdminType = object : NavType<List<CourseUiModel>?>(
         isNullableAllowed = true
     ) {
         override fun get(
             bundle: Bundle,
             key: String
         ): List<CourseUiModel>? {
-            return Json.decodeFromString(bundle.getString(key)?: return null)
+            return Json.decodeFromString(bundle.getString(key) ?: return null)
         }
 
         override fun parseValue(value: String): List<CourseUiModel>? {
@@ -289,14 +317,14 @@ object CustomNavType {
     }
 
 
-    val experienceAdminType = object: NavType<List<ExperienceUiModel>?>(
+    val experienceAdminType = object : NavType<List<ExperienceUiModel>?>(
         isNullableAllowed = true
     ) {
         override fun get(
             bundle: Bundle,
             key: String
         ): List<ExperienceUiModel>? {
-            return Json.decodeFromString(bundle.getString(key)?: return null)
+            return Json.decodeFromString(bundle.getString(key) ?: return null)
         }
 
         override fun parseValue(value: String): List<ExperienceUiModel>? {
@@ -316,6 +344,114 @@ object CustomNavType {
         }
     }
 
+
+    val contentTitleAdminType = object : NavType<List<ContentTitleUiModel>?>(
+        isNullableAllowed = true
+    ) {
+        override fun get(
+            bundle: Bundle,
+            key: String
+        ): List<ContentTitleUiModel>? {
+            return Json.decodeFromString(bundle.getString(key) ?: return null)
+        }
+
+        override fun parseValue(value: String): List<ContentTitleUiModel>? {
+            return Json.decodeFromString(Uri.decode(value))
+        }
+
+        override fun serializeAsValue(value: List<ContentTitleUiModel>?): String {
+            return Uri.encode(Json.encodeToString(value))
+        }
+
+        override fun put(
+            bundle: Bundle,
+            key: String,
+            value: List<ContentTitleUiModel>?
+        ) {
+            bundle.putString(key, Json.encodeToString(value))
+        }
+    }
+
+    val contentAdminType = object : NavType<List<ContentUiModel>?>(
+        isNullableAllowed = true
+    ) {
+        override fun get(
+            bundle: Bundle,
+            key: String
+        ): List<ContentUiModel>? {
+            return Json.decodeFromString(bundle.getString(key) ?: return null)
+        }
+
+        override fun parseValue(value: String): List<ContentUiModel>? {
+            return Json.decodeFromString(Uri.decode(value))
+        }
+
+        override fun serializeAsValue(value: List<ContentUiModel>?): String {
+            return Uri.encode(Json.encodeToString(value))
+        }
+
+        override fun put(
+            bundle: Bundle,
+            key: String,
+            value: List<ContentUiModel>?
+        ) {
+            bundle.putString(key, Json.encodeToString(value))
+        }
+    }
+
+    val videoAdminType = object : NavType<List<VideoPresentationUiModel>?>(
+        isNullableAllowed = true
+    ) {
+        override fun get(
+            bundle: Bundle,
+            key: String
+        ): List<VideoPresentationUiModel>? {
+            return Json.decodeFromString(bundle.getString(key) ?: return null)
+        }
+
+        override fun parseValue(value: String): List<VideoPresentationUiModel>? {
+            return Json.decodeFromString(Uri.decode(value))
+        }
+
+        override fun serializeAsValue(value: List<VideoPresentationUiModel>?): String {
+            return Uri.encode(Json.encodeToString(value))
+        }
+
+        override fun put(
+            bundle: Bundle,
+            key: String,
+            value: List<VideoPresentationUiModel>?
+        ) {
+            bundle.putString(key, Json.encodeToString(value))
+        }
+    }
+
+    val certificateAdminType = object : NavType<List<CertificateUiModel>?>(
+        isNullableAllowed = true
+    ) {
+        override fun get(
+            bundle: Bundle,
+            key: String
+        ): List<CertificateUiModel>? {
+            return Json.decodeFromString(bundle.getString(key) ?: return null)
+        }
+
+        override fun parseValue(value: String): List<CertificateUiModel>? {
+            return Json.decodeFromString(Uri.decode(value))
+        }
+
+        override fun serializeAsValue(value: List<CertificateUiModel>?): String {
+            return Uri.encode(Json.encodeToString(value))
+        }
+
+        override fun put(
+            bundle: Bundle,
+            key: String,
+            value: List<CertificateUiModel>?
+        ) {
+            bundle.putString(key, Json.encodeToString(value))
+        }
+    }
 
 
 }

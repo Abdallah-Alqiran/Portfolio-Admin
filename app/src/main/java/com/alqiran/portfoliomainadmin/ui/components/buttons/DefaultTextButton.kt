@@ -14,9 +14,9 @@ import com.alqiran.portfoliomainadmin.ui.navigation.NavigationAction
 @Composable
 fun DefaultTextButton(
     text: String = "Edit",
+    isToEdit: Boolean = true,
     onNavigate: (NavigationAction) -> Unit,
     navigateAction: NavigationAction,
-    color: Color = MaterialTheme.colorScheme.primaryContainer
 ) {
     Box(
         modifier = Modifier.fillMaxWidth(),
@@ -27,11 +27,19 @@ fun DefaultTextButton(
                 onNavigate(navigateAction)
             },
         ) {
-            Text(
-                "View All $text to Edit",
-                style = MaterialTheme.typography.labelSmall,
-                color = color,
-            )
+            if (isToEdit) {
+                Text(
+                    "View All $text to Edit",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.error,
+                )
+            } else {
+                Text(
+                    "View All $text",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                )
+            }
         }
     }
 }

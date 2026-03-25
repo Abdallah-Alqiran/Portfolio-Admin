@@ -9,6 +9,8 @@ fun Project.toProjectItemDataUi(): ProjectUiModel {
         image = this.image,
         projectName = this.projectName,
         description = this.description,
-        url = this.url
+        githubUrl = this.githubUrl,
+        googlePlayUrl = this.googlePlayUrl,
+        appleStoreUrl = this.appleStoreUrl
     )
 }

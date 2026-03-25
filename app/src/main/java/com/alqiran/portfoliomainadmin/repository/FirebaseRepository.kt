@@ -1,7 +1,10 @@
 package com.alqiran.portfoliomainadmin.repository
 
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Certificate
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.ContactAndAccounts
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.ContactMessage
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Content
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.ContentTitle
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Course
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Education
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Experience
@@ -10,6 +13,7 @@ import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Skill
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Technology
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.TechnologyTitle
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.User
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.VideoPresentation
 import kotlinx.coroutines.flow.Flow
 
 interface FirebaseRepository {
@@ -41,6 +45,16 @@ interface FirebaseRepository {
 
     fun uploadExperience(experience: List<Experience>)
     fun deleteExperience(experience: Experience)
+
+    fun uploadCertificates(certificates: List<Certificate>)
+    fun deleteCertificate(certificate: Certificate)
+
+    fun uploadContentsAndTitle(contentsAndTitle: List<ContentTitle>)
+    fun deleteContentAndTitle(contentTitle: ContentTitle)
+    fun deleteContent(content: Content)
+
+    fun uploadVideosPresentation(videos: List<VideoPresentation>)
+    fun deleteVideoPresentation(video: VideoPresentation)
 
     fun editAbout(about: String)
 

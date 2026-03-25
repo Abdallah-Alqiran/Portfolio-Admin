@@ -10,7 +10,9 @@ fun List<Project>.toProjectsDataUi(): List<ProjectUiModel> {
             image = item.image,
             projectName = item.projectName,
             description = item.description,
-            url = item.url
+            githubUrl = item.githubUrl,
+            googlePlayUrl = item.googlePlayUrl,
+            appleStoreUrl = item.appleStoreUrl,
         )
     }
 }

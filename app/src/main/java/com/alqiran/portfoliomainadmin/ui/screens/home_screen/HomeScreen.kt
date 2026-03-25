@@ -30,12 +30,15 @@ import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.Courses
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
 import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
+import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.CertificatesSection
+import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.ContentsSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.EducationSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.ExperienceSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.ProjectsSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.SkillsSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.TechnologiesAndToolsSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.TopTitleSection
+import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.VideoPresentationsSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.viewModel.UserState
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.viewModel.UserViewModel
 import com.alqiran.portfoliomainadmin.ui.utils.ButtonType
@@ -116,7 +119,6 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 text = "Top Title",
                 onNavigate = onNavigate,
                 navigateAction = NavigationAction.ToTopTitleEdit(userData.userName, userData.userImage, userData.jobTitle, userData.contactAndAccounts, userData.cvUrl),
-                color = MaterialTheme.colorScheme.error
             )
         }
 
@@ -132,7 +134,6 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 text = "Education",
                 onNavigate = onNavigate,
                 navigateAction = NavigationAction.ToEducationEdit(educations = userData.education?: emptyList()),
-                color = MaterialTheme.colorScheme.error
             )
         }
 
@@ -148,7 +149,6 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 text = "About",
                 onNavigate = onNavigate,
                 navigateAction = NavigationAction.ToAboutEdit(userData.about?: ""),
-                color = MaterialTheme.colorScheme.error
             )
         }
 
@@ -164,7 +164,6 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 text = "Technologies",
                 onNavigate = onNavigate,
                 navigateAction = NavigationAction.ToTechnologiesAndToolsEdit(userData.technologiesAndTools?: emptyList()),
-                color = MaterialTheme.colorScheme.error
             )
         }
 
@@ -180,7 +179,6 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 text = "Skills",
                 onNavigate = onNavigate,
                 navigateAction = NavigationAction.ToSkillsEdit(userData.skills?: emptyList()),
-                color = MaterialTheme.colorScheme.error
             )
         }
 
@@ -191,7 +189,8 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 DefaultTextButton(
                     "Projects",
                     onNavigate = onNavigate,
-                    navigateAction = NavigationAction.ToViewAllProjects(userData.projects)
+                    navigateAction = NavigationAction.ToViewAllProjects(userData.projects),
+                    isToEdit = false
                 )
             }
         }
@@ -201,7 +200,6 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 text = "Projects",
                 onNavigate = onNavigate,
                 navigateAction = NavigationAction.ToProjectsEdit(userData.projects?: emptyList()),
-                color = MaterialTheme.colorScheme.error
             )
         }
 
@@ -212,7 +210,8 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 DefaultTextButton(
                     "Courses",
                     onNavigate = onNavigate,
-                    navigateAction = NavigationAction.ToViewAllCourses(userData.courses)
+                    navigateAction = NavigationAction.ToViewAllCourses(userData.courses),
+                    isToEdit = false
                 )
             }
         }
@@ -222,7 +221,6 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
                 text = "Courses",
                 onNavigate = onNavigate,
                 navigateAction = NavigationAction.ToCoursesEdit(userData.courses?: emptyList()),
-                color = MaterialTheme.colorScheme.error
             )
         }
 
@@ -234,16 +232,58 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
         }
 
         item {
-            Log.d("Al-qiran Ex", "From Home Screen: ${userData.experiences}")
-
             DefaultTextButton(
                 text = "Experience",
                 onNavigate = onNavigate,
                 navigateAction = NavigationAction.ToExperienceEdit(userData.experiences?: emptyList()),
-                color = MaterialTheme.colorScheme.error
             )
         }
 
+        item {
+            if (userData.contentsTitle != null) {
+                HeadlineTextWidget(text = "Free Contents")
+                ContentsSection(userData.contentsTitle)
+            }
+        }
+
+        item {
+            DefaultTextButton(
+                text = "Contents",
+                onNavigate = onNavigate,
+                navigateAction = NavigationAction.ToContentEdit(userData.contentsTitle?: emptyList()),
+            )
+        }
+
+        item {
+            if (userData.certificates != null) {
+                HeadlineTextWidget(text = "certificates")
+                CertificatesSection(userData.certificates, onNavigate)
+            }
+        }
+
+
+        item {
+            DefaultTextButton(
+                text = "certificates",
+                onNavigate = onNavigate,
+                navigateAction = NavigationAction.ToCertificateEdit(userData.certificates?: emptyList()),
+            )
+        }
+
+        item {
+            if (userData.videos != null) {
+                HeadlineTextWidget(text = "videos")
+                VideoPresentationsSection(userData.videos)
+            }
+        }
+
+        item {
+            DefaultTextButton(
+                text = "videos",
+                onNavigate = onNavigate,
+                navigateAction = NavigationAction.ToVideosEdit(userData.videos?: emptyList()),
+            )
+        }
     }
 }
 

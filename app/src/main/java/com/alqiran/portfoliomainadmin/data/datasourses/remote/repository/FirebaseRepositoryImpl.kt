@@ -1,8 +1,11 @@
 package com.alqiran.portfoliomainadmin.data.datasourses.remote.repository
 
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.RemoteDataSource
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Certificate
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.ContactAndAccounts
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.ContactMessage
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Content
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.ContentTitle
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Course
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Education
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Experience
@@ -11,6 +14,7 @@ import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Skill
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Technology
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.TechnologyTitle
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.User
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.VideoPresentation
 import com.alqiran.portfoliomainadmin.repository.FirebaseRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -72,6 +76,34 @@ class FirebaseRepositoryImpl @Inject constructor(
     }
     override fun deleteProject(project: Project) {
         return remoteDataSource.deleteProject(project)
+    }
+
+    override fun uploadCertificates(certificates: List<Certificate>) {
+        return remoteDataSource.uploadCertificates(certificates)
+    }
+
+    override fun deleteCertificate(certificate: Certificate) {
+        return remoteDataSource.deleteCertificate(certificate)
+    }
+
+    override fun uploadContentsAndTitle(contentsAndTitle: List<ContentTitle>) {
+        return remoteDataSource.uploadContentsAndTitle(contentsAndTitle)
+    }
+
+    override fun deleteContentAndTitle(contentTitle: ContentTitle) {
+        return remoteDataSource.deleteContentAndTitle(contentTitle)
+    }
+
+    override fun deleteContent(content: Content) {
+        return remoteDataSource.deleteContent(content)
+    }
+
+    override fun uploadVideosPresentation(videos: List<VideoPresentation>) {
+        return remoteDataSource.uploadVideosPresentation(videos)
+    }
+
+    override fun deleteVideoPresentation(video: VideoPresentation) {
+        return remoteDataSource.deleteVideoPresentation(video)
     }
 
     override fun uploadCourses(courses: List<Course>) {

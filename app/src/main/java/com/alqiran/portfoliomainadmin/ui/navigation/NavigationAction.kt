@@ -1,18 +1,22 @@
 package com.alqiran.portfoliomainadmin.ui.navigation
 
+import com.alqiran.portfoliomainadmin.ui.model.CertificateUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ContactAndAccountsUiModel
+import com.alqiran.portfoliomainadmin.ui.model.ContentTitleUiModel
 import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
 import com.alqiran.portfoliomainadmin.ui.model.EducationUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ExperienceUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
 import com.alqiran.portfoliomainadmin.ui.model.SkillUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyTitleUiModel
+import com.alqiran.portfoliomainadmin.ui.model.VideoPresentationUiModel
 
 sealed class NavigationAction {
 
     object Nothing : NavigationAction()
 
     data class ToProject(val project: ProjectUiModel) : NavigationAction()
+    data class ToCertificate(val certificate: CertificateUiModel) : NavigationAction()
 
     data class ToViewAllProjects(val projects: List<ProjectUiModel>) : NavigationAction()
     data class ToViewAllCourses(val courses: List<CourseUiModel>) : NavigationAction()
@@ -34,6 +38,13 @@ sealed class NavigationAction {
     data class ToCoursesEdit(val courses: List<CourseUiModel>) : NavigationAction()
 
     data class ToExperienceEdit(val experience: List<ExperienceUiModel>) : NavigationAction()
+
+    data class ToContentEdit(val contentsTitle: List<ContentTitleUiModel>): NavigationAction()
+
+    data class ToCertificateEdit(val certificates: List<CertificateUiModel>): NavigationAction()
+
+    data class ToVideosEdit(val videos: List<VideoPresentationUiModel>): NavigationAction()
+
 
 
 }
