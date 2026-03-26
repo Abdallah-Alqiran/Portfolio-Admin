@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alqiran.portfoliomainadmin.ui.components.CustomOutlinedTextFieldWidget
+import com.alqiran.portfoliomainadmin.ui.components.CustomIdDropdownWidget
 import com.alqiran.portfoliomainadmin.ui.components.HeadlineTextWidget
 import com.alqiran.portfoliomainadmin.ui.components.buttons.AddItemTextButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
@@ -74,19 +75,25 @@ fun ContentsAdminScreen(allContentsTitle: List<ContentTitleUiModel>?) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                CustomOutlinedTextFieldWidget(
-                    textValue = contentTitle.id.toString(),
-                    textLabel = "ID",
-                    placeHolderLabel = "Enter content id",
+                CustomIdDropdownWidget(
+                    currentId = contentTitle.id,
+                    allOtherIds = contentsTitle?.filter { it != contentTitle }?.map { it.id } ?: emptyList(),
+                    onSwap = { selectedId ->
+                        val otherContent = contentsTitle?.find { it.id == selectedId }
+                        if (otherContent != null) {
+                            contentsTitle = contentsTitle?.map { c ->
+                                when (c) {
+                                    contentTitle -> c.copy(id = selectedId)
+                                    otherContent -> c.copy(id = contentTitle.id)
+                                    else -> c
+                                }
+                            }
+                        }
+                    },
                     modifier = Modifier
                         .weight(1f)
                         .padding(end = 8.dp)
-                ) {
-                    val newId = it.toIntOrNull() ?: contentTitle.id
-                    contentsTitle = contentsTitle?.map { a ->
-                        if (a == contentTitle) a.copy(id = newId) else a
-                    }
-                }
+                )
                 CustomOutlinedTextFieldWidget(
                     textValue = contentTitle.contentTitle,
                     textLabel = "Content Title",
@@ -118,25 +125,29 @@ fun ContentsAdminScreen(allContentsTitle: List<ContentTitleUiModel>?) {
                     modifier = Modifier.fillMaxWidth(),
                 ) {
 
-                    CustomOutlinedTextFieldWidget(
-                        textValue = tech.id.toString(),
-                        textLabel = "id",
-                        placeHolderLabel = "id",
+                    CustomIdDropdownWidget(
+                        currentId = tech.id,
+                        allOtherIds = contentTitle.contents.filter { it != tech }.map { it.id },
+                        onSwap = { selectedId ->
+                            val otherContent = contentTitle.contents.find { it.id == selectedId }
+                            if (otherContent != null) {
+                                contentsTitle = contentsTitle?.map { content ->
+                                    if (content == contentTitle) {
+                                        content.copy(
+                                            contents = content.contents.map { t ->
+                                                when (t) {
+                                                    tech -> t.copy(id = selectedId)
+                                                    otherContent -> t.copy(id = tech.id)
+                                                    else -> t
+                                                }
+                                            }
+                                        )
+                                    } else content
+                                }
+                            }
+                        },
                         modifier = Modifier.weight(1f)
-                    ) {
-                        contentsTitle = contentsTitle?.map { content ->
-                            if (content == contentTitle) {
-                                content.copy(
-                                    contents = content.contents.map { t ->
-                                        if (t == tech)
-                                            t.copy(id = it.toIntOrNull() ?: contentTitle.id)
-                                        else
-                                            t
-                                    }
-                                )
-                            } else content
-                        }
-                    }
+                    )
                     CustomOutlinedTextFieldWidget(
                         textValue = tech.contentDescription,
                         textLabel = "Content Description",

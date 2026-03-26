@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alqiran.portfoliomainadmin.ui.components.CustomOutlinedTextFieldWidget
+import com.alqiran.portfoliomainadmin.ui.components.CustomIdDropdownWidget
 import com.alqiran.portfoliomainadmin.ui.components.buttons.AddItemTextButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DeleteItemTextButton
@@ -72,19 +73,25 @@ fun ProjectAdminScreen(allProjects: List<ProjectUiModel>?) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                CustomOutlinedTextFieldWidget(
-                    textValue = project.id.toString(),
-                    textLabel = "ID",
-                    placeHolderLabel = "Enter project id",
+                CustomIdDropdownWidget(
+                    currentId = project.id,
+                    allOtherIds = projects?.filter { it != project }?.map { it.id } ?: emptyList(),
+                    onSwap = { selectedId ->
+                        val otherProject = projects?.find { it.id == selectedId }
+                        if (otherProject != null) {
+                            projects = projects?.map { p ->
+                                when (p) {
+                                    project -> p.copy(id = selectedId)
+                                    otherProject -> p.copy(id = project.id)
+                                    else -> p
+                                }
+                            }
+                        }
+                    },
                     modifier = Modifier
                         .weight(1f)
                         .padding(end = 8.dp)
-                ) {
-                    val newId = it.toIntOrNull() ?: project.id
-                    projects = projects?.map { a ->
-                        if (a == project) a.copy(id = newId) else a
-                    }
-                }
+                )
                 CustomOutlinedTextFieldWidget(
                     textValue = project.projectName,
                     textLabel = "Project Name",

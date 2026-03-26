@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.alqiran.portfoliomainadmin.ui.components.CustomOutlinedTextFieldWidget
+import com.alqiran.portfoliomainadmin.ui.components.CustomIdDropdownWidget
 import com.alqiran.portfoliomainadmin.ui.components.buttons.AddItemTextButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
 import com.alqiran.portfoliomainadmin.ui.model.EducationUiModel
@@ -73,19 +74,25 @@ fun EducationAdminScreen(allEducations: List<EducationUiModel>?) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                CustomOutlinedTextFieldWidget(
-                    textValue = education.id.toString(),
-                    textLabel = "ID",
-                    placeHolderLabel = "Enter education id",
+                CustomIdDropdownWidget(
+                    currentId = education.id,
+                    allOtherIds = educations?.filter { it != education }?.map { it.id } ?: emptyList(),
+                    onSwap = { selectedId ->
+                        val otherEducation = educations?.find { it.id == selectedId }
+                        if (otherEducation != null) {
+                            educations = educations?.map { e ->
+                                when (e) {
+                                    education -> e.copy(id = selectedId)
+                                    otherEducation -> e.copy(id = education.id)
+                                    else -> e
+                                }
+                            }
+                        }
+                    },
                     modifier = Modifier
                         .weight(1f)
                         .padding(end = 8.dp)
-                ) {
-                    val newId = it.toIntOrNull() ?: education.id
-                    educations = educations?.map { a ->
-                        if (a == education) a.copy(id = newId) else a
-                    }
-                }
+                )
                 CustomOutlinedTextFieldWidget(
                     textValue = education.date,
                     textLabel = "date",

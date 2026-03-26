@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alqiran.portfoliomainadmin.ui.components.CustomOutlinedTextFieldWidget
+import com.alqiran.portfoliomainadmin.ui.components.CustomIdDropdownWidget
 import com.alqiran.portfoliomainadmin.ui.components.HeadlineTextWidget
 import com.alqiran.portfoliomainadmin.ui.components.buttons.AddItemTextButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
@@ -139,19 +140,25 @@ fun TopTitleAdminScreen(
             Row(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                CustomOutlinedTextFieldWidget(
-                    textValue = account.id.toString(),
-                    textLabel = "ID",
-                    placeHolderLabel = "Enter account id",
+                CustomIdDropdownWidget(
+                    currentId = account.id,
+                    allOtherIds = accounts?.filter { it != account }?.map { it.id } ?: emptyList(),
+                    onSwap = { selectedId ->
+                        val otherAccount = accounts?.find { it.id == selectedId }
+                        if (otherAccount != null) {
+                            accounts = accounts?.map { a ->
+                                when (a) {
+                                    account -> a.copy(id = selectedId)
+                                    otherAccount -> a.copy(id = account.id)
+                                    else -> a
+                                }
+                            }
+                        }
+                    },
                     modifier = Modifier
                         .weight(1f)
                         .padding(end = 8.dp)
-                ) {
-                    val newId = it.toIntOrNull() ?: account.id
-                    accounts = accounts?.map { a ->
-                        if (a == account) a.copy(id = newId) else a
-                    }
-                }
+                )
                 CustomOutlinedTextFieldWidget(
                     textValue = account.webName,
                     textLabel = "web",

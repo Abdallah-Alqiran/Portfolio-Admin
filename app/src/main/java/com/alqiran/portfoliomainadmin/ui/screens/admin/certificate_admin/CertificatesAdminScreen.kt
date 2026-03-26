@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alqiran.portfoliomainadmin.ui.components.CustomOutlinedTextFieldWidget
+import com.alqiran.portfoliomainadmin.ui.components.CustomIdDropdownWidget
 import com.alqiran.portfoliomainadmin.ui.components.buttons.AddItemTextButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DeleteItemTextButton
@@ -72,19 +73,25 @@ fun CertificatesAdminScreen(allCertificates: List<CertificateUiModel>?) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                CustomOutlinedTextFieldWidget(
-                    textValue = certificate.id.toString(),
-                    textLabel = "ID",
-                    placeHolderLabel = "Enter certificate id",
+                CustomIdDropdownWidget(
+                    currentId = certificate.id,
+                    allOtherIds = certificates?.filter { it != certificate }?.map { it.id } ?: emptyList(),
+                    onSwap = { selectedId ->
+                        val otherCertificate = certificates?.find { it.id == selectedId }
+                        if (otherCertificate != null) {
+                            certificates = certificates?.map { c ->
+                                when (c) {
+                                    certificate -> c.copy(id = selectedId)
+                                    otherCertificate -> c.copy(id = certificate.id)
+                                    else -> c
+                                }
+                            }
+                        }
+                    },
                     modifier = Modifier
                         .weight(1f)
                         .padding(end = 8.dp)
-                ) {
-                    val newId = it.toIntOrNull() ?: certificate.id
-                    certificates = certificates?.map { a ->
-                        if (a == certificate) a.copy(id = newId) else a
-                    }
-                }
+                )
                 CustomOutlinedTextFieldWidget(
                     textValue = certificate.certificateName,
                     textLabel = "certificate Name",

@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alqiran.portfoliomainadmin.ui.components.CustomOutlinedTextFieldWidget
+import com.alqiran.portfoliomainadmin.ui.components.CustomIdDropdownWidget
 import com.alqiran.portfoliomainadmin.ui.components.buttons.AddItemTextButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DeleteItemTextButton
@@ -56,6 +57,7 @@ fun SkillsAdminScreen(allSkills: List<SkillUiModel>?) {
             Toast.makeText(context, "Data Saved Successful", Toast.LENGTH_SHORT).show()
             skillsAdminViewModel.stateNone()
         }
+
         AdminState.None -> Unit
     }
 
@@ -69,23 +71,29 @@ fun SkillsAdminScreen(allSkills: List<SkillUiModel>?) {
             .padding(horizontal = 8.dp),
         state = listState
     ) {
-        items(skills?: emptyList()) { skill ->
+        items(skills ?: emptyList()) { skill ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                CustomOutlinedTextFieldWidget(
-                    textValue = skill.id.toString(),
-                    textLabel = "ID",
-                    placeHolderLabel = "Enter skill id",
+                CustomIdDropdownWidget(
+                    currentId = skill.id,
+                    allOtherIds = skills?.filter { it != skill }?.map { it.id } ?: emptyList(),
+                    onSwap = { selectedId ->
+                        val otherSkill = skills?.find { it.id == selectedId }
+                        if (otherSkill != null) {
+                            skills = skills?.map { s ->
+                                when (s) {
+                                    skill -> s.copy(id = selectedId)
+                                    otherSkill -> s.copy(id = skill.id)
+                                    else -> s
+                                }
+                            }
+                        }
+                    },
                     modifier = Modifier
                         .weight(1f)
                         .padding(end = 8.dp)
-                ) {
-                    val newId = it.toIntOrNull() ?: skill.id
-                    skills = skills?.map { a ->
-                        if (a == skill) a.copy(id = newId) else a
-                    }
-                }
+                )
                 CustomOutlinedTextFieldWidget(
                     textValue = skill.skillName,
                     textLabel = "Skill",
@@ -102,14 +110,14 @@ fun SkillsAdminScreen(allSkills: List<SkillUiModel>?) {
 
             DeleteItemTextButton {
                 skillsAdminViewModel.deleteSkill(skill)
-                skills = skills !!- skill
+                skills = skills!! - skill
             }
             Box(Modifier.padding(bottom = 16.dp))
         }
 
         item {
             AddItemTextButton {
-                skills = (skills?: emptyList()) + SkillUiModel(id = (skills?.size?: 0))
+                skills = (skills ?: emptyList()) + SkillUiModel(id = (skills?.size ?: 0))
             }
         }
 
@@ -117,7 +125,7 @@ fun SkillsAdminScreen(allSkills: List<SkillUiModel>?) {
             DefaultButton(
                 text = "Edit Skills",
                 buttonType = ButtonType.UploadOnClick {
-                    skillsAdminViewModel.uploadSkills(skills?: emptyList())
+                    skillsAdminViewModel.uploadSkills(skills ?: emptyList())
                 }
             )
         }

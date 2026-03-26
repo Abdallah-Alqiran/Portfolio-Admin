@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alqiran.portfoliomainadmin.ui.components.CustomOutlinedTextFieldWidget
+import com.alqiran.portfoliomainadmin.ui.components.CustomIdDropdownWidget
 import com.alqiran.portfoliomainadmin.ui.components.HeadlineTextWidget
 import com.alqiran.portfoliomainadmin.ui.components.buttons.AddItemTextButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
@@ -74,19 +75,25 @@ fun TechnologiesAndToolsAdminScreen(allTechnologiesAndTools: List<TechnologyTitl
             Row(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                CustomOutlinedTextFieldWidget(
-                    textValue = technology.id.toString(),
-                    textLabel = "ID",
-                    placeHolderLabel = "Enter technology id",
+                CustomIdDropdownWidget(
+                    currentId = technology.id,
+                    allOtherIds = technologyAndTools?.filter { it != technology }?.map { it.id } ?: emptyList(),
+                    onSwap = { selectedId ->
+                        val otherTechnology = technologyAndTools?.find { it.id == selectedId }
+                        if (otherTechnology != null) {
+                            technologyAndTools = technologyAndTools?.map { t ->
+                                when (t) {
+                                    technology -> t.copy(id = selectedId)
+                                    otherTechnology -> t.copy(id = technology.id)
+                                    else -> t
+                                }
+                            }
+                        }
+                    },
                     modifier = Modifier
                         .weight(1f)
                         .padding(end = 8.dp)
-                ) {
-                    val newId = it.toIntOrNull() ?: technology.id
-                    technologyAndTools = technologyAndTools?.map { a ->
-                        if (a == technology) a.copy(id = newId) else a
-                    }
-                }
+                )
                 CustomOutlinedTextFieldWidget(
                     textValue = technology.technologyTitle,
                     textLabel = "Technology Title",
@@ -118,25 +125,29 @@ fun TechnologiesAndToolsAdminScreen(allTechnologiesAndTools: List<TechnologyTitl
                     modifier = Modifier.fillMaxWidth(),
                 ) {
 
-                    CustomOutlinedTextFieldWidget(
-                        textValue = tech.id.toString(),
-                        textLabel = "id",
-                        placeHolderLabel = "id",
+                    CustomIdDropdownWidget(
+                        currentId = tech.id,
+                        allOtherIds = technology.technologies.filter { it != tech }.map { it.id },
+                        onSwap = { selectedId ->
+                            val otherTech = technology.technologies.find { it.id == selectedId }
+                            if (otherTech != null) {
+                                technologyAndTools = technologyAndTools?.map { title ->
+                                    if (title == technology) {
+                                        title.copy(
+                                            technologies = title.technologies.map { t ->
+                                                when (t) {
+                                                    tech -> t.copy(id = selectedId)
+                                                    otherTech -> t.copy(id = tech.id)
+                                                    else -> t
+                                                }
+                                            }
+                                        )
+                                    } else title
+                                }
+                            }
+                        },
                         modifier = Modifier.weight(1f)
-                    ) {
-                        technologyAndTools = technologyAndTools?.map { title ->
-                            if (title == technology) {
-                                title.copy(
-                                    technologies = title.technologies.map { t ->
-                                        if (t == tech)
-                                            t.copy(id = it.toIntOrNull() ?: technology.id)
-                                        else
-                                            t
-                                    }
-                                )
-                            } else title
-                        }
-                    }
+                    )
                     CustomOutlinedTextFieldWidget(
                         textValue = tech.technologyName,
                         textLabel = "Technology Name",

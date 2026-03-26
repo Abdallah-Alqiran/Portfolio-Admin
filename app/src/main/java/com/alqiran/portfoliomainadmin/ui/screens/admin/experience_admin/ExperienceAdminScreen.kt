@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alqiran.portfoliomainadmin.ui.components.CustomOutlinedTextFieldWidget
+import com.alqiran.portfoliomainadmin.ui.components.CustomIdDropdownWidget
 import com.alqiran.portfoliomainadmin.ui.components.buttons.AddItemTextButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DeleteItemTextButton
@@ -75,19 +76,25 @@ fun ExperienceAdminScreen(allExperience: List<ExperienceUiModel>?) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                CustomOutlinedTextFieldWidget(
-                    textValue = experience.id.toString(),
-                    textLabel = "ID",
-                    placeHolderLabel = "Enter experience id",
+                CustomIdDropdownWidget(
+                    currentId = experience.id,
+                    allOtherIds = experiences?.filter { it != experience }?.map { it.id } ?: emptyList(),
+                    onSwap = { selectedId ->
+                        val otherExperience = experiences?.find { it.id == selectedId }
+                        if (otherExperience != null) {
+                            experiences = experiences?.map { e ->
+                                when (e) {
+                                    experience -> e.copy(id = selectedId)
+                                    otherExperience -> e.copy(id = experience.id)
+                                    else -> e
+                                }
+                            }
+                        }
+                    },
                     modifier = Modifier
                         .weight(1f)
                         .padding(end = 8.dp)
-                ) {
-                    val newId = it.toIntOrNull() ?: experience.id
-                    experiences = experiences?.map { a ->
-                        if (a == experience) a.copy(id = newId) else a
-                    }
-                }
+                )
                 CustomOutlinedTextFieldWidget(
                     textValue = experience.date,
                     textLabel = "date",

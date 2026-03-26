@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alqiran.portfoliomainadmin.ui.components.CustomOutlinedTextFieldWidget
+import com.alqiran.portfoliomainadmin.ui.components.CustomIdDropdownWidget
 import com.alqiran.portfoliomainadmin.ui.components.buttons.AddItemTextButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DeleteItemTextButton
@@ -73,19 +74,25 @@ fun CoursesAdminScreen(allCourses: List<CourseUiModel>?) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                CustomOutlinedTextFieldWidget(
-                    textValue = course.id.toString(),
-                    textLabel = "ID",
-                    placeHolderLabel = "Enter course id",
+                CustomIdDropdownWidget(
+                    currentId = course.id,
+                    allOtherIds = courses?.filter { it != course }?.map { it.id } ?: emptyList(),
+                    onSwap = { selectedId ->
+                        val otherCourse = courses?.find { it.id == selectedId }
+                        if (otherCourse != null) {
+                            courses = courses?.map { c ->
+                                when (c) {
+                                    course -> c.copy(id = selectedId)
+                                    otherCourse -> c.copy(id = course.id)
+                                    else -> c
+                                }
+                            }
+                        }
+                    },
                     modifier = Modifier
                         .weight(1f)
                         .padding(end = 8.dp)
-                ) {
-                    val newId = it.toIntOrNull() ?: course.id
-                    courses = courses?.map { a ->
-                        if (a == course) a.copy(id = newId) else a
-                    }
-                }
+                )
                 CustomOutlinedTextFieldWidget(
                     textValue = course.courseName,
                     textLabel = "Course Name",
