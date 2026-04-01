@@ -87,6 +87,10 @@ fun EducationAdminScreen(allEducations: List<EducationUiModel>?) {
                                     else -> e
                                 }
                             }
+                        } else {
+                            educations = educations?.map { e ->
+                                if (e == education) e.copy(id = selectedId) else e
+                            }
                         }
                     },
                     modifier = Modifier

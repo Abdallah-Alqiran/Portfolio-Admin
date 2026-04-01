@@ -89,6 +89,10 @@ fun ExperienceAdminScreen(allExperience: List<ExperienceUiModel>?) {
                                     else -> e
                                 }
                             }
+                        } else {
+                            experiences = experiences?.map { e ->
+                                if (e == experience) e.copy(id = selectedId) else e
+                            }
                         }
                     },
                     modifier = Modifier

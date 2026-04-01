@@ -88,6 +88,10 @@ fun SkillsAdminScreen(allSkills: List<SkillUiModel>?) {
                                     else -> s
                                 }
                             }
+                        } else {
+                            skills = skills?.map { s ->
+                                if (s == skill) s.copy(id = selectedId) else s
+                            }
                         }
                     },
                     modifier = Modifier

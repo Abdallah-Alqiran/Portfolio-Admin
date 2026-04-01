@@ -1,9 +1,7 @@
 package com.alqiran.portfoliomainadmin.ui.components
 
-import androidx.compose.animation.core.animateDp
-import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,8 +15,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,41 +22,39 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 
 
 @Composable
 fun HeadlineTextWidget(text: String) {
 
-    val visible = remember { mutableStateOf(false) }
-    val transition = updateTransition(targetState = visible.value, label = "HeadlineTransition")
+//    val alpha = remember { Animatable(0f) }
+//    val offsetY = remember { Animatable(20f) }
 
-    val alpha by transition.animateFloat (
-        label = "FadeIn",
-        transitionSpec = { tween(durationMillis = 800) }
-    ) { isVisible ->
-        if (isVisible) 1f else 0f
-    }
-
-    val offsetY by transition.animateDp (
-        label = "slideUp",
-        transitionSpec = {tween(durationMillis = 800)}
-    ) { isVisible ->
-        if (isVisible) 0.dp else 20.dp
-    }
-
-    LaunchedEffect(Unit) {
-        visible.value = true
-    }
+//    LaunchedEffect(Unit) {
+//        launch {
+//            alpha.animateTo(
+//                targetValue = 1f,
+//                animationSpec = tween(durationMillis = 800)
+//            )
+//        }
+//        launch {
+//            offsetY.animateTo(
+//                targetValue = 0f,
+//                animationSpec = tween(durationMillis = 800)
+//            )
+//        }
+//    }
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 24.dp)
-            .padding(bottom = 8.dp)
-            .graphicsLayer {
-                this.alpha = alpha
-                this.translationY = offsetY.toPx()
-            },
+            .padding(top = 24.dp, bottom = 8.dp)
+//            .graphicsLayer {
+//                this.alpha = alpha.value
+//                this.translationY = offsetY.value.dp.toPx()
+//            }
+,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -69,24 +63,21 @@ fun HeadlineTextWidget(text: String) {
             style = MaterialTheme.typography.headlineMedium
         )
         Spacer(modifier = Modifier.height(6.dp))
-        Box(modifier = Modifier
-            .width(50.dp)
-            .height(3.dp)
-            .clip(RoundedCornerShape(50))
-            .background(
-                Brush.horizontalGradient(
-                    listOf(
-                        MaterialTheme.colorScheme.secondaryContainer,
-                        MaterialTheme.colorScheme.tertiary,
-                        MaterialTheme.colorScheme.primaryContainer,
-                        MaterialTheme.colorScheme.secondary,
+        Box(
+            modifier = Modifier
+                .width(50.dp)
+                .height(3.dp)
+                .clip(RoundedCornerShape(50))
+                .background(
+                    Brush.horizontalGradient(
+                        listOf(
+                            MaterialTheme.colorScheme.secondaryContainer,
+                            MaterialTheme.colorScheme.tertiary,
+                            MaterialTheme.colorScheme.primaryContainer,
+                            MaterialTheme.colorScheme.secondary,
+                        )
                     )
                 )
-            )
-        ) {
-
-
-        }
+        )
     }
-
 }

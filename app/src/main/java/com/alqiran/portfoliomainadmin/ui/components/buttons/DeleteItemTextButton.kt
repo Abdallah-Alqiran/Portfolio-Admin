@@ -22,6 +22,7 @@ fun DeleteItemTextButton(text: String = "delete", onClick:() -> Unit) {
 
     if (showDialog) {
         DeleteDialogWidget(onConfirm = {
+            showDialog = false
             onClick()
         }) {
             showDialog = false

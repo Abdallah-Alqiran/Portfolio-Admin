@@ -153,6 +153,10 @@ fun TopTitleAdminScreen(
                                     else -> a
                                 }
                             }
+                        } else {
+                            accounts = accounts?.map { a ->
+                                if (a == account) a.copy(id = selectedId) else a
+                            }
                         }
                     },
                     modifier = Modifier

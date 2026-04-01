@@ -88,6 +88,10 @@ fun ContentsAdminScreen(allContentsTitle: List<ContentTitleUiModel>?) {
                                     else -> c
                                 }
                             }
+                        } else {
+                            contentsTitle = contentsTitle?.map { c ->
+                                if (c == contentTitle) c.copy(id = selectedId) else c
+                            }
                         }
                     },
                     modifier = Modifier
@@ -140,6 +144,16 @@ fun ContentsAdminScreen(allContentsTitle: List<ContentTitleUiModel>?) {
                                                     otherContent -> t.copy(id = tech.id)
                                                     else -> t
                                                 }
+                                            }
+                                        )
+                                    } else content
+                                }
+                            } else {
+                                contentsTitle = contentsTitle?.map { content ->
+                                    if (content == contentTitle) {
+                                        content.copy(
+                                            contents = content.contents.map { t ->
+                                                if (t == tech) t.copy(id = selectedId) else t
                                             }
                                         )
                                     } else content

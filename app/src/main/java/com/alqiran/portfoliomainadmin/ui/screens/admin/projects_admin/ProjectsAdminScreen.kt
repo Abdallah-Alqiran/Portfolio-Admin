@@ -86,6 +86,10 @@ fun ProjectAdminScreen(allProjects: List<ProjectUiModel>?) {
                                     else -> p
                                 }
                             }
+                        } else {
+                            projects = projects?.map { p ->
+                                if (p == project) p.copy(id = selectedId) else p
+                            }
                         }
                     },
                     modifier = Modifier

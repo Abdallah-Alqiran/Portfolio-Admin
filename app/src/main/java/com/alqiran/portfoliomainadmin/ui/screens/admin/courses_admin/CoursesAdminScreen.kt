@@ -87,6 +87,10 @@ fun CoursesAdminScreen(allCourses: List<CourseUiModel>?) {
                                     else -> c
                                 }
                             }
+                        } else {
+                            courses = courses?.map { c ->
+                                if (c == course) c.copy(id = selectedId) else c
+                            }
                         }
                     },
                     modifier = Modifier

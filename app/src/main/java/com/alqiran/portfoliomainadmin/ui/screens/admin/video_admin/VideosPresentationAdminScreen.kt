@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alqiran.portfoliomainadmin.ui.components.CustomOutlinedTextFieldWidget
+import com.alqiran.portfoliomainadmin.ui.components.CustomIdDropdownWidget
 import com.alqiran.portfoliomainadmin.ui.components.buttons.AddItemTextButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DeleteItemTextButton
@@ -72,19 +73,29 @@ fun VideoPresentationsAdminScreen(allVideos: List<VideoPresentationUiModel>?) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                CustomOutlinedTextFieldWidget(
-                    textValue = video.id.toString(),
-                    textLabel = "ID",
-                    placeHolderLabel = "Enter video id",
+                CustomIdDropdownWidget(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(end = 8.dp)
-                ) {
-                    val newId = it.toIntOrNull() ?: video.id
-                    videos = videos?.map { a ->
-                        if (a == video) a.copy(id = newId) else a
+                        .padding(end = 8.dp),
+                    currentId = video.id,
+                    allOtherIds = videos?.filter { it != video }?.map { it.id } ?: emptyList(),
+                    onSwap = { selectedId ->
+                        val otherVideo = videos?.find { it.id == selectedId }
+                        if (otherVideo != null) {
+                            videos = videos?.map { v ->
+                                when (v) {
+                                    video -> v.copy(id = selectedId)
+                                    otherVideo -> v.copy(id = video.id)
+                                    else -> v
+                                }
+                            }
+                        } else {
+                            videos = videos?.map { v ->
+                                if (v == video) v.copy(id = selectedId) else v
+                            }
+                        }
                     }
-                }
+                )
                 CustomOutlinedTextFieldWidget(
                     textValue = video.videoTitle,
                     textLabel = "video Name",

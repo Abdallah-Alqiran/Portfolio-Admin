@@ -86,6 +86,10 @@ fun CertificatesAdminScreen(allCertificates: List<CertificateUiModel>?) {
                                     else -> c
                                 }
                             }
+                        } else {
+                            certificates = certificates?.map { c ->
+                                if (c == certificate) c.copy(id = selectedId) else c
+                            }
                         }
                     },
                     modifier = Modifier

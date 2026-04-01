@@ -88,6 +88,10 @@ fun TechnologiesAndToolsAdminScreen(allTechnologiesAndTools: List<TechnologyTitl
                                     else -> t
                                 }
                             }
+                        } else {
+                            technologyAndTools = technologyAndTools?.map { t ->
+                                if (t == technology) t.copy(id = selectedId) else t
+                            }
                         }
                     },
                     modifier = Modifier
@@ -140,6 +144,16 @@ fun TechnologiesAndToolsAdminScreen(allTechnologiesAndTools: List<TechnologyTitl
                                                     otherTech -> t.copy(id = tech.id)
                                                     else -> t
                                                 }
+                                            }
+                                        )
+                                    } else title
+                                }
+                            } else {
+                                technologyAndTools = technologyAndTools?.map { title ->
+                                    if (title == technology) {
+                                        title.copy(
+                                            technologies = title.technologies.map { t ->
+                                                if (t == tech) t.copy(id = selectedId) else t
                                             }
                                         )
                                     } else title
