@@ -44,7 +44,7 @@ fun CoursesScreen(courses: List<CourseUiModel>) {
                     Text(
                         text = course.courseDescription,
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.surfaceTint,
+                        color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.padding(8.dp),
                     )
                 }

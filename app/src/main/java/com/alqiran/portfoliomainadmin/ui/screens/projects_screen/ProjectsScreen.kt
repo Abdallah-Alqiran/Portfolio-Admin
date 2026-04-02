@@ -73,7 +73,7 @@ fun ProjectsScreen(projects: List<ProjectUiModel>, onNavigate: (NavigationAction
                     Text(
                         text = project.projectName,
                         style = MaterialTheme.typography.headlineMedium,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.padding(8.dp),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis

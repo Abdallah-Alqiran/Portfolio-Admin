@@ -111,14 +111,14 @@ fun MessageContentScreen(
                         }) {
                             Icon(
                                 imageVector = Icons.Default.Delete,
-                                tint = MaterialTheme.colorScheme.primary,
-                                contentDescription = "Delete Food"
+                                tint = MaterialTheme.colorScheme.error,
+                                contentDescription = "Delete Icon"
                             )
                         }
                     }
                     Text(
                         message.message,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.labelMedium,
                     )
 

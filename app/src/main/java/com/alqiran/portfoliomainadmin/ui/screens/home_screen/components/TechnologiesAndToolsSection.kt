@@ -19,7 +19,7 @@ fun TechnologiesAndToolsSection(
         technologiesAndTools.forEach { technologyTitleItem ->
             Text(
                 text = technologyTitleItem.technologyTitle,
-                color = MaterialTheme.colorScheme.tertiary,
+                color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.headlineSmall
             )
             TwoItemsPerRow(items = technologyTitleItem.technologies.map { it.technologyName })

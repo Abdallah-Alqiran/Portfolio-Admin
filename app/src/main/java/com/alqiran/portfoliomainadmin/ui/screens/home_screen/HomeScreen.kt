@@ -1,16 +1,15 @@
 package com.alqiran.portfoliomainadmin.ui.screens.home_screen
 
-
-import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,6 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alqiran.portfoliomainadmin.theme.PortfolioMainTheme
 import com.alqiran.portfoliomainadmin.ui.components.HeadlineTextWidget
+import com.alqiran.portfoliomainadmin.ui.components.SectionHeaderWithEdit
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultTextButton
 import com.alqiran.portfoliomainadmin.ui.components.loading_and_failed.FailedLoadingScreen
 import com.alqiran.portfoliomainadmin.ui.components.loading_and_failed.LoadingProgressIndicator
@@ -43,13 +43,11 @@ import com.alqiran.portfoliomainadmin.ui.screens.home_screen.viewModel.UserState
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.viewModel.UserViewModel
 import com.alqiran.portfoliomainadmin.ui.utils.ButtonType
 
-
 @Composable
 fun HomeScreen(
     onNavigate: (NavigationAction) -> Unit,
-    onStart:(List<ProjectUiModel>?, List<CourseUiModel>?) -> Unit
+    onStart: (List<ProjectUiModel>?, List<CourseUiModel>?) -> Unit
 ) {
-
     val userViewModel: UserViewModel = hiltViewModel()
     val userData by userViewModel.userState.collectAsStateWithLifecycle()
 
@@ -63,24 +61,15 @@ fun HomeScreen(
             onStart(projectsAndCourses.projects, projectsAndCourses.courses)
             HomeContentScreen(projectsAndCourses, onNavigate)
         }
-
         is UserState.Error -> {
             FailedLoadingScreen(
-                onFailed = {
-                    Log.d("Al-qiran", "From Home Screen")
-                    userViewModel.fetchUserData()
-                },
+                onFailed = { userViewModel.fetchUserData() },
                 errorMessage = (userData as UserState.Error).error
             )
         }
-
-        UserState.Loading -> {
-            LoadingProgressIndicator()
-        }
+        UserState.Loading -> LoadingProgressIndicator()
         UserState.None -> Unit
     }
-
-
 }
 
 @Composable
@@ -92,201 +81,140 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
         modifier = Modifier
             .background(MaterialTheme.colorScheme.background)
             .fillMaxSize()
-            .padding(horizontal = 8.dp),
-        state = listState
+            .padding(horizontal = 16.dp),
+        state = listState,
+        contentPadding = PaddingValues(bottom = 32.dp)
     ) {
+        // Header Section
         item {
             TopTitleSection(
                 userData.userName,
                 userData.userImage,
                 userData.jobTitle,
                 userData.contactAndAccounts,
-                context,
+                context
             )
-        }
-
-        item {
-            if (userData.cvUrl.isValidUrl()) {
-                DefaultButton(
-                    text = "Download CV",
-                    buttonType = ButtonType.IntentNavigation(userData.cvUrl!!, context)
-                )
+            
+            Column(
+                modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                if (userData.cvUrl.isValidUrl()) {
+                    Box(modifier = Modifier.weight(1f)) {
+                        DefaultButton(
+                            text = "Download CV",
+                            buttonType = ButtonType.IntentNavigation(userData.cvUrl!!, context)
+                        )
+                    }
+                }
+                Box(modifier = Modifier.weight(1f)) {
+                    DefaultTextButton(
+                        text = "Header",
+                        onNavigate = onNavigate,
+                        navigateAction = NavigationAction.ToTopTitleEdit(
+                            userData.userName, userData.userImage, userData.jobTitle, 
+                            userData.contactAndAccounts, userData.cvUrl
+                        )
+                    )
+                }
             }
+            Spacer(modifier = Modifier.height(24.dp))
         }
 
+        // About Section
         item {
-            DefaultTextButton(
-                text = "Top Title",
-                onNavigate = onNavigate,
-                navigateAction = NavigationAction.ToTopTitleEdit(userData.userName, userData.userImage, userData.jobTitle, userData.contactAndAccounts, userData.cvUrl),
-            )
+            SectionHeaderWithEdit("About", onNavigate, NavigationAction.ToAboutEdit(userData.about ?: ""))
+            AboutSection(userData.about ?: "")
+            Spacer(modifier = Modifier.height(24.dp))
         }
 
+        // Education Section
         item {
             if (userData.education != null) {
-                HeadlineTextWidget(text = "Education")
+                SectionHeaderWithEdit("Education", onNavigate, NavigationAction.ToEducationEdit(userData.education))
                 EducationSection(userData.education)
+                Spacer(modifier = Modifier.height(24.dp))
             }
         }
 
-        item {
-            DefaultTextButton(
-                text = "Education",
-                onNavigate = onNavigate,
-                navigateAction = NavigationAction.ToEducationEdit(educations = userData.education?: emptyList()),
-            )
-        }
-
-        item {
-            if (userData.about != null) {
-                HeadlineTextWidget(text = "About")
-                AboutSection(userData.about)
-            }
-        }
-
-        item {
-            DefaultTextButton(
-                text = "About",
-                onNavigate = onNavigate,
-                navigateAction = NavigationAction.ToAboutEdit(userData.about?: ""),
-            )
-        }
-
-        item {
-            if (userData.technologiesAndTools != null) {
-                HeadlineTextWidget(text = "Technologies and Tools")
-                TechnologiesAndToolsSection(userData.technologiesAndTools)
-            }
-        }
-
-        item {
-            DefaultTextButton(
-                text = "Technologies",
-                onNavigate = onNavigate,
-                navigateAction = NavigationAction.ToTechnologiesAndToolsEdit(userData.technologiesAndTools?: emptyList()),
-            )
-        }
-
-        item {
-            if (userData.skills != null) {
-                HeadlineTextWidget(text = "Skills")
-                SkillsSection(userData.skills)
-            }
-        }
-
-        item {
-            DefaultTextButton(
-                text = "Skills",
-                onNavigate = onNavigate,
-                navigateAction = NavigationAction.ToSkillsEdit(userData.skills?: emptyList()),
-            )
-        }
-
-        item {
-            if (userData.projects != null) {
-                HeadlineTextWidget(text = "Projects")
-                ProjectsSection(userData.projects, onNavigate)
-                DefaultTextButton(
-                    "Projects",
-                    onNavigate = onNavigate,
-                    navigateAction = NavigationAction.ToViewAllProjects(userData.projects),
-                    isToEdit = false
-                )
-            }
-        }
-
-        item {
-            DefaultTextButton(
-                text = "Projects",
-                onNavigate = onNavigate,
-                navigateAction = NavigationAction.ToProjectsEdit(userData.projects?: emptyList()),
-            )
-        }
-
-        item {
-            if (userData.courses != null) {
-                HeadlineTextWidget(text = "Courses")
-                Courses(userData.courses)
-                DefaultTextButton(
-                    "Courses",
-                    onNavigate = onNavigate,
-                    navigateAction = NavigationAction.ToViewAllCourses(userData.courses),
-                    isToEdit = false
-                )
-            }
-        }
-
-        item {
-            DefaultTextButton(
-                text = "Courses",
-                onNavigate = onNavigate,
-                navigateAction = NavigationAction.ToCoursesEdit(userData.courses?: emptyList()),
-            )
-        }
-
+        // Experience Section
         item {
             if (userData.experiences != null) {
-                HeadlineTextWidget(text = "Experience")
+                SectionHeaderWithEdit("Experience", onNavigate, NavigationAction.ToExperienceEdit(userData.experiences))
                 ExperienceSection(userData.experiences)
+                Spacer(modifier = Modifier.height(24.dp))
             }
         }
 
+        // Tech & Tools
         item {
-            DefaultTextButton(
-                text = "Experience",
-                onNavigate = onNavigate,
-                navigateAction = NavigationAction.ToExperienceEdit(userData.experiences?: emptyList()),
-            )
-        }
-
-        item {
-            if (userData.contentsTitle != null) {
-                HeadlineTextWidget(text = "Free Contents")
-                ContentsSection(userData.contentsTitle)
+            if (userData.technologiesAndTools != null) {
+                SectionHeaderWithEdit("Technologies", onNavigate, NavigationAction.ToTechnologiesAndToolsEdit(userData.technologiesAndTools))
+                TechnologiesAndToolsSection(userData.technologiesAndTools)
+                Spacer(modifier = Modifier.height(24.dp))
             }
         }
 
+        // Skills
         item {
-            DefaultTextButton(
-                text = "Contents",
-                onNavigate = onNavigate,
-                navigateAction = NavigationAction.ToContentEdit(userData.contentsTitle?: emptyList()),
-            )
+            if (userData.skills != null) {
+                SectionHeaderWithEdit("Skills", onNavigate, NavigationAction.ToSkillsEdit(userData.skills))
+                SkillsSection(userData.skills)
+                Spacer(modifier = Modifier.height(24.dp))
+            }
         }
 
+        // Projects
+        item {
+            if (userData.projects != null) {
+                SectionHeaderWithEdit("Projects", onNavigate, NavigationAction.ToProjectsEdit(userData.projects), "All") {
+                    onNavigate(NavigationAction.ToViewAllProjects(userData.projects))
+                }
+                ProjectsSection(userData.projects, onNavigate)
+                Spacer(modifier = Modifier.height(24.dp))
+            }
+        }
+
+        // Courses
+        item {
+            if (userData.courses != null) {
+                SectionHeaderWithEdit("Courses", onNavigate, NavigationAction.ToCoursesEdit(userData.courses), "All") {
+                    onNavigate(NavigationAction.ToViewAllCourses(userData.courses))
+                }
+                Courses(userData.courses)
+                Spacer(modifier = Modifier.height(24.dp))
+            }
+        }
+
+        // Certificates
         item {
             if (userData.certificates != null) {
-                HeadlineTextWidget(text = "certificates")
+                SectionHeaderWithEdit("Certificates", onNavigate, NavigationAction.ToCertificateEdit(userData.certificates))
                 CertificatesSection(userData.certificates, onNavigate)
+                Spacer(modifier = Modifier.height(24.dp))
             }
         }
 
-
-        item {
-            DefaultTextButton(
-                text = "certificates",
-                onNavigate = onNavigate,
-                navigateAction = NavigationAction.ToCertificateEdit(userData.certificates?: emptyList()),
-            )
-        }
-
+        // Video Presentations
         item {
             if (userData.videos != null) {
-                HeadlineTextWidget(text = "videos")
+                SectionHeaderWithEdit("Videos", onNavigate, NavigationAction.ToVideosEdit(userData.videos))
                 VideoPresentationsSection(userData.videos)
+                Spacer(modifier = Modifier.height(24.dp))
             }
         }
 
+        // Contents
         item {
-            DefaultTextButton(
-                text = "videos",
-                onNavigate = onNavigate,
-                navigateAction = NavigationAction.ToVideosEdit(userData.videos?: emptyList()),
-            )
+            if (userData.contentsTitle != null) {
+                SectionHeaderWithEdit("Resources", onNavigate, NavigationAction.ToContentEdit(userData.contentsTitle))
+                ContentsSection(userData.contentsTitle)
+                Spacer(modifier = Modifier.height(24.dp))
+            }
         }
     }
 }
-
 
 @Preview
 @Composable
@@ -294,7 +222,7 @@ private fun Prev() {
     PortfolioMainTheme {
         HomeScreen(
             onNavigate = {},
-            onStart = {_,_->}
+            onStart = { _, _ -> }
         )
     }
 }
