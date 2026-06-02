@@ -8,7 +8,9 @@ import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.ContentTitle
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Course
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Education
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Experience
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.PendingRecommendation
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Project
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Recommendation
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Skill
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Technology
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.TechnologyTitle
@@ -61,4 +63,9 @@ interface FirebaseRepository {
 
     suspend fun getAllMessages(): Flow<List<ContactMessage>>
     fun deleteMessage(message: ContactMessage)
+
+    fun acceptRecommendation(pending: PendingRecommendation)
+    fun rejectRecommendation(pending: PendingRecommendation)
+    fun uploadRecommendations(recommendations: List<Recommendation>)
+    fun deleteRecommendation(recommendation: Recommendation)
 }

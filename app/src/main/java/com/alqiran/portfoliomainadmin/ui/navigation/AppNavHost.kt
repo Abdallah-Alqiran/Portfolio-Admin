@@ -22,7 +22,9 @@ import com.alqiran.portfoliomainadmin.ui.model.ContentUiModel
 import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
 import com.alqiran.portfoliomainadmin.ui.model.EducationUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ExperienceUiModel
+import com.alqiran.portfoliomainadmin.ui.model.PendingRecommendationUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
+import com.alqiran.portfoliomainadmin.ui.model.RecommendationUiModel
 import com.alqiran.portfoliomainadmin.ui.model.SkillUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyTitleUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyUiModel
@@ -34,6 +36,8 @@ import com.alqiran.portfoliomainadmin.ui.screens.admin.courses_admin.CoursesAdmi
 import com.alqiran.portfoliomainadmin.ui.screens.admin.education_admin.EducationAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.experience_admin.ExperienceAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.projects_admin.ProjectAdminScreen
+import com.alqiran.portfoliomainadmin.ui.screens.admin.recommendations_admin.PendingRecommendationsAdminScreen
+import com.alqiran.portfoliomainadmin.ui.screens.admin.recommendations_admin.RecommendationsAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.skills_admin.SkillsAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.technologies_admin.TechnologiesAndToolsAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.toptitle_admin.TopTitleAdminScreen
@@ -128,6 +132,14 @@ fun AppNavHost() {
                 navController.navigate(VideoAdminScreenRoute(action.videos))
             }
 
+            is NavigationAction.ToPendingRecommendationsEdit -> {
+                navController.navigate(PendingRecommendationsAdminScreenRoute(action.pending))
+            }
+
+            is NavigationAction.ToRecommendationsEdit -> {
+                navController.navigate(RecommendationsAdminScreenRoute(action.recommendations))
+            }
+
             NavigationAction.Nothing -> {}
         }
     }
@@ -198,6 +210,14 @@ fun AppNavHost() {
 
                 "EditVideos" -> {
                     TopBar("Edit Video Presentation", onClick = { navController.popBackStack() })
+                }
+
+                "EditPendingRecommendations" -> {
+                    TopBar("Pending Recommendations", onClick = { navController.popBackStack() })
+                }
+
+                "EditRecommendations" -> {
+                    TopBar("Recommendations", onClick = { navController.popBackStack() })
                 }
 
                 "certificate" -> {
@@ -452,6 +472,26 @@ fun AppNavHost() {
 
                 val arguments = it.toRoute<VideoAdminScreenRoute>()
                 VideoPresentationsAdminScreen(allVideos = arguments.videos)
+            }
+
+            composable<PendingRecommendationsAdminScreenRoute>(
+                typeMap = mapOf(
+                    typeOf<List<PendingRecommendationUiModel>?>() to CustomNavType.pendingRecommendationsAdminType
+                )
+            ) {
+                topBar.value = "EditPendingRecommendations"
+                val arguments = it.toRoute<PendingRecommendationsAdminScreenRoute>()
+                PendingRecommendationsAdminScreen(arguments.pending)
+            }
+
+            composable<RecommendationsAdminScreenRoute>(
+                typeMap = mapOf(
+                    typeOf<List<RecommendationUiModel>?>() to CustomNavType.recommendationsAdminType
+                )
+            ) {
+                topBar.value = "EditRecommendations"
+                val arguments = it.toRoute<RecommendationsAdminScreenRoute>()
+                RecommendationsAdminScreen(arguments.recommendations)
             }
 
 

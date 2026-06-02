@@ -8,6 +8,8 @@ import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
 import com.alqiran.portfoliomainadmin.ui.model.EducationUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ExperienceUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
+import com.alqiran.portfoliomainadmin.ui.model.PendingRecommendationUiModel
+import com.alqiran.portfoliomainadmin.ui.model.RecommendationUiModel
 import com.alqiran.portfoliomainadmin.ui.model.SkillUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyTitleUiModel
 import com.alqiran.portfoliomainadmin.ui.model.VideoPresentationUiModel
@@ -69,3 +71,9 @@ data class CertificateAdminScreenRoute(val certificates: List<CertificateUiModel
 
 @Serializable
 data class VideoAdminScreenRoute(val videos: List<VideoPresentationUiModel>?)
+
+@Serializable
+data class PendingRecommendationsAdminScreenRoute(val pending: List<PendingRecommendationUiModel>?)
+
+@Serializable
+data class RecommendationsAdminScreenRoute(val recommendations: List<RecommendationUiModel>?)

@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alqiran.portfoliomainadmin.theme.PortfolioMainTheme
-import com.alqiran.portfoliomainadmin.ui.components.HeadlineTextWidget
 import com.alqiran.portfoliomainadmin.ui.components.SectionHeaderWithEdit
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultTextButton
 import com.alqiran.portfoliomainadmin.ui.components.loading_and_failed.FailedLoadingScreen
@@ -26,7 +25,7 @@ import com.alqiran.portfoliomainadmin.ui.helper.isValidUrl
 import com.alqiran.portfoliomainadmin.ui.model.UserUiModel
 import com.alqiran.portfoliomainadmin.ui.navigation.NavigationAction
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.AboutSection
-import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.Courses
+import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.CoursesSection
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
 import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
@@ -34,7 +33,9 @@ import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.Certific
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.ContentsSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.EducationSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.ExperienceSection
+import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.PendingRecommendationsSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.ProjectsSection
+import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.RecommendationsSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.SkillsSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.TechnologiesAndToolsSection
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.components.TopTitleSection
@@ -96,28 +97,26 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
             )
             
             Column(
-                modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
+            ) {
                 if (userData.cvUrl.isValidUrl()) {
-                    Box(modifier = Modifier.weight(1f)) {
-                        DefaultButton(
-                            text = "Download CV",
-                            buttonType = ButtonType.IntentNavigation(userData.cvUrl!!, context)
-                        )
-                    }
-                }
-                Box(modifier = Modifier.weight(1f)) {
-                    DefaultTextButton(
-                        text = "Header",
-                        onNavigate = onNavigate,
-                        navigateAction = NavigationAction.ToTopTitleEdit(
-                            userData.userName, userData.userImage, userData.jobTitle, 
-                            userData.contactAndAccounts, userData.cvUrl
-                        )
+                    DefaultButton(
+                        text = "Download CV",
+                        buttonType = ButtonType.IntentNavigation(userData.cvUrl!!, context),
                     )
                 }
+                DefaultTextButton(
+                    text = "Header",
+                    onNavigate = onNavigate,
+                    navigateAction = NavigationAction.ToTopTitleEdit(
+                        userData.userName, userData.userImage, userData.jobTitle, 
+                        userData.contactAndAccounts, userData.cvUrl
+                    )
+                )
             }
             Spacer(modifier = Modifier.height(24.dp))
         }
@@ -129,87 +128,113 @@ fun HomeContentScreen(userData: UserUiModel, onNavigate: (NavigationAction) -> U
             Spacer(modifier = Modifier.height(24.dp))
         }
 
-        // Education Section
+        // Projects
         item {
-            if (userData.education != null) {
-                SectionHeaderWithEdit("Education", onNavigate, NavigationAction.ToEducationEdit(userData.education))
-                EducationSection(userData.education)
+            SectionHeaderWithEdit("Projects", onNavigate, NavigationAction.ToProjectsEdit(userData.projects ?: emptyList()), "All") {
+                onNavigate(NavigationAction.ToViewAllProjects(userData.projects ?: emptyList()))
+            }
+            if (userData.projects != null) {
+                ProjectsSection(userData.projects, onNavigate)
                 Spacer(modifier = Modifier.height(24.dp))
             }
         }
 
         // Experience Section
         item {
+            SectionHeaderWithEdit("Experience", onNavigate, NavigationAction.ToExperienceEdit(userData.experiences ?: emptyList()))
             if (userData.experiences != null) {
-                SectionHeaderWithEdit("Experience", onNavigate, NavigationAction.ToExperienceEdit(userData.experiences))
                 ExperienceSection(userData.experiences)
-                Spacer(modifier = Modifier.height(24.dp))
-            }
-        }
-
-        // Tech & Tools
-        item {
-            if (userData.technologiesAndTools != null) {
-                SectionHeaderWithEdit("Technologies", onNavigate, NavigationAction.ToTechnologiesAndToolsEdit(userData.technologiesAndTools))
-                TechnologiesAndToolsSection(userData.technologiesAndTools)
                 Spacer(modifier = Modifier.height(24.dp))
             }
         }
 
         // Skills
         item {
+            SectionHeaderWithEdit("Skills", onNavigate, NavigationAction.ToSkillsEdit(userData.skills ?: emptyList()))
             if (userData.skills != null) {
-                SectionHeaderWithEdit("Skills", onNavigate, NavigationAction.ToSkillsEdit(userData.skills))
                 SkillsSection(userData.skills)
                 Spacer(modifier = Modifier.height(24.dp))
             }
         }
 
-        // Projects
+        // Technologies & Tools Section
         item {
-            if (userData.projects != null) {
-                SectionHeaderWithEdit("Projects", onNavigate, NavigationAction.ToProjectsEdit(userData.projects), "All") {
-                    onNavigate(NavigationAction.ToViewAllProjects(userData.projects))
-                }
-                ProjectsSection(userData.projects, onNavigate)
+            SectionHeaderWithEdit("Technologies", onNavigate, NavigationAction.ToTechnologiesAndToolsEdit(userData.technologiesAndTools ?: emptyList()))
+            if (userData.technologiesAndTools != null) {
+                TechnologiesAndToolsSection(userData.technologiesAndTools)
                 Spacer(modifier = Modifier.height(24.dp))
             }
         }
 
         // Courses
         item {
+            SectionHeaderWithEdit("Courses", onNavigate, NavigationAction.ToCoursesEdit(userData.courses ?: emptyList()), "All") {
+                onNavigate(NavigationAction.ToViewAllCourses(userData.courses ?: emptyList()))
+            }
             if (userData.courses != null) {
-                SectionHeaderWithEdit("Courses", onNavigate, NavigationAction.ToCoursesEdit(userData.courses), "All") {
-                    onNavigate(NavigationAction.ToViewAllCourses(userData.courses))
-                }
-                Courses(userData.courses)
+                CoursesSection(userData.courses)
                 Spacer(modifier = Modifier.height(24.dp))
             }
         }
 
         // Certificates
         item {
+            SectionHeaderWithEdit("Certificates", onNavigate, NavigationAction.ToCertificateEdit(userData.certificates ?: emptyList()))
             if (userData.certificates != null) {
-                SectionHeaderWithEdit("Certificates", onNavigate, NavigationAction.ToCertificateEdit(userData.certificates))
                 CertificatesSection(userData.certificates, onNavigate)
-                Spacer(modifier = Modifier.height(24.dp))
-            }
-        }
-
-        // Video Presentations
-        item {
-            if (userData.videos != null) {
-                SectionHeaderWithEdit("Videos", onNavigate, NavigationAction.ToVideosEdit(userData.videos))
-                VideoPresentationsSection(userData.videos)
                 Spacer(modifier = Modifier.height(24.dp))
             }
         }
 
         // Contents
         item {
+            SectionHeaderWithEdit("Resources", onNavigate, NavigationAction.ToContentEdit(userData.contentsTitle ?: emptyList()))
             if (userData.contentsTitle != null) {
-                SectionHeaderWithEdit("Resources", onNavigate, NavigationAction.ToContentEdit(userData.contentsTitle))
                 ContentsSection(userData.contentsTitle)
+                Spacer(modifier = Modifier.height(24.dp))
+            }
+        }
+
+        // Video Presentations
+        item {
+            SectionHeaderWithEdit("Videos", onNavigate, NavigationAction.ToVideosEdit(userData.videos ?: emptyList()))
+            if (userData.videos != null) {
+                VideoPresentationsSection(userData.videos)
+                Spacer(modifier = Modifier.height(24.dp))
+            }
+        }
+
+        // Recommendations
+        item {
+            SectionHeaderWithEdit(
+                "Recommendations", 
+                onNavigate, 
+                NavigationAction.ToRecommendationsEdit(userData.recommendations ?: emptyList())
+            )
+            if (userData.recommendations != null) {
+                RecommendationsSection(userData.recommendations)
+                Spacer(modifier = Modifier.height(24.dp))
+            }
+        }
+
+        // Pending Recommendations
+        item {
+            SectionHeaderWithEdit(
+                "Pending Recommendations", 
+                onNavigate, 
+                NavigationAction.ToPendingRecommendationsEdit(userData.pendingRecommendations ?: emptyList())
+            )
+            if (userData.pendingRecommendations != null) {
+                PendingRecommendationsSection(userData.pendingRecommendations)
+                Spacer(modifier = Modifier.height(24.dp))
+            }
+        }
+
+        // Education Section
+        item {
+            SectionHeaderWithEdit("Education", onNavigate, NavigationAction.ToEducationEdit(userData.education ?: emptyList()))
+            if (userData.education != null) {
+                EducationSection(userData.education)
                 Spacer(modifier = Modifier.height(24.dp))
             }
         }

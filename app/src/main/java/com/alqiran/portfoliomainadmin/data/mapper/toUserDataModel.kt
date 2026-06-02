@@ -7,7 +7,9 @@ import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.ContentTitle
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Course
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Education
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Experience
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.PendingRecommendation
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Project
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Recommendation
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Skill
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Technology
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.TechnologyTitle
@@ -107,6 +109,25 @@ fun UserUiModel.toUserDataModel(): User {
                 id = video.id,
                 videoUrl = video.videoUrl,
                 videoTitle = video.videoTitle
+            )
+        },
+        recommendations = this.recommendations?.map { recommendation ->
+            Recommendation(
+                id = recommendation.id,
+                date = recommendation.date,
+                order = recommendation.order,
+                userName = recommendation.userName,
+                email = recommendation.email,
+                message = recommendation.message
+            )
+        },
+        pendingRecommendations = this.pendingRecommendations?.map { pendingRecommendation ->
+            PendingRecommendation(
+                id = pendingRecommendation.id,
+                date = pendingRecommendation.date,
+                userName = pendingRecommendation.userName,
+                email = pendingRecommendation.email,
+                message = pendingRecommendation.message
             )
         }
     )

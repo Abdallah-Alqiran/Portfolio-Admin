@@ -8,7 +8,9 @@ import com.alqiran.portfoliomainadmin.ui.model.ContentUiModel
 import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
 import com.alqiran.portfoliomainadmin.ui.model.EducationUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ExperienceUiModel
+import com.alqiran.portfoliomainadmin.ui.model.PendingRecommendationUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
+import com.alqiran.portfoliomainadmin.ui.model.RecommendationUiModel
 import com.alqiran.portfoliomainadmin.ui.model.SkillUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyTitleUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyUiModel
@@ -108,6 +110,25 @@ fun User.toUserDataUi(): UserUiModel {
                 id = video.id,
                 videoUrl = video.videoUrl,
                 videoTitle = video.videoTitle
+            )
+        },
+        recommendations = this.recommendations?.map { recommendation ->
+            RecommendationUiModel(
+                id = recommendation.id,
+                date = recommendation.date,
+                order = recommendation.order,
+                userName = recommendation.userName,
+                email = recommendation.email,
+                message = recommendation.message
+            )
+        },
+        pendingRecommendations = this.pendingRecommendations?.map { pendingRecommendation ->
+            PendingRecommendationUiModel(
+                id = pendingRecommendation.id,
+                date = pendingRecommendation.date,
+                userName = pendingRecommendation.userName,
+                email = pendingRecommendation.email,
+                message = pendingRecommendation.message
             )
         }
     )

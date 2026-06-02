@@ -9,7 +9,9 @@ import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.ContentTitle
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Course
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Education
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Experience
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.PendingRecommendation
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Project
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Recommendation
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Skill
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Technology
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.TechnologyTitle
@@ -129,5 +131,21 @@ class FirebaseRepositoryImpl @Inject constructor(
     }
     override fun deleteMessage(message: ContactMessage) {
         return remoteDataSource.deleteMessage(message)
+    }
+
+    override fun acceptRecommendation(pending: PendingRecommendation) {
+        return remoteDataSource.acceptRecommendation(pending)
+    }
+
+    override fun rejectRecommendation(pending: PendingRecommendation) {
+        return remoteDataSource.rejectRecommendation(pending)
+    }
+
+    override fun uploadRecommendations(recommendations: List<Recommendation>) {
+        return remoteDataSource.uploadRecommendations(recommendations)
+    }
+
+    override fun deleteRecommendation(recommendation: Recommendation) {
+        return remoteDataSource.deleteRecommendation(recommendation)
     }
 }

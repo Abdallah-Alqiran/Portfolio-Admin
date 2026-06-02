@@ -16,5 +16,7 @@ data class User(
     val education: List<Education>? = null,
     val contentsTitle: List<ContentTitle>? = null,
     val certificates: List<Certificate>? = null,
-    val videos: List<VideoPresentation>? = null
+    val videos: List<VideoPresentation>? = null,
+    val recommendations: List<Recommendation>? = null,
+    val pendingRecommendations: List<PendingRecommendation>? = null,
 )

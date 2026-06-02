@@ -15,5 +15,7 @@ data class UserUiModel(
     val education: List<EducationUiModel>? = null,
     val contentsTitle: List<ContentTitleUiModel>? = null,
     val certificates: List<CertificateUiModel>? = null,
-    val videos: List<VideoPresentationUiModel>? = null
+    val videos: List<VideoPresentationUiModel>? = null,
+    val recommendations: List<RecommendationUiModel>? = null,
+    val pendingRecommendations: List<PendingRecommendationUiModel>? = null,
 )

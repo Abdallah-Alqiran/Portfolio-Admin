@@ -14,17 +14,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
+import com.alqiran.portfoliomainadmin.ui.model.PendingRecommendationUiModel
+import com.alqiran.portfoliomainadmin.ui.model.RecommendationUiModel
 
 @Composable
-fun CoursesSection(courses: List<CourseUiModel>) {
+fun PendingRecommendationsSection(recommendations: List<PendingRecommendationUiModel>) {
     Row(
         modifier = Modifier
             .padding(vertical = 12.dp)
             .horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        courses.forEach { course ->
+        recommendations.forEach { recommendation ->
             Column(
                 modifier = Modifier
                     .width(260.dp)
@@ -34,7 +35,7 @@ fun CoursesSection(courses: List<CourseUiModel>) {
                     .padding(16.dp),
             ) {
                 Text(
-                    text = course.courseName,
+                    text = recommendation.userName,
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold,
@@ -43,15 +44,33 @@ fun CoursesSection(courses: List<CourseUiModel>) {
                 )
                 
                 Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = recommendation.email,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.secondary,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
                 
                 Text(
-                    text = course.courseDescription,
+                    text = recommendation.message,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     lineHeight = MaterialTheme.typography.bodyMedium.lineHeight,
-                    maxLines = 4,
-                    overflow = TextOverflow.Ellipsis
                 )
+
+                if (recommendation.date.isNotBlank()) {
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text(
+                        text = recommendation.date,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.secondary,
+                    )
+                }
             }
         }
     }

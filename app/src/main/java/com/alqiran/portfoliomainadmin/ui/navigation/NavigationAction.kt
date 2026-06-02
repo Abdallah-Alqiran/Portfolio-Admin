@@ -6,7 +6,9 @@ import com.alqiran.portfoliomainadmin.ui.model.ContentTitleUiModel
 import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
 import com.alqiran.portfoliomainadmin.ui.model.EducationUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ExperienceUiModel
+import com.alqiran.portfoliomainadmin.ui.model.PendingRecommendationUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
+import com.alqiran.portfoliomainadmin.ui.model.RecommendationUiModel
 import com.alqiran.portfoliomainadmin.ui.model.SkillUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyTitleUiModel
 import com.alqiran.portfoliomainadmin.ui.model.VideoPresentationUiModel
@@ -45,6 +47,7 @@ sealed class NavigationAction {
 
     data class ToVideosEdit(val videos: List<VideoPresentationUiModel>): NavigationAction()
 
-
+    data class ToPendingRecommendationsEdit(val pending: List<PendingRecommendationUiModel>): NavigationAction()
+    data class ToRecommendationsEdit(val recommendations: List<RecommendationUiModel>): NavigationAction()
 
 }

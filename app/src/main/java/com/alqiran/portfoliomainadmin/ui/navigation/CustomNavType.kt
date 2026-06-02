@@ -10,7 +10,9 @@ import com.alqiran.portfoliomainadmin.ui.model.ContentUiModel
 import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
 import com.alqiran.portfoliomainadmin.ui.model.EducationUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ExperienceUiModel
+import com.alqiran.portfoliomainadmin.ui.model.PendingRecommendationUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
+import com.alqiran.portfoliomainadmin.ui.model.RecommendationUiModel
 import com.alqiran.portfoliomainadmin.ui.model.SkillUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyTitleUiModel
 import com.alqiran.portfoliomainadmin.ui.model.TechnologyUiModel
@@ -453,5 +455,38 @@ object CustomNavType {
         }
     }
 
+    val pendingRecommendationsAdminType = object : NavType<List<PendingRecommendationUiModel>?>(
+        isNullableAllowed = true
+    ) {
+        override fun get(bundle: Bundle, key: String): List<PendingRecommendationUiModel>? {
+            return Json.decodeFromString(bundle.getString(key) ?: return null)
+        }
+        override fun parseValue(value: String): List<PendingRecommendationUiModel>? {
+            return Json.decodeFromString(Uri.decode(value))
+        }
+        override fun serializeAsValue(value: List<PendingRecommendationUiModel>?): String {
+            return Uri.encode(Json.encodeToString(value))
+        }
+        override fun put(bundle: Bundle, key: String, value: List<PendingRecommendationUiModel>?) {
+            bundle.putString(key, Json.encodeToString(value))
+        }
+    }
+
+    val recommendationsAdminType = object : NavType<List<RecommendationUiModel>?>(
+        isNullableAllowed = true
+    ) {
+        override fun get(bundle: Bundle, key: String): List<RecommendationUiModel>? {
+            return Json.decodeFromString(bundle.getString(key) ?: return null)
+        }
+        override fun parseValue(value: String): List<RecommendationUiModel>? {
+            return Json.decodeFromString(Uri.decode(value))
+        }
+        override fun serializeAsValue(value: List<RecommendationUiModel>?): String {
+            return Uri.encode(Json.encodeToString(value))
+        }
+        override fun put(bundle: Bundle, key: String, value: List<RecommendationUiModel>?) {
+            bundle.putString(key, Json.encodeToString(value))
+        }
+    }
 
 }

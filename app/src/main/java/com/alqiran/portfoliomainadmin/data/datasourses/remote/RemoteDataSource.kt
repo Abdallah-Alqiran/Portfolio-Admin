@@ -13,6 +13,8 @@ import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Project
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Skill
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Technology
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.TechnologyTitle
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.PendingRecommendation
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Recommendation
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.User
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.VideoPresentation
 import com.alqiran.portfoliomainadmin.utils.Constants.Companion.COLLECTION_NAME
@@ -586,5 +588,47 @@ class RemoteDataSource @Inject constructor(
         deleteElement("videos", video)
     }
 
+    fun acceptRecommendation(pending: PendingRecommendation) {
+        firestore.runTransaction { transaction ->
+            // Add to recommendations
+            val recommendation = Recommendation(
+                id = pending.id,
+                date = pending.date,
+                order = null,
+                userName = pending.userName,
+                email = pending.email,
+                message = pending.message
+            )
+            transaction.update(collectionAndDocument, "recommendations", FieldValue.arrayUnion(recommendation))
+            
+            // Remove from pendingRecommendations
+            transaction.update(collectionAndDocument, "pendingRecommendations", FieldValue.arrayRemove(pending))
+            
+            null
+        }.addOnFailureListener { exception ->
+            throw Exception("Error Accepting Recommendation: ${exception.message}")
+        }
+    }
 
-}
+    fun rejectRecommendation(pending: PendingRecommendation) {
+        deleteElement("pendingRecommendations", pending)
+    }
+
+    fun uploadRecommendations(recommendations: List<Recommendation>) {
+        firestore.runTransaction { transaction ->
+            val sorted = recommendations.sortedWith(
+                compareBy<Recommendation> { it.order ?: Int.MAX_VALUE }
+                    .thenByDescending { it.date }
+            )
+            transaction.update(collectionAndDocument, "recommendations", sorted)
+            null
+        }.addOnFailureListener { exception ->
+            throw Exception("Error Updating Recommendations: ${exception.message}")
+        }
+    }
+
+    fun deleteRecommendation(recommendation: Recommendation) {
+        deleteElement("recommendations", recommendation)
+    }
+
+}
