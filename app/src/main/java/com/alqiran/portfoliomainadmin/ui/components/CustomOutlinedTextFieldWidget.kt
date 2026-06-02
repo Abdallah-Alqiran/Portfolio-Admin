@@ -27,8 +27,8 @@ fun CustomOutlinedTextFieldWidget(
         onValueChange = {
             onTextChange(it)
         },
-        label = { Text(textLabel) },
-        placeholder = { Text(placeHolderLabel) },
+        label = { Text(textLabel, style = MaterialTheme.typography.labelSmall) },
+        placeholder = { Text(placeHolderLabel, style = MaterialTheme.typography.labelSmall,) },
         singleLine = isSingleLine,
         modifier = modifier.fillMaxWidth(),
         keyboardOptions = KeyboardOptions(

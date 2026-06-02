@@ -8,7 +8,5 @@ data class ProjectUiModel(
     val image: String = "",
     val projectName: String = "",
     val description: String = "",
-    val githubUrl: String = "",
-    val googlePlayUrl: String = "",
-    val appleStoreUrl: String = "",
+    val links: List<LinkUiModel> = emptyList(),
 )

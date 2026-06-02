@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -67,37 +68,21 @@ fun ProjectItemScreen(project: ProjectUiModel) {
 
         Text(
             project.description,
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.onBackground,
             style = MaterialTheme.typography.labelMedium,
             modifier = Modifier.padding(horizontal = 4.dp)
         )
 
         Box(Modifier.padding(8.dp))
 
-        if (project.githubUrl != "") {
-            DefaultButton(
-                text = "View on GitHub",
-                buttonType = ButtonType.IntentNavigation(url = project.githubUrl, context = context)
-            )
-        }
-        if (project.googlePlayUrl != "") {
-            DefaultButton(
-                text = "View on google Play",
-                buttonType = ButtonType.IntentNavigation(
-                    url = project.googlePlayUrl,
-                    context = context
+        project.links.forEach { link ->
+            if (link.url.isNotEmpty()) {
+                DefaultButton(
+                    text = link.name,
+                    buttonType = ButtonType.IntentNavigation(url = link.url, context = context)
                 )
-            )
-        }
-
-        if (project.appleStoreUrl != "") {
-            DefaultButton(
-                text = "View on Apple Store",
-                buttonType = ButtonType.IntentNavigation(
-                    url = project.appleStoreUrl,
-                    context = context
-                )
-            )
+                Box(modifier = Modifier.height(8.dp))
+            }
         }
         Box(Modifier.padding(8.dp))
 

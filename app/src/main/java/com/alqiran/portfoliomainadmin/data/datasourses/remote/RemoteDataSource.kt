@@ -9,6 +9,7 @@ import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.ContentTitle
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Course
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Education
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Experience
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Link
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Project
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Skill
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Technology
@@ -310,9 +311,12 @@ class RemoteDataSource @Inject constructor(
                     image = (it["image"] as? String) ?: "",
                     projectName = (it["projectName"] as? String) ?: "",
                     description = (it["description"] as? String) ?: "",
-                    githubUrl = (it["githubUrl"] as? String) ?: "",
-                    googlePlayUrl = (it["googlePlayUrl"] as? String) ?: "",
-                    appleStoreUrl = (it["appleStoreUrl"] as? String) ?: ""
+                    links = ((it["links"] as? List<Map<String, Any>>) ?: emptyList()).map { linkMap ->
+                        Link(
+                            name = (linkMap["name"] as? String) ?: "",
+                            url = (linkMap["url"] as? String) ?: ""
+                        )
+                    }
                 )
             }.toMutableList()
 
@@ -631,4 +635,4 @@ class RemoteDataSource @Inject constructor(
         deleteElement("recommendations", recommendation)
     }
 
-}
+}

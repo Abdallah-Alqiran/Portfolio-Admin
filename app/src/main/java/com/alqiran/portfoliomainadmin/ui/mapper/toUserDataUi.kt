@@ -8,6 +8,7 @@ import com.alqiran.portfoliomainadmin.ui.model.ContentUiModel
 import com.alqiran.portfoliomainadmin.ui.model.CourseUiModel
 import com.alqiran.portfoliomainadmin.ui.model.EducationUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ExperienceUiModel
+import com.alqiran.portfoliomainadmin.ui.model.LinkUiModel
 import com.alqiran.portfoliomainadmin.ui.model.PendingRecommendationUiModel
 import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
 import com.alqiran.portfoliomainadmin.ui.model.RecommendationUiModel
@@ -30,9 +31,7 @@ fun User.toUserDataUi(): UserUiModel {
                 image = project.image,
                 projectName = project.projectName,
                 description = project.description,
-                githubUrl = project.githubUrl,
-                googlePlayUrl = project.googlePlayUrl,
-                appleStoreUrl = project.appleStoreUrl,
+                links = project.links.map { LinkUiModel(name = it.name, url = it.url) }
             )
         },
         contactAndAccounts = this.contactAndAccounts?.map { contact ->

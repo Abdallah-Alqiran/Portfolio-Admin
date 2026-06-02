@@ -27,6 +27,7 @@ import com.alqiran.portfoliomainadmin.ui.components.buttons.AddItemTextButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DefaultButton
 import com.alqiran.portfoliomainadmin.ui.components.buttons.DeleteItemTextButton
 import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel
+import com.alqiran.portfoliomainadmin.ui.model.LinkUiModel
 import com.alqiran.portfoliomainadmin.ui.screens.admin.AdminState
 import com.alqiran.portfoliomainadmin.ui.screens.admin.projects_admin.viewModel.ProjectsAdminViewModel
 import com.alqiran.portfoliomainadmin.ui.utils.ButtonType
@@ -119,32 +120,68 @@ fun ProjectAdminScreen(allProjects: List<ProjectUiModel>?) {
                 }
             }
 
-            CustomOutlinedTextFieldWidget(
-                textValue = project.githubUrl,
-                textLabel = "Github Project URL",
-                placeHolderLabel = "Enter your Project URL"
-            ) {
-                projects = projects?.map { a ->
-                    if (a == project) a.copy(githubUrl = it) else a
+            project.links.forEachIndexed { index, link ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    CustomOutlinedTextFieldWidget(
+                        textValue = link.name,
+                        textLabel = "Link Name",
+                        placeHolderLabel = "e.g., View on GitHub",
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(end = 4.dp)
+                    ) {
+                        projects = projects?.map { p ->
+                            if (p == project) {
+                                p.copy(links = p.links.toMutableList().apply {
+                                    set(index, this[index].copy(name = it))
+                                })
+                            } else {
+                                p
+                            }
+                        }
+                    }
+
+                    CustomOutlinedTextFieldWidget(
+                        textValue = link.url,
+                        textLabel = "Link URL",
+                        placeHolderLabel = "Enter URL",
+                        modifier = Modifier
+                            .weight(2f)
+                            .padding(end = 4.dp)
+                    ) {
+                        projects = projects?.map { p ->
+                            if (p == project) {
+                                p.copy(links = p.links.toMutableList().apply {
+                                    set(index, this[index].copy(url = it))
+                                })
+                            } else {
+                                p
+                            }
+                        }
+                    }
                 }
-            }
-            CustomOutlinedTextFieldWidget(
-                textValue = project.googlePlayUrl,
-                textLabel = "Google Play app Link",
-                placeHolderLabel = "Enter app google play url"
-            ) {
-                projects = projects?.map { a ->
-                    if (a == project) a.copy(googlePlayUrl = it) else a
+
+                DeleteItemTextButton(text = "Remove Link") {
+                    projects = projects?.map { p ->
+                        if (p == project) {
+                            p.copy(links = p.links.filterIndexed { i, _ -> i != index })
+                        } else {
+                            p
+                        }
+                    }
                 }
             }
 
-            CustomOutlinedTextFieldWidget(
-                textValue = project.appleStoreUrl,
-                textLabel = "Apple Store app Link",
-                placeHolderLabel = "Enter app apple store url"
-            ) {
-                projects = projects?.map { a ->
-                    if (a == project) a.copy(appleStoreUrl = it) else a
+            // Add new link button
+            AddItemTextButton(text = "Add Link") {
+                projects = projects?.map { p ->
+                    if (p == project) {
+                        p.copy(links = p.links + LinkUiModel(name = "", url = ""))
+                    } else {
+                        p
+                    }
                 }
             }
 

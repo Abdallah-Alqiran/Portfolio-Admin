@@ -7,6 +7,7 @@ import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.ContentTitle
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Course
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Education
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Experience
+import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Link
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.PendingRecommendation
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Project
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Recommendation
@@ -30,9 +31,7 @@ fun UserUiModel.toUserDataModel(): User {
                 image = project.image,
                 projectName = project.projectName,
                 description = project.description,
-                githubUrl = project.githubUrl,
-                googlePlayUrl = project.googlePlayUrl,
-                appleStoreUrl = project.appleStoreUrl,
+                links = project.links.map { Link(name = it.name, url = it.url) }
             )
         },
         contactAndAccounts = this.contactAndAccounts?.map { contact ->

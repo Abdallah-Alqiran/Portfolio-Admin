@@ -20,9 +20,12 @@ fun UserUiModel.toMap(): Map<String, Any?> {
                 "image" to project.image,
                 "projectName" to project.projectName,
                 "description" to project.description,
-                "githubUrl" to project.githubUrl,
-                "googlePlayUrl" to project.googlePlayUrl,
-                "appleStoreUrl" to project.appleStoreUrl
+                "links" to project.links.map { link ->
+                    mapOf(
+                        "name" to link.name,
+                        "url" to link.url
+                    )
+                }
             )
         },
         "contactAndAccounts" to contactAndAccounts?.map { contact ->

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="/toProjects (snapshot).kt">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="/toProjects (snapshot).kt" />
+              <option name="originalContent" value="package com.alqiran.portfoliomainadmin.data.mapper&#10;&#10;import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Project&#10;import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel&#10;&#10;fun List&lt;ProjectUiModel&gt;.toProjects(): List&lt;Project&gt; {&#10;    return this.map { item -&gt;&#10;        Project(&#10;        id = item.id,&#10;        image = item.image,&#10;        projectName = item.projectName,&#10;        description = item.description,&#10;        githubUrl = item.githubUrl,&#10;        googlePlayUrl = item.googlePlayUrl,&#10;        appleStoreUrl = item.appleStoreUrl,&#10;        websiteUrl = item.websiteUrl,&#10;        )&#10;    }&#10;}" />
+              <option name="updatedContent" value="package com.alqiran.portfoliomainadmin.data.mapper&#10;&#10;import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Project&#10;import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Link&#10;import com.alqiran.portfoliomainadmin.ui.model.ProjectUiModel&#10;&#10;fun List&lt;ProjectUiModel&gt;.toProjects(): List&lt;Project&gt; {&#10;    return this.map { item -&gt;&#10;        Project(&#10;            id = item.id,&#10;            image = item.image,&#10;            projectName = item.projectName,&#10;            description = item.description,&#10;            links = item.links.map { Link(name = it.name, url = it.url) }&#10;        )&#10;    }&#10;}" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
