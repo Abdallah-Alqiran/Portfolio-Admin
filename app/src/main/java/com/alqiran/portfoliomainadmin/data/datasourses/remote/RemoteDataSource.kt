@@ -19,8 +19,8 @@ import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.Recommendati
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.User
 import com.alqiran.portfoliomainadmin.data.datasourses.remote.model.VideoPresentation
 import com.alqiran.portfoliomainadmin.utils.Constants.Companion.COLLECTION_NAME
-import com.alqiran.portfoliomainadmin.utils.Constants.Companion.DOCUMENT_USER_NAME
 import com.alqiran.portfoliomainadmin.utils.isOnline
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -33,18 +33,57 @@ import javax.inject.Inject
 
 
 class RemoteDataSource @Inject constructor(
-    private val firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore,
+    private val auth: FirebaseAuth
 ) {
 
-    private val collectionAndDocument =
-        firestore.collection(COLLECTION_NAME).document(DOCUMENT_USER_NAME)
-
+    val userId: String?
+        get() = auth.currentUser?.uid
+    private val collectionAndDocument get() =
+        firestore.collection(COLLECTION_NAME).document(userId ?: "")
 
     private fun deleteElement(fieldName: String, type: Any) {
         collectionAndDocument.update(fieldName, FieldValue.arrayRemove(type))
             .addOnFailureListener { exception ->
                 throw Exception("Error Delete: ${exception.message}")
             }
+    }
+
+    fun isUserLoggedIn () : Boolean {
+        return userId != null
+    }
+
+    fun logout() {
+        try {
+            auth.signOut()
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+
+
+    suspend fun login(email: String, password: String) {
+        try {
+            auth.signInWithEmailAndPassword(email, password).await()
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+
+    suspend fun register(email: String, password: String) {
+        try {
+            val data = mapOf(
+                "email" to email,
+            )
+            auth.createUserWithEmailAndPassword(email, password).await()
+            collectionAndDocument
+                .set(data, SetOptions.merge())
+                .addOnFailureListener { exception ->
+                    throw Exception("There is Error saving user data  ${exception.message}")
+                }
+        } catch (e: Exception) {
+            throw e
+        }
     }
 
     suspend fun getAllUserData(): User {
@@ -604,10 +643,10 @@ class RemoteDataSource @Inject constructor(
                 message = pending.message
             )
             transaction.update(collectionAndDocument, "recommendations", FieldValue.arrayUnion(recommendation))
-            
+
             // Remove from pendingRecommendations
             transaction.update(collectionAndDocument, "pendingRecommendations", FieldValue.arrayRemove(pending))
-            
+
             null
         }.addOnFailureListener { exception ->
             throw Exception("Error Accepting Recommendation: ${exception.message}")

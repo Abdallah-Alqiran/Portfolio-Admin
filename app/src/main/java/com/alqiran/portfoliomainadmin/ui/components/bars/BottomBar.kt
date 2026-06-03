@@ -29,7 +29,8 @@ fun BottomBar(onItemSelected: (Int) -> Unit, selectedIndex: Int) {
         R.drawable.profile to "Home",
         R.drawable.ic_project to "Projects",
         R.drawable.ic_courses to "Courses",
-        R.drawable.ic_message to "Message"
+        R.drawable.ic_message to "Message",
+        R.drawable.ic_settings to "Settings"
     )
 
     Surface(

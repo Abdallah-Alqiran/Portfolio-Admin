@@ -1,6 +1,7 @@
 package com.alqiran.portfoliomainadmin.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -10,6 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun CustomOutlinedTextFieldWidget(
@@ -17,6 +21,8 @@ fun CustomOutlinedTextFieldWidget(
     textValue: String,
     textLabel: String,
     placeHolderLabel: String,
+    errorMessage: String? = null,
+    isPassword: Boolean = false,
     isSingleLine: Boolean = true,
     keyboardType: KeyboardType = KeyboardType.Text,
     minLines: Int = 1,
@@ -35,6 +41,7 @@ fun CustomOutlinedTextFieldWidget(
             keyboardType = keyboardType,
             imeAction = ImeAction.Next
         ),
+        visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
         textStyle = MaterialTheme.typography.labelMedium,
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = MaterialTheme.colorScheme.secondary,
@@ -55,4 +62,12 @@ fun CustomOutlinedTextFieldWidget(
         ),
         minLines = minLines
     )
+    if (!errorMessage.isNullOrEmpty()) {
+        Text(
+            text = errorMessage,
+            color = MaterialTheme.colorScheme.error,
+            style = MaterialTheme.typography.labelSmall,
+            modifier = Modifier.padding(start = 16.dp, top = 4.dp)
+        )
+    }
 }

@@ -22,6 +22,12 @@ data object SplashScreenRoute
 data object HomeScreenRoute
 
 @Serializable
+data object LoginScreenRoute
+
+@Serializable
+data object RegisterScreenRoute
+
+@Serializable
 data class ProjectItemRoute(val project: ProjectUiModel)
 
 @Serializable
@@ -35,6 +41,9 @@ data class CoursesScreenRoute(val courses: List<CourseUiModel>)
 
 @Serializable
 data object MessageScreenRoute
+
+@Serializable
+data object SettingsScreenRoute
 
 
 // For Admin

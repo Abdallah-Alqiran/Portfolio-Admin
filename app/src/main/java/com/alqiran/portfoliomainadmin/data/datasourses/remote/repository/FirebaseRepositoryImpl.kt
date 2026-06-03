@@ -24,6 +24,31 @@ import javax.inject.Inject
 class FirebaseRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ): FirebaseRepository{
+    override suspend fun login(
+        email: String,
+        password: String
+    ) {
+        return remoteDataSource.login(email, password)
+    }
+
+    override suspend fun register(
+        email: String,
+        password: String,
+    ) {
+        return remoteDataSource.register(email, password)
+    }
+
+    override fun isLoggedIn(): Boolean {
+        return remoteDataSource.isUserLoggedIn()
+    }
+
+    override fun logout() {
+        return remoteDataSource.logout()
+    }
+
+    override fun getUserId(): String {
+        return remoteDataSource.userId ?: ""
+    }
 
     override suspend fun getAllUserData(): User {
         return remoteDataSource.getAllUserData()

@@ -20,6 +20,16 @@ import kotlinx.coroutines.flow.Flow
 
 interface FirebaseRepository {
 
+    suspend fun login(email: String, password: String)
+
+    suspend fun register(email: String, password: String)
+
+    fun isLoggedIn(): Boolean
+
+    fun logout()
+
+    fun getUserId(): String
+
     suspend fun getAllUserData(): User
 
     fun sendMessage(contactMessage: ContactMessage)

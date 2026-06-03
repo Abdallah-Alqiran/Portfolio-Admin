@@ -11,17 +11,26 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alqiran.portfoliomainadmin.R
 import com.alqiran.portfoliomainadmin.theme.PortfolioMainTheme
+import com.alqiran.portfoliomainadmin.ui.screens.splash.viewModel.SplashState
+import com.alqiran.portfoliomainadmin.ui.screens.splash.viewModel.SplashViewModel
 
 @Composable
-fun SplashScreen(onNavigate: () -> Unit) {
+fun SplashScreen(onNavigate: (isLoggedInt: Boolean) -> Unit) {
+
+    val splashViewModel: SplashViewModel = hiltViewModel()
+    val splashState by splashViewModel.splashState.collectAsStateWithLifecycle()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -52,8 +61,22 @@ fun SplashScreen(onNavigate: () -> Unit) {
     }
 
     LaunchedEffect(Unit) {
-        kotlinx.coroutines.delay(2000)
-        onNavigate()
+        splashViewModel.checkUserLoggedIn()
+    }
+
+    LaunchedEffect(splashState) {
+        if (splashState is SplashState.Error) {
+            kotlinx.coroutines.delay(5000)
+            splashViewModel.checkUserLoggedIn()
+        }
+    }
+
+    when(splashState) {
+        is SplashState.Success -> {
+            onNavigate((splashState as SplashState.Success).isLoggedIn)
+        }
+        is SplashState.Error -> Unit
+        SplashState.Loading -> Unit
     }
 }
 

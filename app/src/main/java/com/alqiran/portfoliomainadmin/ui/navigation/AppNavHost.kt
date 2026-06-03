@@ -42,12 +42,15 @@ import com.alqiran.portfoliomainadmin.ui.screens.admin.skills_admin.SkillsAdminS
 import com.alqiran.portfoliomainadmin.ui.screens.admin.technologies_admin.TechnologiesAndToolsAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.toptitle_admin.TopTitleAdminScreen
 import com.alqiran.portfoliomainadmin.ui.screens.admin.video_admin.VideoPresentationsAdminScreen
+import com.alqiran.portfoliomainadmin.ui.screens.auth.login_screen.LoginScreen
+import com.alqiran.portfoliomainadmin.ui.screens.auth.register_screen.RegisterScreen
 import com.alqiran.portfoliomainadmin.ui.screens.certificate_item_screen.CertificateItemScreen
 import com.alqiran.portfoliomainadmin.ui.screens.courses_screen.CoursesScreen
 import com.alqiran.portfoliomainadmin.ui.screens.home_screen.HomeScreen
 import com.alqiran.portfoliomainadmin.ui.screens.message_screen.MessageScreen
 import com.alqiran.portfoliomainadmin.ui.screens.project_item_screen.ProjectItemScreen
 import com.alqiran.portfoliomainadmin.ui.screens.projects_screen.ProjectsScreen
+import com.alqiran.portfoliomainadmin.ui.screens.settings_screen.SettingsScreen
 import com.alqiran.portfoliomainadmin.ui.screens.splash.SplashScreen
 import kotlin.reflect.typeOf
 
@@ -223,6 +226,10 @@ fun AppNavHost() {
                 "certificate" -> {
                     TopBar("Certificate", onClick = { navController.popBackStack() })
                 }
+
+                "settings" -> {
+                    TopBar("Settings", onClick = { navController.popBackStack() })
+                }
             }
         },
         bottomBar = {
@@ -244,6 +251,7 @@ fun AppNavHost() {
 
                             2 -> navController.navigate(CoursesScreenRoute(courses = currentCourses))
                             3 -> navController.navigate(MessageScreenRoute)
+                            4 -> navController.navigate(SettingsScreenRoute)
                         }
                     },
                 )
@@ -260,9 +268,42 @@ fun AppNavHost() {
             composable<SplashScreenRoute> {
                 selectedIndex = -1
                 topBar.value = "Splash"
-                SplashScreen {
-                    navController.navigate(HomeScreenRoute)
+                SplashScreen {isLoggedIn ->
+                    if (isLoggedIn) navController.navigate(HomeScreenRoute)
+                    else  navController.navigate(LoginScreenRoute)
                 }
+            }
+
+            // Register Screen
+            composable<RegisterScreenRoute> {
+                selectedIndex = -1
+                topBar.value = "Register"
+                RegisterScreen(
+                    onRegister = {
+                        navController.navigate(HomeScreenRoute) {
+                            popUpTo(0) { inclusive = true }
+                        }
+                    },
+                    goToLogin = {
+                        navController.navigate(LoginScreenRoute)
+                    }
+                )
+            }
+
+            // Login Screen
+            composable<LoginScreenRoute> {
+                selectedIndex = -1
+                topBar.value = "Login"
+                LoginScreen(
+                    onLogin = {
+                        navController.navigate(HomeScreenRoute) {
+                            popUpTo(0) { inclusive = true }
+                        }
+                    },
+                    goToSignUp = {
+                        navController.navigate(RegisterScreenRoute)
+                    }
+                )
             }
 
             // Home Screen
@@ -495,6 +536,18 @@ fun AppNavHost() {
             }
 
 
+            // Settings Screen
+            composable<SettingsScreenRoute> {
+                selectedIndex = 4
+                topBar.value = "settings"
+                SettingsScreen(
+                    onLogoutSuccess = {
+                        navController.navigate(LoginScreenRoute) {
+                            popUpTo(0) { inclusive = true }
+                        }
+                    }
+                )
+            }
         }
     }
 }
