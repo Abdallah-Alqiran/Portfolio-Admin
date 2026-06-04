@@ -10,6 +10,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -34,13 +35,16 @@ fun RecommendationsAdminScreen(allRecommendations: List<RecommendationUiModel>?)
     LaunchedEffect(state) {
         when (state) {
             is AdminState.Error -> {
-                Toast.makeText(context, (state as AdminState.Error).error, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, (state as AdminState.Error).error, Toast.LENGTH_SHORT)
+                    .show()
                 viewModel.resetState()
             }
+
             AdminState.Success -> {
                 Toast.makeText(context, "Changes Saved Successfully", Toast.LENGTH_SHORT).show()
                 viewModel.resetState()
             }
+
             else -> Unit
         }
     }
@@ -64,14 +68,14 @@ fun RecommendationsAdminScreen(allRecommendations: List<RecommendationUiModel>?)
         items(displayList, key = { it.id }) { recommendation ->
             RecommendationAdminItem(
                 recommendation = recommendation,
-                allOtherOrders = recommendations?.filter { it.id != recommendation.id }?.mapNotNull { it.order } ?: emptyList(),
+                allOtherOrders = recommendations?.filter { it.id != recommendation.id }
+                    ?.mapNotNull { it.order } ?: emptyList(),
                 onOrderSwap = { newOrder ->
-                    val other = recommendations?.find { it.order == newOrder }
                     recommendations = recommendations?.map { item ->
-                        when {
-                            item.id == recommendation.id -> item.copy(order = newOrder)
-                            other != null && item.id == other.id -> item.copy(order = recommendation.order)
-                            else -> item
+                        if (item.id == recommendation.id) {
+                            item.copy(order = newOrder)
+                        } else {
+                            item
                         }
                     }
                 },
@@ -80,7 +84,10 @@ fun RecommendationsAdminScreen(allRecommendations: List<RecommendationUiModel>?)
                     recommendations = recommendations?.filter { it.id != recommendation.id }
                 }
             )
-            HorizontalDivider(modifier = Modifier.padding(top = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
+            HorizontalDivider(
+                modifier = Modifier.padding(top = 8.dp),
+                color = MaterialTheme.colorScheme.outlineVariant
+            )
         }
 
         item {
@@ -102,11 +109,13 @@ fun RecommendationAdminItem(
     onOrderSwap: (Int) -> Unit,
     onDelete: () -> Unit
 ) {
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .background(MaterialTheme.colorScheme.surface)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically
         ) {
             CustomIdDropdownWidget(
                 currentId = recommendation.order ?: 0,
@@ -115,21 +124,22 @@ fun RecommendationAdminItem(
                 modifier = Modifier.width(80.dp)
             )
 
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = recommendation.userName,
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Text(
-                    text = recommendation.email,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.secondary
-                )
-            }
-
             DeleteItemTextButton(onClick = onDelete)
         }
 
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Column(modifier = Modifier.fillMaxWidth()) {
+            Text(
+                text = recommendation.userName,
+                style = MaterialTheme.typography.titleMedium
+            )
+            Text(
+                text = recommendation.email,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.secondary
+            )
+        }
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(

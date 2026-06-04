@@ -28,6 +28,8 @@ interface FirebaseRepository {
 
     fun logout()
 
+    fun updateFCMToken()
+
     fun getUserId(): String
 
     suspend fun getAllUserData(): User
@@ -78,4 +80,6 @@ interface FirebaseRepository {
     fun rejectRecommendation(pending: PendingRecommendation)
     fun uploadRecommendations(recommendations: List<Recommendation>)
     fun deleteRecommendation(recommendation: Recommendation)
+
+    suspend fun getCurrentFCMToken(): String?
 }

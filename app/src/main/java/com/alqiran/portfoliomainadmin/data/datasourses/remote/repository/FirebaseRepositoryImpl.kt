@@ -46,6 +46,10 @@ class FirebaseRepositoryImpl @Inject constructor(
         return remoteDataSource.logout()
     }
 
+    override fun updateFCMToken() {
+        return remoteDataSource.updateFCMToken()
+    }
+
     override fun getUserId(): String {
         return remoteDataSource.userId ?: ""
     }
@@ -172,5 +176,9 @@ class FirebaseRepositoryImpl @Inject constructor(
 
     override fun deleteRecommendation(recommendation: Recommendation) {
         return remoteDataSource.deleteRecommendation(recommendation)
+    }
+
+    override suspend fun getCurrentFCMToken(): String? {
+        return remoteDataSource.getCurrentFCMToken()
     }
 }

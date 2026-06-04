@@ -25,6 +25,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.Source
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -34,13 +35,15 @@ import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(
     private val firestore: FirebaseFirestore,
-    private val auth: FirebaseAuth
+    private val auth: FirebaseAuth,
+    private val messaging: FirebaseMessaging
 ) {
 
     val userId: String?
         get() = auth.currentUser?.uid
-    private val collectionAndDocument get() =
-        firestore.collection(COLLECTION_NAME).document(userId ?: "")
+    private val collectionAndDocument
+        get() =
+            firestore.collection(COLLECTION_NAME).document(userId ?: "")
 
     private fun deleteElement(fieldName: String, type: Any) {
         collectionAndDocument.update(fieldName, FieldValue.arrayRemove(type))
@@ -49,7 +52,7 @@ class RemoteDataSource @Inject constructor(
             }
     }
 
-    fun isUserLoggedIn () : Boolean {
+    fun isUserLoggedIn(): Boolean {
         return userId != null
     }
 
@@ -61,6 +64,25 @@ class RemoteDataSource @Inject constructor(
         }
     }
 
+    fun updateFCMToken() {
+        if (!isUserLoggedIn()) {
+            return
+        }
+        
+        messaging.token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val token = task.result
+                if (token.isNotEmpty()) {
+                    collectionAndDocument.update("fcmToken", token)
+                        .addOnFailureListener {
+                            collectionAndDocument.set(mapOf("fcmToken" to token), SetOptions.merge())
+                        }
+                }
+            } else {
+                Log.e("Al-qiran", "Failed to get FCM token: ${task.exception?.message}")
+            }
+        }
+    }
 
     suspend fun login(email: String, password: String) {
         try {
@@ -350,7 +372,8 @@ class RemoteDataSource @Inject constructor(
                     image = (it["image"] as? String) ?: "",
                     projectName = (it["projectName"] as? String) ?: "",
                     description = (it["description"] as? String) ?: "",
-                    links = ((it["links"] as? List<Map<String, Any>>) ?: emptyList()).map { linkMap ->
+                    links = ((it["links"] as? List<Map<String, Any>>)
+                        ?: emptyList()).map { linkMap ->
                         Link(
                             name = (linkMap["name"] as? String) ?: "",
                             url = (linkMap["url"] as? String) ?: ""
@@ -642,10 +665,18 @@ class RemoteDataSource @Inject constructor(
                 email = pending.email,
                 message = pending.message
             )
-            transaction.update(collectionAndDocument, "recommendations", FieldValue.arrayUnion(recommendation))
+            transaction.update(
+                collectionAndDocument,
+                "recommendations",
+                FieldValue.arrayUnion(recommendation)
+            )
 
             // Remove from pendingRecommendations
-            transaction.update(collectionAndDocument, "pendingRecommendations", FieldValue.arrayRemove(pending))
+            transaction.update(
+                collectionAndDocument,
+                "pendingRecommendations",
+                FieldValue.arrayRemove(pending)
+            )
 
             null
         }.addOnFailureListener { exception ->
@@ -672,6 +703,16 @@ class RemoteDataSource @Inject constructor(
 
     fun deleteRecommendation(recommendation: Recommendation) {
         deleteElement("recommendations", recommendation)
+    }
+
+    suspend fun getCurrentFCMToken(): String? {
+        return try {
+            val snapshot = collectionAndDocument.get().await()
+            snapshot.getString("fcmToken")
+        } catch (e: Exception) {
+            Log.e("Al-qiran", "Error retrieving FCM token: ${e.message}")
+            null
+        }
     }
 
 }
